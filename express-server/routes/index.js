@@ -1,7 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
-fs = require('fs-extra'); //npm install fs.extra
+fs = require('fs-extra'); 
+var fs_extfs = require('extfs');
+
+const { readdirSync, statSync } = require('fs');
+const { join } = require('path');
 
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -32,12 +36,69 @@ router.get('/download', function(req, res){
   res.download(file)
 });
 
+/**Download a folder */
 router.get('/get-folder', function(req, res) {
-    var folder_location = req.body.folder_location
-    // recursivly check for empty files and files to return
-    // return array in response
+    console.log("Getting Folders!")
+
+    finalEmptyFolders = []
+    finalFiles = []
+    returnedFoldersAndFiles = getDirs(req.body.folder_location)
+    unprocessedDirectories = returnedFoldersAndFiles[0]
+    finalFiles = returnedFoldersAndFiles[1]
+
+    while (unprocessedDirectories.length > 0) {
+      currDir = unprocessedDirectories.pop()
+      currdirName = currDir[0]
+      currdirPath = currDir[1]
+
+      if (fs_extfs.isEmptySync(currdirPath)) {
+        // found an empty folder
+        finalEmptyFolders.push([currdirName, currdirPath])
+      } else {
+        // found a non-empty folder
+        returnedFoldersAndFiles = getDirs(currdirPath)
+        unprocessedDirectories.push(returnedFoldersAndFiles[0])
+        finalFiles.push(returnedFoldersAndFiles[1])
+      }
+    }
+
+    console.log("finalEmptyFolders: " + finalEmptyFolders)
+    console.log("finalFiles: " + finalFiles)
+
+
+
 })
 
+
+function getDirs (rootDir) {
+    console.log("get dirs called")
+
+    if (rootDir[rootDir.length -1] != '/') {
+      rootDir = rootDir + "/";
+    }
+
+    files = fs.readdirSync(rootDir);
+    dirs = [];
+    discoveredFiles = [];
+
+    var file 
+    for (var i = 0; i < files.length; i++) {
+      file = files[i]
+      // TODO What to do with . files/folders!
+      if (file[0] != '.') {
+        filePath = rootDir + file
+        stat = fs.statSync(filePath)
+        if (stat.isDirectory()) {
+          dirs.push([file, filePath])
+        } else {
+          discoveredFiles.push([file, filePath])
+        }
+      }
+    }
+
+    return [dirs, discoveredFiles]
+}
+    
 
 upload1 = 
 
@@ -59,6 +120,7 @@ router.post('/single-upload', upload.single('file'), (req, res) => {
   res.end()  
 });
 
+/**Upload a single empty folder */
 router.post('/single-empty-folder', (req, res) => {
   var currentPath = process.cwd();
   path = currentPath + "/" + req.body.destination

@@ -23,7 +23,7 @@ def get_file(file_path, saga_working_directory):
     file_location_excluding_file = file_location[:-file_name_length]
 
     if not os.path.exists(file_location_excluding_file):
-        print("Creating Directory: " + file_location_excluding_file)
+        # create directory
         os.makedirs(file_location_excluding_file)
  
     # sending get request and saving the response as response object 
@@ -44,12 +44,13 @@ def get_folder(relative_folder_path, saga_working_directory):
     try:
         response = requests.get(url = URL, data={'folder_location' : relative_folder_path})
         paths = response.json()
-        #print(paths)
-
+        
+        # download all of the files
         for path in paths['file_paths']:
             print(path)
             get_file(path, saga_working_directory)
 
+        # make all of the empty folders
         for path in paths['empty_folder_paths']:
             os.makedirs(saga_working_directory + path)
 
@@ -74,26 +75,20 @@ def send_file(file_path):
 def send_empty_folder(file_path, universal_folder_location):
     # api-endpoint 
     URL = "http://localhost:3000/single-empty-folder"
-    print("file path: " + file_path)
     requests.post(url = URL, data = {"destination" : file_path, "universal_folder_location" : universal_folder_location})
 
 
 def send_folder(folder_path, saga_working_directory):
     # api-endpoint 
-    print("folder_path: " + saga_working_directory + folder_path)
     all_internal_directories = _relative_paths_in_dir(folder_path)
-
-    print(all_internal_directories)
 
     for dir in all_internal_directories:
         universal_folder_location = saga_working_directory + folder_path + dir
-        relative_folder_location = folder_path + dir
-
         if not os.path.isdir(universal_folder_location):    
-                print ("Found a file @ " + relative_folder_location)   
+                # Found a file 
                 send_file(folder_path + dir)       
         elif len(os.listdir(universal_folder_location)) == 0:
-                print("Directory is empty @ " + relative_folder_location)
+                # Found an empty folder
                 send_empty_folder(folder_path + dir, universal_folder_location)
 
 
@@ -117,6 +112,5 @@ def _relative_paths_in_dir(directory, ignore=None):
 
 
 send_folder("folders/", "/Users/aarondiamond-reivich/Documents/saga/saga-server/cli-server/")
-#send_file("pictures/document.rtf")
 input()
 get_folder("folders/", "/Users/aarondiamond-reivich/Documents/saga/saga-server/testing_location_download/")

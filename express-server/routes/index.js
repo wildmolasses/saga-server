@@ -19,11 +19,6 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage })
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Home Page by Aaron' });
-});
-
 /* download a single file */
 router.get('/download', function(req, res){
   var file = req.body.file_location
@@ -83,37 +78,6 @@ router.get('/get-folder', function(req, res) {
     
 })
 
-
-function getDirs (rootDir) {
-    if (rootDir[rootDir.length -1] != '/') {
-      rootDir = rootDir + "/";
-    }
-
-    files = fs.readdirSync(rootDir);
-    dirs = [];
-    discoveredFiles = [];
-
-    var file 
-    for (var i = 0; i < files.length; i++) {
-      file = files[i]
-      // TODO What to do with . files/folders!
-      if (file[0] != '.') {
-        filePath = rootDir + file
-        stat = fs.statSync(filePath)
-        if (stat.isDirectory()) {
-          dirs.push([file, filePath])
-        } else if (file != undefined && file != null) {
-          discoveredFiles.push([file, filePath])
-        }
-      }
-    }
-
-    return [dirs, discoveredFiles]
-}
-    
-
-upload1 = 
-
 /* upload single file */
 router.post('/single-upload', upload.single('file'), (req, res) => {
   var destination = req.body.destination
@@ -142,6 +106,7 @@ router.post('/single-empty-folder', (req, res) => {
   res.end()
 });
 
+/** Move location of file */
 function move (fileName, destinationPath) {
   fs.move('./tempDir/' + fileName, destinationPath + fileName, { overwrite: true }, function (err) {
       if (err) {
@@ -149,5 +114,33 @@ function move (fileName, destinationPath) {
       }
   });
 };
+
+/** Find all directories */
+function getDirs (rootDir) {
+  if (rootDir[rootDir.length -1] != '/') {
+    rootDir = rootDir + "/";
+  }
+
+  files = fs.readdirSync(rootDir);
+  dirs = [];
+  discoveredFiles = [];
+
+  var file 
+  for (var i = 0; i < files.length; i++) {
+    file = files[i]
+    // TODO What to do with . files/folders!
+    if (file[0] != '.') {
+      filePath = rootDir + file
+      stat = fs.statSync(filePath)
+      if (stat.isDirectory()) {
+        dirs.push([file, filePath])
+      } else if (file != undefined && file != null) {
+        discoveredFiles.push([file, filePath])
+      }
+    }
+  }
+
+  return [dirs, discoveredFiles]
+}
 
 module.exports = router;

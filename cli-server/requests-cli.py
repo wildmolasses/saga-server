@@ -1,6 +1,7 @@
 import requests 
 import os
 import glob
+import json
 
 
 def get_file(file_path, saga_working_directory):
@@ -28,12 +29,33 @@ def get_file(file_path, saga_working_directory):
     # sending get request and saving the response as response object 
     r = requests.get(url = URL, data={'file_location' : file_path}) 
 
-    print('file_location: ' +  file_path)
+    print('file_location: ' + file_path)
 
     f = open(file_location, 'wb')
     f.write(r.content)
     f.close()
     print("Downloaded: {}".format(file_path))
+
+
+def get_folder(relative_folder_path, saga_working_directory):
+    # api-endpoint 
+    URL = "http://localhost:3000/get-folder"
+     
+    try:
+        response = requests.get(url = URL, data={'folder_location' : relative_folder_path})
+        paths = response.json()
+        #print(paths)
+
+        for path in paths['file_paths']:
+            print(path)
+            get_file(path, saga_working_directory)
+
+        for path in paths['empty_folder_paths']:
+            os.makedirs(saga_working_directory + path)
+
+    except:
+        print("response failed")
+        
 
 
 def send_file(file_path):
@@ -62,40 +84,18 @@ def send_folder(folder_path, saga_working_directory):
     all_internal_directories = _relative_paths_in_dir(folder_path)
 
     print(all_internal_directories)
+
     for dir in all_internal_directories:
         universal_folder_location = saga_working_directory + folder_path + dir
         relative_folder_location = folder_path + dir
 
         if not os.path.isdir(universal_folder_location):    
-                print ("NOT a directory @ " + relative_folder_location)   
+                print ("Found a file @ " + relative_folder_location)   
                 send_file(folder_path + dir)       
         elif len(os.listdir(universal_folder_location)) == 0:
                 print("Directory is empty @ " + relative_folder_location)
                 send_empty_folder(folder_path + dir, universal_folder_location)
 
-def get_folder(folder_path, saga_working_directory):
-    # api-endpoint 
-    URL = "http://localhost:3000/get-folder"
-    
-    universal_folder_location = saga_working_directory + folder_path
- 
-    try:
-        response = requests.get(url = URL, data={'folder_location' : universal_folder_location}) 
-        # get the response with array of file and folders
-        # if it is a folder that is empty, create the folder
-        # if it is a file read it, write it, close it
-    else:
-        
-
-    
-    # sending get request and saving the response as response object 
-
-    print('file_location: ' +  file_path)
-
-    f = open(file_location, 'wb')
-    f.write(r.content)
-    f.close()
-    print("Downloaded: {}".format(file_path))
 
 def _relative_paths_in_dir(directory, ignore=None):    
      if ignore is None:
@@ -119,9 +119,4 @@ def _relative_paths_in_dir(directory, ignore=None):
 send_folder("folders/", "/Users/aarondiamond-reivich/Documents/saga/saga-server/cli-server/")
 #send_file("pictures/document.rtf")
 input()
-get_file("pictures/document.rtf", "/Users/aarondiamond-reivich/Desktop/")
-
-#TODO: write a route that uploads a folder
-     # figure out how to dynamically set multers: https://stackoverflow.com/questions/41429355/multer-dynamic-destination-path 
-     # send over a whole bunch of files from a single folder, and put them in this folder
-     # also, download a whole folder 
+get_folder("folders/", "/Users/aarondiamond-reivich/Documents/saga/saga-server/testing_location_download/")

@@ -3,9 +3,7 @@ var router = express.Router();
 var multer = require('multer');
 fs = require('fs-extra'); 
 var fs_extfs = require('extfs');
-
-const { readdirSync, statSync } = require('fs');
-const { join } = require('path');
+const path = require('path')
 
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -42,9 +40,16 @@ router.get('/get-folder', function(req, res) {
 
     finalEmptyFolders = []
     finalFiles = []
-    returnedFoldersAndFiles = getDirs(req.body.folder_location)
+
+    root_directory = __dirname
+    folder = "/../" + req.body.folder_location
+    folder_path = path.join(__dirname, folder) 
+    returnedFoldersAndFiles = getDirs(folder_path)
+
+    console.log(returnedFoldersAndFiles)
+
     unprocessedDirectories = returnedFoldersAndFiles[0]
-    finalFiles = returnedFoldersAndFiles[1]
+    finalFiles.push(returnedFoldersAndFiles[1])
 
     while (unprocessedDirectories.length > 0) {
       currDir = unprocessedDirectories.pop()
@@ -53,7 +58,7 @@ router.get('/get-folder', function(req, res) {
 
       if (fs_extfs.isEmptySync(currdirPath)) {
         // found an empty folder
-        finalEmptyFolders.push([currdirName, currdirPath])
+        finalEmptyFolders.push(([currdirName, currdirPath]))
       } else {
         // found a non-empty folder
         returnedFoldersAndFiles = getDirs(currdirPath)
@@ -62,11 +67,26 @@ router.get('/get-folder', function(req, res) {
       }
     }
 
-    console.log("finalEmptyFolders: " + finalEmptyFolders)
-    console.log("finalFiles: " + finalFiles)
+    var start_relative_path_index = root_directory.length - 6
 
+    var filePaths = []
+    for (var i = 0; i < finalFiles.length; i++) { 
+      if (finalFiles[i][0][1] != undefined) {
+        filePaths.push(finalFiles[i][0][1].substring(start_relative_path_index))
+      }
+    }
 
+    var emptyFolderPaths = []
+    for (var i = 0; i < finalEmptyFolders.length; i++) { 
+      if (finalEmptyFolders[i][1] != undefined) {
+        emptyFolderPaths.push(finalEmptyFolders[i][1].substring(start_relative_path_index))
+      }
+    }
 
+    var JSONdata = JSON.stringify({file_paths: filePaths, empty_folder_paths : emptyFolderPaths});
+    res.send(JSONdata)
+    res.end()
+    
 })
 
 
@@ -90,7 +110,7 @@ function getDirs (rootDir) {
         stat = fs.statSync(filePath)
         if (stat.isDirectory()) {
           dirs.push([file, filePath])
-        } else {
+        } else if (file != undefined && file != null) {
           discoveredFiles.push([file, filePath])
         }
       }
@@ -122,11 +142,16 @@ router.post('/single-upload', upload.single('file'), (req, res) => {
 
 /**Upload a single empty folder */
 router.post('/single-empty-folder', (req, res) => {
-  var currentPath = process.cwd();
-  path = currentPath + "/" + req.body.destination
-  console.log("path: " + path)
-  if (!fs.existsSync(path)) {
-    fs.mkdirSync(path, { recursive: true })
+  console.log("SENDING EMPTY FOLDER")
+  console.log("cp 2")
+  console.log("DESINATION: " + req.body.destination)
+
+  folder = "/../" + req.body.destination
+  folder_path = path.join(__dirname, folder)
+
+  console.log("path: " + folder_path)
+  if (!fs.existsSync(folder_path)) {
+    fs.mkdirSync(folder_path, { recursive: true })
   } 
   res.end()
 });

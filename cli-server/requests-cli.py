@@ -88,6 +88,7 @@ def send_folder(folder_path, saga_working_directory):
                 # Found a file 
                 send_file(folder_path + dir)       
         elif len(os.listdir(universal_folder_location)) == 0:
+                print("empty folder")
                 # Found an empty folder
                 send_empty_folder(folder_path + dir, universal_folder_location)
 
@@ -111,6 +112,6 @@ def _relative_paths_in_dir(directory, ignore=None):
      return {path for path in paths if include_path(path)}
 
 
-send_folder("folders/", "/Users/aarondiamond-reivich/Documents/saga/saga-server/cli-server/")
+send_folder(".DOTFOLDER/", "/Users/aarondiamond-reivich/Documents/saga/saga-server/cli-server/")
 input()
-get_folder("folders/", "/Users/aarondiamond-reivich/Documents/saga/saga-server/testing_location_download/")
+get_folder(".DOTFOLDER/", "/Users/aarondiamond-reivich/Documents/saga/saga-server/testing_location_download/")

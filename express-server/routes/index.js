@@ -78,11 +78,9 @@ router.get('/get-folder', function(req, res) {
       }
     }
     
-
     var JSONdata = JSON.stringify({"file_paths": filePaths, "empty_folder_paths" : emptyFolderPaths});
     res.send(JSONdata)
     res.end()
-    
     
 })
 

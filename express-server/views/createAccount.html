@@ -9,8 +9,8 @@
         
         console.log("HERe")
 
-        var username = document.getElementById('username').value
-        var password = document.getElementById('password').value
+        var username = document.getElementById('createAccount-username').value
+        var password = document.getElementById('createAccount-password').value
 
 
         console.log("username " + username)
@@ -22,10 +22,36 @@
            data: {"username" : username, "password" : password}, 
            success: function(data)
            {
-               alert(data); // show response from the php script.
+                if (data.success) {
+                    alert("Successfully Created Account")
+                } else {
+                    alert("Account Already Exists")
+                }
            }
          });
-         
+    }
+
+    function login() {
+        
+        var username = document.getElementById('login-username').value
+        var password = document.getElementById('login-password').value
+
+        console.log("username " + username)
+        console.log("password " + password)
+
+        $.ajax({
+           type: "POST",
+           url: "/login",
+           data: {"username" : username, "password" : password}, 
+           success: function(data)
+           { 
+                if (data.success) {
+                    alert("Successfully Logged In")
+                } else {
+                    alert("Incorrect Username or Password")
+                }
+           }
+         });
     }
 
 </script>
@@ -38,10 +64,28 @@
       <hr>
   
       <label for="email"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="username" id = "username" required>
+      <input type="text" placeholder="Enter Username" name="username" id = "createAccount-username" required>
   
       <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" id = "password" required>
+      <input type="password" placeholder="Enter Password" name="psw" id = "createAccount-password" required>
+
+      <input type="submit" value="Submit">
+  
+    </div>
+  </form>
+
+
+  <form onSubmit=login(); return false id = "login">
+    <div class="container">
+      <h1>Login</h1>
+      <p>Please fill in this form to login.</p>
+      <hr>
+  
+      <label for="email"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="username" id = "login-username" required>
+  
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" id = "login-password" required>
 
       <input type="submit" value="Submit">
   

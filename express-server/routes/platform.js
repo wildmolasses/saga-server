@@ -23,10 +23,26 @@ router.post('/createAccount', (req, res) => {
 
     if (login(username, password)) {
         console.log("account already exists")
+        res.send(data = {"success" : false})
     } else {
         createAccount(username, password)
+        res.send(data = {"success" : true})
     }
     
+    res.end()
+})
+
+/* Create a new account */
+router.post('/login', (req, res) => {
+    username = req.body.username
+    password = req.body.password
+
+    if (login(username, password)) {
+        console.log("Successfully logged in")
+        res.send(data = {"success" : true})
+    } else {
+        res.send(data = {"success" : false})
+    }
     res.end()
 })
 

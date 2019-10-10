@@ -26,7 +26,7 @@ router.get('/download', function(req, res){
 
 /**Download a folder */
 router.get('/get-folder', function(req, res) {
-    finalEmptyFolders = []
+    finalFolders = []
     finalFiles = []
 
     root_directory = __dirname
@@ -41,26 +41,20 @@ router.get('/get-folder', function(req, res) {
 
       stat = fs.lstatSync(currdirPath)
       if (stat.isDirectory()) {
-        if (fs_extfs.isEmptySync(currdirPath)) {
-          // found an empty folder
-          finalEmptyFolders.push(currdirPath)
-        } else {
-          // found a non-empty folder
-          foundDirs = getDirs(currdirPath)
-          unprocessed.push.apply(unprocessed, foundDirs)
-        } 
+        // found a directory
+        finalFolders.push(currdirPath);
+        foundDirs = getDirs(currdirPath);
+        unprocessed.push.apply(unprocessed, foundDirs);
       } else {
         // found a file
         finalFiles.push(currdirPath)
       }
     }
-
     
     // Remove the last 6 characters to get out of the route folder
     var start_relative_path_index = root_directory.length - 6
 
     console.log(start_relative_path_index)
-
 
     // create list of relative file paths to return
     var filePaths = []
@@ -70,15 +64,15 @@ router.get('/get-folder', function(req, res) {
       }
     }
 
-    // create list of relative empty folder paths to return
-    var emptyFolderPaths = []
-    for (var i = 0; i < finalEmptyFolders.length; i++) { 
-      if (finalEmptyFolders[i] != undefined) {
-        emptyFolderPaths.push(finalEmptyFolders[i].substring(start_relative_path_index))
+    // create list of relative folder paths to return
+    var folderPaths = []
+    for (var i = 0; i < finalFolders.length; i++) { 
+      if (finalFolders[i] != undefined) {
+        folderPaths.push(finalFolders[i].substring(start_relative_path_index))
       }
     }
     
-    var JSONdata = JSON.stringify({"file_paths": filePaths, "empty_folder_paths" : emptyFolderPaths});
+    var JSONdata = JSON.stringify({"file_paths": filePaths, "folder_paths" : folderPaths});
     res.send(JSONdata)
     res.end()
     
@@ -107,7 +101,7 @@ router.post('/single-upload', upload.single('file'), (req, res) => {
 });
 
 /**Upload a single empty folder */
-router.post('/single-empty-folder', (req, res) => {
+router.post('/push-folder', (req, res) => {
   folder = "/../" + req.body.relative_folder_path
   folder_path = path.join(__dirname, folder)
 

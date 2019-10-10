@@ -1,0 +1,102 @@
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+
+<script>
+
+    function createAccount() {
+        
+        console.log("HERe")
+
+        var username = document.getElementById('createAccount-username').value
+        var password = document.getElementById('createAccount-password').value
+
+
+        console.log("username " + username)
+        console.log("password " + password)
+
+        $.ajax({
+           type: "POST",
+           url: "/createAccount",
+           data: {"username" : username, "password" : password}, 
+           success: function(data)
+           {
+                if (data.success) {
+                    location.href = "http://localhost:3000/profile-page"
+                } else {
+                    alert("Account Already Exists")
+                }
+           }
+         });
+    }
+
+    function login() {
+        
+        var username = document.getElementById('login-username').value
+        var password = document.getElementById('login-password').value
+
+        console.log("username " + username)
+        console.log("password " + password)
+
+        $.ajax({
+           type: "POST",
+           url: "/login",
+           data: {"username" : username, "password" : password}, 
+           success: function(data)
+           { 
+                if (data.success) {
+                  location.href = "http://localhost:3000/profile-page"
+                } else {
+                    alert("Incorrect Username or Password")
+                }
+           }
+         });
+    }
+
+    function logout() {
+        $.ajax({
+           type: "GET",
+           url: "/logout",
+           success: function(data){ }
+         });
+    }
+
+</script>
+
+
+<form onSubmit=createAccount(); return false id = "createAccount">
+    <div class="container">
+      <h1>Sign Up</h1>
+      <p>Please fill in this form to create an account.</p>
+      <hr>
+  
+      <label for="email"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="username" id = "createAccount-username" required>
+  
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" id = "createAccount-password" required>
+
+      <input type="submit" value="Submit">
+  
+    </div>
+  </form>
+
+
+  <form onSubmit=login(); id = "login">
+    <div class="container">
+      <h1>Login</h1>
+      <p>Please fill in this form to login.</p>
+      <hr>
+  
+      <label for="email"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="username" id = "login-username" required>
+  
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" id = "login-password" required>
+
+      <input type="submit" value="Submit">
+  
+    </div>
+  </form>
+

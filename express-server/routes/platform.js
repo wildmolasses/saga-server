@@ -5,7 +5,12 @@ var LOGGED_IN_USER = ""
 
 /* Render the account sign-up page */
 router.get('/', (req, res) => {
-    res.render('createAccount.html')
+    res.render('login.html')
+});
+
+/* Render the account sign-up page */
+router.get('/profile-page', (req, res) => {
+    res.render('profile.html')
 });
 
 
@@ -28,11 +33,12 @@ router.post('/createAccount', (req, res) => {
     res.end()
 })
 
-/* Create a new account */
+/* Login in to an account */
 router.post('/login', (req, res) => {
     username = req.body.username
     password = req.body.password
 
+    
     if (login(username, password)) {
         console.log("Successfully logged in")
         LOGGED_IN_USER = username
@@ -41,11 +47,16 @@ router.post('/login', (req, res) => {
         res.send(data = {"success" : false})
     }
     res.end()
+    
 })
 
 router.get('/logout', (req, res) => {
     LOGGED_IN_USER = ""
-    res.end()
+    res.send(data = {"success" : true})
+})
+
+router.post('/createNewRepository', (req, res) => {
+    console.log("create repo")
 })
 
 
@@ -53,12 +64,9 @@ router.get('/logout', (req, res) => {
  * Fake Databases
  */
 
-
  /** Accounts Database */
 function login (username, password) {
     for (var i = 0; i < accounts.length; i++) {
-        console.log("current account")
-        console.log(accounts[i])
         if (accounts[i].username == username && accounts[i].password == password) {
             console.log("account exists")
             return true
@@ -76,6 +84,23 @@ var accounts = [
     {"username" : "jacob", "password" : "jacob_password"}
 ]
 
+/** Repository Database */
+function getRepository(respositoryName) {
+    for (var i = 0; i < repositories.length; i++) {
+        if (respositories[i].respositoryName == respositoryName) {
+            return respositories[i].path
+        }
+    }
+    return false
+}
+
+function createAccount (respositoryName, path) {
+    accounts.push({"respositoryName" : respositoryName, "path" : path})
+}
+
+var respositories = [
+    {"respositoryName" : ".saga", "path" : '../saga'}
+]
 /**
  * Testing Routes!
  */

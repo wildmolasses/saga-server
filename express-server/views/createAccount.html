@@ -54,6 +54,14 @@
          });
     }
 
+    function logout() {
+        $.ajax({
+           type: "GET",
+           url: "/logout",
+           success: function(data){ }
+         });
+    }
+
 </script>
 
 
@@ -88,6 +96,17 @@
       <input type="password" placeholder="Enter Password" name="psw" id = "login-password" required>
 
       <input type="submit" value="Submit">
+  
+    </div>
+  </form>
+
+
+  <form onSubmit=logout(); return false id = "logout">
+    <div class="container">
+      <h1>Logout</h1>
+      <p>Please press this button to logout.</p>
+      <hr>
+      <input type="submit" value="Logout">
   
     </div>
   </form>

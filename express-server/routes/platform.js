@@ -1,16 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
+var LOGGED_IN_USER = ""
 
 /* Render the account sign-up page */
 router.get('/', (req, res) => {
     res.render('createAccount.html')
 });
-
-router.get('/seeAccounts', (req, res) => {
-    console.log(accounts)
-    res.end()
-})
 
 
 /* Create a new account */
@@ -39,10 +35,16 @@ router.post('/login', (req, res) => {
 
     if (login(username, password)) {
         console.log("Successfully logged in")
+        LOGGED_IN_USER = username
         res.send(data = {"success" : true})
     } else {
         res.send(data = {"success" : false})
     }
+    res.end()
+})
+
+router.get('/logout', (req, res) => {
+    LOGGED_IN_USER = ""
     res.end()
 })
 
@@ -74,6 +76,18 @@ var accounts = [
     {"username" : "jacob", "password" : "jacob_password"}
 ]
 
+/**
+ * Testing Routes!
+ */
 
+router.get('/seeAccounts', (req, res) => {
+    console.log(accounts)
+    res.end()
+})
+
+router.get('/seeLOGGED_IN_USER', (req, res) => {
+    console.log("LOGGED_IN_USER" + LOGGED_IN_USER)
+    res.end()
+})
 
 module.exports = router;

@@ -19,14 +19,14 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 /* download a single file */
-router.get('/download', function(req, res){
+router.get('/cli/download', function(req, res){
   var file = req.body.file_location
   res.download(file)
 });
 
 /**Download a folder */
-router.get('/get-folder', function(req, res) {
-    finalFolders = []
+router.get('/cli/get-folder', function(req, res) {
+    finalEmptyFolders = []
     finalFiles = []
 
     root_directory = __dirname
@@ -79,7 +79,7 @@ router.get('/get-folder', function(req, res) {
 })
 
 /* upload single file */
-router.post('/single-upload', upload.single('file'), (req, res) => {
+router.post('/cli/single-upload', upload.single('file'), (req, res) => {
   var destination = req.body.relative_file_path
   var fileName = req.body.file_name
   directoryArray = destination.split('/')
@@ -101,7 +101,7 @@ router.post('/single-upload', upload.single('file'), (req, res) => {
 });
 
 /**Upload a single empty folder */
-router.post('/push-folder', (req, res) => {
+router.post('/cli/single-empty-folder', (req, res) => {
   folder = "/../" + req.body.relative_folder_path
   folder_path = path.join(__dirname, folder)
 

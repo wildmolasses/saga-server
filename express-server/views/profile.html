@@ -40,7 +40,7 @@
             var fileContents = data.fileContents
             var pathInsideRepository = data.path
 
-            setTextHeaders(repositoryName, pathInsideRepository)
+            setTextHeaders(repositoryName, pathInsideRepository, repositoryOwner)
 
             if (isFile) {
               // Handle if File
@@ -72,16 +72,9 @@
 
               repositories = data.repositories
               for (var i = 0; i < repositories.length; i++) {
-                var repositoryName = repositories[i]
-                var repoButton = document.createElement('BUTTON')
-                repoButton.innerHTML  = repositories[i];
-                repoButton.setAttribute("id", repositories[i])
-                repoButton.addEventListener("click", function() {
-                  getRepository(repositoryName, "")
-                });
-                $('#repositoryList').append(repoButton)
-              }
-           }
+                createRepositoryButton(repositories[i])
+            }
+          }
       });
     }
 
@@ -98,6 +91,17 @@
         }
       });
     }
+
+    function createRepositoryButton (repositoryName) {
+      var repoButton = document.createElement('BUTTON')
+      repoButton.innerHTML  = repositoryName
+      repoButton.setAttribute("id", repositoryName)
+      repoButton.addEventListener("click", function() {
+        getRepository(repositoryName, "")
+      });
+      $('#repositoryList').append(repoButton)
+    }
+    
 
     function createContentButton (pathInsideRepository, content, repositoryName) {
       var pathObj = pathInsideRepository + "/" + content

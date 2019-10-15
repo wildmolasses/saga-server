@@ -68,21 +68,6 @@ router.get('/getAllRepositories', (req, res) => {
     res.send(data = {"repositories" : userRepositories})
 })
 
-router.post('/getRepository', (req, res) => {
-    var repositoryName = req.body.repositoryName
-    var repository = getRepository(LOGGED_IN_USER, repositoryName)
-
-    root_directory = __dirname
-    folder = "/../.saga" 
-    folder_path = path.join(__dirname, folder) 
-
-    if (repository == [false]) {
-        res.send(data = {"success" : false, "repository" : null})
-    } else {
-        res.send(data = {"success" : true, "repository" : repository})
-    }
-})
-
 router.post('/getPathInRepository', (req, res) => {
     var accountName = LOGGED_IN_USER
     var repositoryName = req.body.repositoryName

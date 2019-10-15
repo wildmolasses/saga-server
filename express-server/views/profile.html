@@ -5,67 +5,164 @@
 
 <script>
 
-    function createAccount() {
+    function createRepository() {
         
-        console.log("HERe")
+      var repositoryName = document.getElementById('createRepository-repositoryName').value
 
-        var username = document.getElementById('createAccount-username').value
-        var password = document.getElementById('createAccount-password').value
+      $.ajax({
+        type: "POST",
+        url: "/createNewRepository",
+        data: {"repositoryName" : repositoryName }, 
+        success: function(data)
+        {
+          if (data.success) {
+            alert("Successfully Created Account")
+          } else {
+            alert("Account Already Exists")
+          }
+        }
+      });
+    }
 
+    function getRepository (repositoryName, path) {
+      $.ajax({
+        type: "POST",
+        url: "/getPathInRepository",
+        data: {"repositoryName" : repositoryName, "path" : path}, 
+        success: function(data)
+        {
+          if (data.success) {
 
-        console.log("username " + username)
-        console.log("password " + password)
+            var repositoryName = data.repositoryName
+            var isFile = data.file
+            var repositoryOwner = data.owner
+            var directoryContents = data.directoryContents
+            var fileContents = data.fileContents
+            var pathInsideRepository = data.path
 
-        $.ajax({
-           type: "POST",
-           url: "/createAccount",
-           data: {"username" : username, "password" : password}, 
+            setTextHeaders(repositoryName, pathInsideRepository)
+
+            if (isFile) {
+              // Handle if File
+              $('#repositoryDisplay').append(fileContents);
+            } else {
+              // Handle if Directory 
+              for (var i = 0; i < directoryContents.length; i++) {
+                createContentButton(pathInsideRepository, directoryContents[i], repositoryName)
+              }  
+            }
+          }
+        }
+      });
+    }
+
+    function getAllRepositories() {
+    
+      $.ajax({
+           type: "GET",
+           url: "/getAllRepositories",
+           data: {}, 
            success: function(data)
            {
-                if (data.success) {
-                    alert("Successfully Created Account")
-                } else {
-                    alert("Account Already Exists")
-                }
+              // clear display
+              $('#repositoryDisplay').html("");
+              $('#repositoryList').html("");
+
+              $('#repositoryList').append('<h1>All Your Repositories</h1>')
+
+              repositories = data.repositories
+              for (var i = 0; i < repositories.length; i++) {
+                var repositoryName = repositories[i]
+                var repoButton = document.createElement('BUTTON')
+                repoButton.innerHTML  = repositories[i];
+                repoButton.setAttribute("id", repositories[i])
+                repoButton.addEventListener("click", function() {
+                  getRepository(repositoryName, "")
+                });
+                $('#repositoryList').append(repoButton)
+              }
            }
-         });
+      });
     }
 
     function logout() {
-        $.ajax({
-           type: "GET",
-           url: "/logout",
-           success: function(data) { 
-              if (data.success) {
-                location.href = "http://localhost:3000/"
-              } else {
-                alert("Warning: Unsuccessful Logout")
-              }
-            }
-         });
+      $.ajax({
+        type: "GET",
+        url: "/logout",
+        success: function(data) { 
+          if (data.success) {
+            location.href = "http://localhost:3000/"
+          } else {
+            alert("Warning: Unsuccessful Logout")
+          }
+        }
+      });
+    }
+
+    function createContentButton (pathInsideRepository, content, repositoryName) {
+      var pathObj = pathInsideRepository + "/" + content
+      var repositoryPathButton = document.createElement('BUTTON')
+      repositoryPathButton.innerHTML  = pathObj
+      repositoryPathButton.setAttribute("id", pathObj)
+      repositoryPathButton.addEventListener("click", function() {
+            getRepository(repositoryName, pathObj)
+      });
+      $('#repositoryDisplay').append(repositoryPathButton)
+      $('#repositoryDisplay').append('<p>');
+    }
+    
+    function setTextHeaders(repositoryName, pathInsideRepository, repositoryOwner) {
+      // clear display
+      $('#repositoryDisplay').html("");
+      $('#repositoryList').html("");
+
+      var repositoryNameLabel = document.createElement("Label");
+      repositoryNameLabel.innerHTML = "Repository Location: " + repositoryName + pathInsideRepository;
+      $('#repositoryDisplay').append(repositoryNameLabel);
+
+      $('#repositoryDisplay').append('<p>');
+      $('#repositoryDisplay').append('<p>');
+
+      var repositoryOwnerLabel = document.createElement("Label");
+      repositoryOwnerLabel.innerHTML = "Repository Owner: " + repositoryOwner;
+      $('#repositoryDisplay').append(repositoryOwnerLabel);
+
+      $('#repositoryDisplay').append('<p>');
+      $('#repositoryDisplay').append('<p>');
+
+      $('#repositoryDisplay').append('<h3> Contents: </h3>');
     }
 
 </script>
 
-
-<form onSubmit=createAccount(); return false id = "createAccount">
+<form onSubmit="createRepository(); return false" id = "createRepository">
     <div class="container">
-      <h1>Sign Up</h1>
-      <p>Please fill in this form to create an account.</p>
+      <h1>Create a new Repository with this Form</h1>
       <hr>
   
-      <label for="email"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="username" id = "createAccount-username" required>
-  
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" id = "createAccount-password" required>
+      <label for="repositoryName"><b>Repository Name</b></label>
+      <input type="text" placeholder="Enter Repository Name" name="repositoryName" id = "createRepository-repositoryName" required>
 
       <input type="submit" value="Submit">
   
     </div>
   </form>
 
-  <form onSubmit=logout(); return false id = "logout">
+  <form onSubmit="getAllRepositories(); return false" id = "logout">
+    <div class="container">
+      <h1>Get All Repositories</h1>
+      <p>Use this button to find all of your repositories</p>
+      <hr>
+      <input type="submit" value="Find">
+  
+    </div>
+  </form>
+
+  <div id = repositoryList></div>
+
+  <div id = repositoryDisplay></div>
+
+  <form onSubmit=logout(); id = "logout">
     <div class="container">
       <h1>Logout</h1>
       <p>Please press this button to logout.</p>

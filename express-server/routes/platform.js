@@ -1,5 +1,8 @@
 var express = require('express');
 var router = express.Router();
+const path = require('path')
+fs = require('fs-extra'); 
+var fs_extfs = require('extfs');
 
 var LOGGED_IN_USER = ""
 
@@ -19,11 +22,7 @@ router.post('/createAccount', (req, res) => {
     username = req.body.username
     password = req.body.password
 
-    console.log("username!: " + username)
-    console.log("password!: " + password)
-
     if (login(username, password)) {
-        console.log("account already exists")
         res.send(data = {"success" : false})
     } else {
         createAccount(username, password)
@@ -40,7 +39,6 @@ router.post('/login', (req, res) => {
 
     
     if (login(username, password)) {
-        console.log("Successfully logged in")
         LOGGED_IN_USER = username
         res.send(data = {"success" : true})
     } else {
@@ -56,9 +54,87 @@ router.get('/logout', (req, res) => {
 })
 
 router.post('/createNewRepository', (req, res) => {
-    console.log("create repo")
+    repositoryName = req.body.repositoryName
+
+    folder = "/../" + repositoryName 
+    folder_path = path.join(__dirname, folder) 
+
+    createRepository(folder_path, LOGGED_IN_USER, repositoryName)
+    res.send(data = {"success" : true})
 })
 
+router.get('/getAllRepositories', (req, res) => {
+    userRepositories = getCurrentUsersRepositories(LOGGED_IN_USER)
+    res.send(data = {"repositories" : userRepositories})
+})
+
+router.post('/getRepository', (req, res) => {
+    var repositoryName = req.body.repositoryName
+    var repository = getRepository(LOGGED_IN_USER, repositoryName)
+
+    root_directory = __dirname
+    folder = "/../.saga" 
+    folder_path = path.join(__dirname, folder) 
+
+    if (repository == [false]) {
+        res.send(data = {"success" : false, "repository" : null})
+    } else {
+        res.send(data = {"success" : true, "repository" : repository})
+    }
+})
+
+router.post('/getPathInRepository', (req, res) => {
+    var accountName = LOGGED_IN_USER
+    var repositoryName = req.body.repositoryName
+    var pathRequested = req.body.path
+
+    repositoryPath = "/../" + repositoryName 
+    repositoryPath = path.join(__dirname, repositoryPath) 
+    pathInRepository = path.join(repositoryPath, pathRequested)
+
+    // check if the path is a file
+    if (fs.lstatSync(pathInRepository).isFile()) {
+        fs.readFile(pathInRepository, 'utf8', function(err, fileContents) {
+            if (err) throw err;
+            res.send(data = {
+                "success" : true, 
+                "owner" : accountName,
+                "repositoryName" : repositoryName,
+                "file" : true, 
+                "directoryContents" : [],
+                "fileContents" : fileContents,
+                "path" : pathRequested
+            })  
+        });
+    } else {
+        // if the path is a directory
+        var contents = getPathInRepositoryHelper(accountName, repositoryName, pathInRepository);
+
+        if (contents || contents == []) {
+            res.send(data = {
+                "success" : true, 
+                "owner" : accountName,
+                "repositoryName" : repositoryName,
+                "file" : false, 
+                "directoryContents" : contents, 
+                "fileContents" : null,
+                "path" : pathRequested
+            })
+        } else {
+            res.send(data = {
+                "success" : false, 
+                "owner" : accountName,
+                "repositoryName" : repositoryName, 
+                "file" : false, 
+                "directoryContents" : null, 
+                "fileContents" : null,
+                "path" : pathRequested
+            })
+        }
+    }
+
+    
+})
 
 /**
  * Fake Databases
@@ -68,7 +144,6 @@ router.post('/createNewRepository', (req, res) => {
 function login (username, password) {
     for (var i = 0; i < accounts.length; i++) {
         if (accounts[i].username == username && accounts[i].password == password) {
-            console.log("account exists")
             return true
         }
     }
@@ -85,22 +160,44 @@ var accounts = [
 ]
 
 /** Repository Database */
-function getRepository(respositoryName) {
-    for (var i = 0; i < repositories.length; i++) {
-        if (respositories[i].respositoryName == respositoryName) {
-            return respositories[i].path
+repositoryMapping = {"aaron" : [".saga"]}
+
+function getPathInRepositoryHelper(accountName, repositoryName, pathInRepository) { 
+    if (!fs.lstatSync(pathInRepository).isDirectory()) {
+        return []
+    } else {
+        for (var i = 0; i <repositoryMapping[accountName].length; i++) {
+            currentRepoName = repositoryMapping[accountName][i]
+            if (currentRepoName == repositoryName) {
+                var contentsAtPath = fs.readdirSync(pathInRepository);
+                console.log("contents at path: " + contentsAtPath)
+                return contentsAtPath
+            }
         }
     }
     return false
 }
 
-function createAccount (respositoryName, path) {
-    accounts.push({"respositoryName" : respositoryName, "path" : path})
+function getCurrentUsersRepositories(accountName) {
+    if (accountName in repositoryMapping) {
+        return repositoryMapping[accountName]
+    } else {
+        return []
+    }
 }
 
-var respositories = [
-    {"respositoryName" : ".saga", "path" : '../saga'}
-]
+function createRepository (repositoryLocation, accountName, repositoryName) {
+    fs.mkdirSync(repositoryLocation, { recursive: true })
+    fs.mkdirSync(repositoryLocation + '/commits', { recursive: true })
+    fs.mkdirSync(repositoryLocation + '/index', { recursive: true })
+    fs.mkdirSync(repositoryLocation + '/states', { recursive: true })
+    if (accountName in repositoryMapping) {
+        repositoryMapping[accountName] =  repositoryMapping[accountName].concat([repositoryName])
+    } else {
+        repositoryMapping[accountName] = [repositoryName]
+    } 
+}
+    
 /**
  * Testing Routes!
  */
@@ -112,6 +209,12 @@ router.get('/seeAccounts', (req, res) => {
 
 router.get('/seeLOGGED_IN_USER', (req, res) => {
     console.log("LOGGED_IN_USER" + LOGGED_IN_USER)
+    res.end()
+})
+
+router.get('/allRepositories', (req, res) => {
+    console.log("ALL REPOS")
+    console.log(repositoryMapping)
     res.end()
 })
 

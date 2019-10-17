@@ -5,16 +5,10 @@
 
 <script>
 
+    // Ajax call to create a new account. On success: redirect to profile page
     function createAccount() {
-        
-        console.log("HERe")
-
         var username = document.getElementById('createAccount-username').value
         var password = document.getElementById('createAccount-password').value
-
-
-        console.log("username " + username)
-        console.log("password " + password)
 
         $.ajax({
            type: "POST",
@@ -22,22 +16,19 @@
            data: {"username" : username, "password" : password}, 
            success: function(data)
            {
-                if (data.success) {
-                    location.href = "http://localhost:3000/profile-page"
-                } else {
-                    alert("Account Already Exists")
-                }
+              if (data.success) {
+                location.href = "http://localhost:3000/profile-page"
+              } else {
+                alert("Account Already Exists")
+              }
            }
          });
     }
 
-    function login() {
-        
+    // Ajax call to login to existing account. On success: redirect to profile page
+    function login() {    
         var username = document.getElementById('login-username').value
         var password = document.getElementById('login-password').value
-
-        console.log("username " + username)
-        console.log("password " + password)
 
         $.ajax({
            type: "POST",
@@ -45,20 +36,12 @@
            data: {"username" : username, "password" : password}, 
            success: function(data)
            { 
-                if (data.success) {
-                  location.href = "http://localhost:3000/profile-page"
-                } else {
-                    alert("Incorrect Username or Password")
-                }
+              if (data.success) {
+                location.href = "http://localhost:3000/profile-page"
+              } else {
+                alert("Incorrect Username or Password")
+              }
            }
-         });
-    }
-
-    function logout() {
-        $.ajax({
-           type: "GET",
-           url: "/logout",
-           success: function(data){ }
          });
     }
 

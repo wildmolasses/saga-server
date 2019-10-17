@@ -9,6 +9,8 @@
         
       var repositoryName = document.getElementById('createRepository-repositoryName').value
 
+
+      // Ajax call to create a new repository with given name
       $.ajax({
         type: "POST",
         url: "/createNewRepository",
@@ -24,6 +26,7 @@
       });
     }
 
+    // Ajax call that returns data at a specific path within a specific repository for display
     function getRepository (repositoryName, path) {
       $.ajax({
         type: "POST",
@@ -40,6 +43,7 @@
             var fileContents = data.fileContents
             var pathInsideRepository = data.path
 
+            // display information about repository
             setTextHeaders(repositoryName, pathInsideRepository, repositoryOwner)
 
             if (isFile) {
@@ -56,8 +60,8 @@
       });
     }
 
+    // Returns the name of all the repositories of the logged in user
     function getAllRepositories() {
-    
       $.ajax({
            type: "GET",
            url: "/getAllRepositories",
@@ -70,6 +74,8 @@
 
               $('#repositoryList').append('<h1>All Your Repositories</h1>')
 
+              // iterates through repositories and creates a button for the user
+              // to select which one to view the contents of
               repositories = data.repositories
               for (var i = 0; i < repositories.length; i++) {
                 createRepositoryButton(repositories[i])
@@ -78,6 +84,7 @@
       });
     }
 
+    // Logs the user out of the platform
     function logout() {
       $.ajax({
         type: "GET",
@@ -92,6 +99,9 @@
       });
     }
 
+    // Creates a button for repositoryName. 
+    // When clicked it loads the contents of the repository
+    // at path ""
     function createRepositoryButton (repositoryName) {
       var repoButton = document.createElement('BUTTON')
       repoButton.innerHTML  = repositoryName
@@ -103,6 +113,8 @@
     }
     
 
+    // Creates a button for the contents returned by getRepository function
+    // when clicked, it gets the contents in the repository at the designated path
     function createContentButton (pathInsideRepository, content, repositoryName) {
       var pathObj = pathInsideRepository + "/" + content
       var repositoryPathButton = document.createElement('BUTTON')
@@ -115,6 +127,7 @@
       $('#repositoryDisplay').append('<p>');
     }
     
+    // set text headers to display repositoryName, path, and owner
     function setTextHeaders(repositoryName, pathInsideRepository, repositoryOwner) {
       // clear display
       $('#repositoryDisplay').html("");

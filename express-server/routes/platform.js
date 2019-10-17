@@ -48,11 +48,13 @@ router.post('/login', (req, res) => {
     
 })
 
+// Logs user out of account by resetting LOGGED_IN_USER
 router.get('/logout', (req, res) => {
     LOGGED_IN_USER = ""
     res.send(data = {"success" : true})
 })
 
+// Creates new empty repository with given name
 router.post('/createNewRepository', (req, res) => {
     repositoryName = req.body.repositoryName
 
@@ -63,11 +65,13 @@ router.post('/createNewRepository', (req, res) => {
     res.send(data = {"success" : true})
 })
 
+// Returns the name of all repositories owned by the logged in user
 router.get('/getAllRepositories', (req, res) => {
     userRepositories = getCurrentUsersRepositories(LOGGED_IN_USER)
     res.send(data = {"repositories" : userRepositories})
 })
 
+// Returns the contents of the repository at the given path
 router.post('/getPathInRepository', (req, res) => {
     var accountName = LOGGED_IN_USER
     var repositoryName = req.body.repositoryName

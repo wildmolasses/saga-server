@@ -9,3 +9,5 @@ cd express-server;
 npm install;
 DEBUG=myapp:* npm start;
 ```
+
+To see the front-end, browse to `localhost:3000`.

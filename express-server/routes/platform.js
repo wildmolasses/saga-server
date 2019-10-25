@@ -68,6 +68,26 @@ router.post('/createNewRepository', (req, res) => {
     }
 })
 
+// Search For All Repositories with Given Name
+router.post('/searchForRepositories', (req, res) => {
+    repositoryName = req.body.repositoryName
+    foundRepositories = []
+    for (var i = 0; i < accounts.length; i++) {
+        accountName = accounts[i].username
+        if (repositoryExists(accountName, repositoryName)) {
+            console.log("FOUND Repository" + accountName)
+            repository = {
+                "accountName" : accountName,
+                "repositoryName" : repositoryName
+            }
+            foundRepositories.push(repository)
+        }
+    }
+    res.send(data = {
+        "repositories" : foundRepositories
+    }) 
+})
+
 // Returns the name of all repositories owned by the logged in user
 router.get('/getAllRepositories', (req, res) => {
     userRepositories = getCurrentUsersRepositories(LOGGED_IN_USER)
@@ -123,9 +143,7 @@ router.post('/getPathInRepository', (req, res) => {
                 "path" : pathRequested
             })
         }
-    }
-
-    
+    }  
 })
 
 /**
@@ -187,9 +205,18 @@ function getCurrentUsersRepositories(accountName) {
     }
 }
 
+function repositoryExists(accountName, repositoryName) {
+    console.log("AccountName: " + accountName)
+    console.log("repositoryName" + repositoryName)
+    if (accountName in repositoryMapping && repositoryMapping[accountName].indexOf(repositoryName) > -1) {
+        return true
+    } 
+    return false
+}
+
 function createRepository (repositoryLocation, accountName, repositoryName) {
     // if the user already has a repo named repositoryName
-    if (accountName in repositoryMapping && repositoryMapping[accountName].indexOf(repositoryName) > -1) {
+    if (repositoryExists(accountName, repositoryName)) {
         return false    
     } else {
         fs.mkdirSync(repositoryLocation, { recursive: true })

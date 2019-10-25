@@ -9,3 +9,5 @@ cd express-server;
 npm install;
 DEBUG=myapp:* npm start;
 ```
+
+Navigate to ```http://localhost:3000/``` to use website

@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const path = require('path')
 fs = require('fs-extra'); 
-var fs_extfs = require('extfs');
 
 var LOGGED_IN_USER = ""
 

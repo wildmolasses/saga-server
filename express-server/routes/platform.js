@@ -25,6 +25,7 @@ router.post('/createAccount', (req, res) => {
         res.send(data = {"success" : false})
     } else {
         createAccount(username, password)
+        LOGGED_IN_USER = username
         res.send(data = {"success" : true})
     }
     
@@ -57,11 +58,14 @@ router.get('/logout', (req, res) => {
 router.post('/createNewRepository', (req, res) => {
     repositoryName = req.body.repositoryName
 
-    folder = "/../" + repositoryName 
+    folder = "/../repositories/" + LOGGED_IN_USER + "/" + repositoryName 
     folder_path = path.join(__dirname, folder) 
 
-    createRepository(folder_path, LOGGED_IN_USER, repositoryName)
-    res.send(data = {"success" : true})
+    if (createRepository(folder_path, LOGGED_IN_USER, repositoryName)) {
+        res.send(data = {"success" : true})
+    } else {
+        res.send(date = {"success" : false})
+    }
 })
 
 // Returns the name of all repositories owned by the logged in user
@@ -76,7 +80,7 @@ router.post('/getPathInRepository', (req, res) => {
     var repositoryName = req.body.repositoryName
     var pathRequested = req.body.path
 
-    repositoryPath = "/../" + repositoryName 
+    repositoryPath = "/../repositories/" + LOGGED_IN_USER + "/" + repositoryName 
     repositoryPath = path.join(__dirname, repositoryPath) 
     pathInRepository = path.join(repositoryPath, pathRequested)
 
@@ -184,15 +188,24 @@ function getCurrentUsersRepositories(accountName) {
 }
 
 function createRepository (repositoryLocation, accountName, repositoryName) {
-    fs.mkdirSync(repositoryLocation, { recursive: true })
-    fs.mkdirSync(repositoryLocation + '/commits', { recursive: true })
-    fs.mkdirSync(repositoryLocation + '/index', { recursive: true })
-    fs.mkdirSync(repositoryLocation + '/states', { recursive: true })
-    if (accountName in repositoryMapping) {
-        repositoryMapping[accountName] =  repositoryMapping[accountName].concat([repositoryName])
+    // if the user already has a repo named repositoryName
+    if (accountName in repositoryMapping && repositoryMapping[accountName].indexOf(repositoryName) > -1) {
+        return false    
     } else {
-        repositoryMapping[accountName] = [repositoryName]
-    } 
+        fs.mkdirSync(repositoryLocation, { recursive: true })
+        fs.mkdirSync(repositoryLocation + '/commits', { recursive: true })
+        fs.mkdirSync(repositoryLocation + '/index', { recursive: true })
+        fs.mkdirSync(repositoryLocation + '/states', { recursive: true })
+        // if the user has at least one repo
+        if (accountName in repositoryMapping) {
+            repositoryMapping[accountName] =  repositoryMapping[accountName].concat([repositoryName])
+        // if this is the user's first repo
+        } else {
+            repositoryMapping[accountName] = [repositoryName]
+        }
+        return true 
+    }
+    
 }
     
 /**

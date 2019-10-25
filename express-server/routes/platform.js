@@ -75,7 +75,6 @@ router.post('/searchForRepositories', (req, res) => {
     for (var i = 0; i < accounts.length; i++) {
         accountName = accounts[i].username
         if (repositoryExists(accountName, repositoryName)) {
-            console.log("FOUND Repository" + accountName)
             repository = {
                 "accountName" : accountName,
                 "repositoryName" : repositoryName
@@ -96,11 +95,15 @@ router.get('/getAllRepositories', (req, res) => {
 
 // Returns the contents of the repository at the given path
 router.post('/getPathInRepository', (req, res) => {
-    var accountName = LOGGED_IN_USER
+    var accountName = req.body.accountName
+    if (accountName === undefined) {
+        accountName = LOGGED_IN_USER
+    }
+
     var repositoryName = req.body.repositoryName
     var pathRequested = req.body.path
 
-    repositoryPath = "/../repositories/" + LOGGED_IN_USER + "/" + repositoryName 
+    repositoryPath = "/../repositories/" + accountName + "/" + repositoryName 
     repositoryPath = path.join(__dirname, repositoryPath) 
     pathInRepository = path.join(repositoryPath, pathRequested)
 
@@ -206,8 +209,6 @@ function getCurrentUsersRepositories(accountName) {
 }
 
 function repositoryExists(accountName, repositoryName) {
-    console.log("AccountName: " + accountName)
-    console.log("repositoryName" + repositoryName)
     if (accountName in repositoryMapping && repositoryMapping[accountName].indexOf(repositoryName) > -1) {
         return true
     } 

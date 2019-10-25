@@ -22,7 +22,7 @@ router.post('/createAccount', (req, res) => {
     username = req.body.username
     password = req.body.password
 
-    if (login(username, password)) {
+    if (usernameTaken(username)) {
         res.send(data = {"success" : false})
     } else {
         createAccount(username, password)
@@ -137,6 +137,15 @@ function login (username, password) {
         }
     }
     return false
+}
+
+function usernameTaken (username) {
+    for (var i = 0; i < accounts.length; i++) {
+        if (accounts[i].username == username) {
+            return true
+        }
+    }
+    return false 
 }
 
 function createAccount (username, password) {

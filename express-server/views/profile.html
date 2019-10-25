@@ -5,6 +5,30 @@
 
 <script>
 
+    function searchForRepositories() {
+      var repositoryName = document.getElementById('searchForRepositories-repositoryName').value
+
+      // Ajax call to create a new repository with given name
+      $.ajax({
+        type: "POST",
+        url: "/searchForRepositories",
+        data: {"repositoryName" : repositoryName }, 
+        success: function(data)
+        {
+          $('#searchResultsDisplay').html("");
+          for (var i = 0; i < data.repositories.length; i++) {
+            accountName = data.repositories[i].accountName
+            repositoryName = data.repositories[i].repositoryName
+            createSearchResultLabel(repositoryName, accountName, i + 1)
+          }
+
+          console.log(data.repositories)
+        }
+      });
+    }
+
+
+
     function createRepository() {
         
       var repositoryName = document.getElementById('createRepository-repositoryName').value
@@ -99,6 +123,22 @@
       });
     }
 
+    //Creates a label for results of search
+    function createSearchResultLabel(repositoryName, repositoryOwner, idx) {
+
+      var repositoryOwnerLabel = document.createElement("Label");
+      repositoryOwnerLabel.innerHTML = "Repository Owner: " + repositoryOwner;
+
+      var repositoryNameLabel = document.createElement("Label");
+      repositoryNameLabel.innerHTML = "Repository Name: " + repositoryName;
+      
+      $('#searchResultsDisplay').append('<h3>' + idx + ': </h3>');
+      $('#searchResultsDisplay').append(repositoryOwnerLabel);
+      $('#searchResultsDisplay').append(repositoryNameLabel);
+      $('#searchResultsDisplay').append('<p>');
+    }
+    
+
     // Creates a button for repositoryName. 
     // When clicked it loads the contents of the repository
     // at path ""
@@ -151,6 +191,22 @@
     }
 
 </script>
+
+<form onSubmit="searchForRepositories(); return false" id = "searchForRepositories">
+  <div class="container">
+    <h1>Search for Repositories With This Form</h1>
+    <hr>
+
+    <label for="repositoryName"><b>Repository Name</b></label>
+    <input type="text" placeholder="Enter Repository Name" name="repositoryName" id = "searchForRepositories-repositoryName" required>
+
+    <input type="submit" value="Submit">
+
+  </div>
+</form>
+
+<div id = searchResultsDisplay></div>
+
 
 <form onSubmit="createRepository(); return false" id = "createRepository">
     <div class="container">

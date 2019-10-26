@@ -5,30 +5,62 @@
 
 <script>
 
+    function searchForRepositories() {
+      var repositoryName = document.getElementById('searchForRepositories-repositoryName').value
+
+      // Ajax call to create a new repository with given name
+      $.ajax({
+        type: "POST",
+        url: "/searchForRepositories",
+        data: {"repositoryName" : repositoryName }, 
+        success: function(data)
+        {
+          clearAllDisplaysAndInputs()
+          for (var i = 0; i < data.repositories.length; i++) {
+            accountName = data.repositories[i].accountName
+            repositoryName = data.repositories[i].repositoryName
+            createSearchResultLabel(repositoryName, accountName, i + 1)
+          }
+
+          console.log(data.repositories)
+        }
+      });
+    }
+
+
     function createRepository() {
         
       var repositoryName = document.getElementById('createRepository-repositoryName').value
 
+
+      // Ajax call to create a new repository with given name
       $.ajax({
         type: "POST",
         url: "/createNewRepository",
         data: {"repositoryName" : repositoryName }, 
         success: function(data)
         {
+          clearAllDisplaysAndInputs()
+
           if (data.success) {
-            alert("Successfully Created Account")
+            alert("Successfully Created Repository")
           } else {
-            alert("Account Already Exists")
+            alert("Repository Already Exists")
           }
         }
       });
     }
 
-    function getRepository (repositoryName, path) {
+    // Ajax call that returns data at a specific path within a specific repository for display
+    function getRepository (repositoryName, repositoryOwner, path) {
+      // if no user, then send undefined
+      if (repositoryOwner == "no-user") {
+        repositoryOwner = undefined
+      }
       $.ajax({
         type: "POST",
         url: "/getPathInRepository",
-        data: {"repositoryName" : repositoryName, "path" : path}, 
+        data: {"repositoryName" : repositoryName, "accountName" : repositoryOwner, "path" : path}, 
         success: function(data)
         {
           if (data.success) {
@@ -40,6 +72,9 @@
             var fileContents = data.fileContents
             var pathInsideRepository = data.path
 
+            clearAllDisplaysAndInputs()
+
+            // display information about repository
             setTextHeaders(repositoryName, pathInsideRepository, repositoryOwner)
 
             if (isFile) {
@@ -48,7 +83,7 @@
             } else {
               // Handle if Directory 
               for (var i = 0; i < directoryContents.length; i++) {
-                createContentButton(pathInsideRepository, directoryContents[i], repositoryName)
+                createContentButton(pathInsideRepository, repositoryOwner, directoryContents[i], repositoryName)
               }  
             }
           }
@@ -56,28 +91,30 @@
       });
     }
 
+    // Returns the name of all the repositories of the logged in user
     function getAllRepositories() {
-    
       $.ajax({
            type: "GET",
            url: "/getAllRepositories",
            data: {}, 
            success: function(data)
            {
-              // clear display
-              $('#repositoryDisplay').html("");
-              $('#repositoryList').html("");
+              clearAllDisplaysAndInputs()
+
 
               $('#repositoryList').append('<h1>All Your Repositories</h1>')
 
+              // iterates through repositories and creates a button for the user
+              // to select which one to view the contents of
               repositories = data.repositories
               for (var i = 0; i < repositories.length; i++) {
-                createRepositoryButton(repositories[i])
+                createRepositoryButton(repositories[i], repositories[i], "no-user", '#repositoryList')
             }
           }
       });
     }
 
+    // Logs the user out of the platform
     function logout() {
       $.ajax({
         type: "GET",
@@ -92,34 +129,51 @@
       });
     }
 
-    function createRepositoryButton (repositoryName) {
-      var repoButton = document.createElement('BUTTON')
-      repoButton.innerHTML  = repositoryName
-      repoButton.setAttribute("id", repositoryName)
-      repoButton.addEventListener("click", function() {
-        getRepository(repositoryName, "")
-      });
-      $('#repositoryList').append(repoButton)
+    //Creates a label for results of search
+    function createSearchResultLabel(repositoryName, repositoryOwner, idx) {
+
+      var repositoryOwnerLabel = document.createElement("Label");
+      repositoryOwnerLabel.innerHTML = "Repository Owner: " + repositoryOwner + "     -> ";
+
+      $('#searchResultsDisplay').append('<h3>' + idx + ': </h3>');
+      $('#searchResultsDisplay').append(repositoryOwnerLabel);
+      
+      createRepositoryButton(repositoryName, repositoryOwner + "/" + repositoryName, repositoryOwner, '#searchResultsDisplay')
+      
+      $('#searchResultsDisplay').append('<p>');
     }
     
 
-    function createContentButton (pathInsideRepository, content, repositoryName) {
+    // Creates a button for repositoryName. 
+    // When clicked it loads the contents of the repository
+    // at path ""
+    function createRepositoryButton (repositoryName, id, accountName, location) {
+      var repoButton = document.createElement('BUTTON')
+      repoButton.innerHTML  = repositoryName
+      repoButton.setAttribute("id", id)
+      repoButton.addEventListener("click", function() {
+        getRepository(repositoryName, accountName, "")
+      });
+      $(location).append(repoButton)
+    }
+    
+
+    // Creates a button for the contents returned by getRepository function
+    // when clicked, it gets the contents in the repository at the designated path
+    function createContentButton (pathInsideRepository, repositoryOwner, content, repositoryName) {
       var pathObj = pathInsideRepository + "/" + content
       var repositoryPathButton = document.createElement('BUTTON')
       repositoryPathButton.innerHTML  = pathObj
       repositoryPathButton.setAttribute("id", pathObj)
       repositoryPathButton.addEventListener("click", function() {
-            getRepository(repositoryName, pathObj)
+            getRepository(repositoryName, repositoryOwner, pathObj)
       });
       $('#repositoryDisplay').append(repositoryPathButton)
       $('#repositoryDisplay').append('<p>');
     }
     
+    // set text headers to display repositoryName, path, and owner
     function setTextHeaders(repositoryName, pathInsideRepository, repositoryOwner) {
-      // clear display
-      $('#repositoryDisplay').html("");
-      $('#repositoryList').html("");
-
       var repositoryNameLabel = document.createElement("Label");
       repositoryNameLabel.innerHTML = "Repository Location: " + repositoryName + pathInsideRepository;
       $('#repositoryDisplay').append(repositoryNameLabel);
@@ -137,7 +191,31 @@
       $('#repositoryDisplay').append('<h3> Contents: </h3>');
     }
 
+    function clearAllDisplaysAndInputs() {
+      $('#repositoryDisplay').html("");
+      $('#repositoryList').html("");
+      $('#searchResultsDisplay').html("");
+      $('#createRepository-repositoryName').val('')
+      $('#searchForRepositories-repositoryName').val('')
+    }
+
 </script>
+
+<form onSubmit="searchForRepositories(); return false" id = "searchForRepositories">
+  <div class="container">
+    <h1>Search for Repositories With This Form</h1>
+    <hr>
+
+    <label for="repositoryName"><b>Repository Name</b></label>
+    <input type="text" placeholder="Enter Repository Name" name="repositoryName" id = "searchForRepositories-repositoryName" required>
+
+    <input type="submit" value="Submit">
+
+  </div>
+</form>
+
+<div id = searchResultsDisplay></div>
+
 
 <form onSubmit="createRepository(); return false" id = "createRepository">
     <div class="container">

@@ -1,0 +1,6 @@
+for (int j = 0; j < 100; j++ ) {
+int temp1 = j * 1000;
+if (temp1 < j) {
+System.out.println(temp1, j);
+}
+}

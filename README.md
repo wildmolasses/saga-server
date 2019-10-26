@@ -10,4 +10,4 @@ npm install;
 DEBUG=myapp:* npm start;
 ```
 
-To see the front-end, browse to `localhost:3000`.
+Navigate to ```http://localhost:3000/``` to use website

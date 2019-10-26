@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 fs = require('fs-extra'); 
-var fs_extfs = require('extfs');
 const path = require('path')
 
 var storage = multer.diskStorage({

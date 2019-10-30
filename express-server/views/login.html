@@ -17,7 +17,7 @@
            success: function(data)
            {
               if (data.success) {
-                location.href = "http://localhost:3000/profile-page"
+                location.href = "/profile-page"
               } else {
                 alert("Account Already Exists")
               }
@@ -37,7 +37,7 @@
            success: function(data)
            { 
               if (data.success) {
-                location.href = "http://localhost:3000/profile-page"
+                location.href = "/profile-page"
               } else {
                 alert("Incorrect Username or Password")
               }
@@ -46,6 +46,8 @@
     }
 
 </script>
+
+<div id="test_react"></div>
 
 
 <form onSubmit="createAccount(); return false" id = "createAccount">
@@ -82,4 +84,10 @@
   
     </div>
   </form>
+
+  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+
+  <!-- Load our React component. -->
+  <script src="like_button.js"></script>
 

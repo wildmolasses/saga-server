@@ -24,9 +24,8 @@ class EmailForm extends React.Component {
     return (e(
                 'form', 
                 {className: 'EmailForm', onSubmit: this.handleSubmit},
-                "Modern version control for any file format", e("br"),
+                "Join the mailing list",
                 e('input', {onChange: this.handleChange}), e("br"),
-                e('button', {type: 'submit'}, "Join the mailing list"), e("br")
             )
     );
   }

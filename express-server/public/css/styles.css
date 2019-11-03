@@ -1,5 +1,8 @@
 /* Style the header with a grey background and some padding */
 .header {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0; /* required */
     overflow: hidden;
     padding: 0px 10px;
     font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
@@ -55,34 +58,12 @@ body {
     font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
     background-color: rgb(250, 232, 220);
 }
-h1 {
-    color: blue;
-}
-
-.email-form-container {
-    padding-top: 175px;
-    background-color: transparent;
-}
-
-.email-form-box1 {
-    background-color: transparent;
-    display: block;
-    padding-left: 200px;
-}
-
-.email-form-box2 {
-    background-color: white;
-    border:1px solid black;
-    display: block;
-    width: 200px;
-    border-radius: 5px;
-}
-
 
 .content {
     padding-top: 50px;
     display: flex;
     justify-content: space-evenly;
+    padding-top: 100px;
 }
 
 .copy {
@@ -94,15 +75,21 @@ h1 {
 p.copy-header {
     text-align: left;
     font-weight: bold;
-    font-size: 30px;
-    margin-bottom: 0px;
+    font-size: 50px;
+    margin: 0px;
 }
 
 p.copy-content {
-    margin-top: 5px
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: lighter;
 }
 
 .EmailForm {
+    background-color: white;
+    border:1px solid black;
+    width: 200px;
+    border-radius: 5px;
     text-align: center;
     padding-top:15px;
     padding-left: 10px;

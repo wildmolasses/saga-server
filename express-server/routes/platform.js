@@ -5,6 +5,11 @@ fs = require('fs-extra');
 
 var LOGGED_IN_USER = ""
 
+// Landing page
+router.get('/landing', (req, res) => {
+    res.render('landing.html')
+});
+
 /* Render the account sign-up page */
 router.get('/', (req, res) => {
     res.render('login.html')

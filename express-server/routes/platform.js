@@ -5,15 +5,16 @@ fs = require('fs-extra');
 
 var LOGGED_IN_USER = ""
 
-// Landing page
-router.get('/landing', (req, res) => {
+// Render the landing page
+router.get('/', (req, res) => {
     res.render('landing.html')
 });
 
-/* Render the account sign-up page */
-router.get('/', (req, res) => {
+// Render the landing page
+router.get('/alpha', (req, res) => {
     res.render('login.html')
 });
+
 
 /* Render the account sign-up page */
 router.get('/profile-page', (req, res) => {
@@ -41,7 +42,6 @@ router.post('/createAccount', (req, res) => {
 router.post('/login', (req, res) => {
     username = req.body.username
     password = req.body.password
-
     
     if (login(username, password)) {
         LOGGED_IN_USER = username

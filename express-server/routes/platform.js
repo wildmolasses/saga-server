@@ -15,6 +15,9 @@ router.get('/alpha', (req, res) => {
     res.render('login.html')
 });
 
+router.get('/signup', (req, res) => {
+    res.render('signup.html')
+});
 
 /* Render the account sign-up page */
 router.get('/profile-page', (req, res) => {

@@ -16,6 +16,9 @@ router.get('/alpha', (req, res) => {
     res.render('login.html')
 });
 
+router.get('/signup', (req, res) => {
+    res.render('signup.html')
+});
 
 // render the profile page
 router.get('/profile-page',
@@ -33,6 +36,11 @@ function loggedIn(req, res, next) {
         res.redirect('/');
     };
 }
+
+router.get('/contact', (req, res) => {
+    res.render('contact.html')
+})
+
 
 /* Create a new account */
 router.post('/createAccount',
@@ -68,17 +76,33 @@ function createAccount(req, _, next) {
 
 /* Login in to an account */
 router.post('/login', 
+    temp,
     passport.authenticate('local', {
         successRedirect: '/profile-page',
         failureRedirect: '/alpha'
     })
 );
 
+function temp(req, res, next) {
+    console.log(req.body.username);
+    console.log(req.body.password);
+    next()
+}
+
 // Logs user out of account by resetting LOGGED_IN_USER
 router.get('/logout', (req, res) => {
     console.log("HERE");
     req.logout();
     res.redirect('/');
+})
+
+// Return Profile Information
+router.get('/getProfileData', (req, res) => {
+    var numRepositories = getCurrentUserNumberOfRepositories(LOGGED_IN_USER)
+    res.send(data = {
+        "username" : LOGGED_IN_USER,
+        "numRepositories" : numRepositories
+    });  
 })
 
 // Creates new empty repository with given name
@@ -91,7 +115,7 @@ router.post('/createNewRepository', (req, res) => {
     if (createRepository(folder_path, LOGGED_IN_USER, repositoryName)) {
         res.send(data = {"success" : true})
     } else {
-        res.send(date = {"success" : false})
+        res.send(data = {"success" : false})
     }
 })
 
@@ -225,6 +249,14 @@ function getCurrentUsersRepositories(accountName) {
     }
 }
 
+function getCurrentUserNumberOfRepositories(accountName) {
+    var count = 0
+    if (accountName in repositoryMapping) {
+        count++
+    } 
+    return count
+}
+
 function repositoryExists(accountName, repositoryName) {
     if (accountName in repositoryMapping && repositoryMapping[accountName].indexOf(repositoryName) > -1) {
         return true
@@ -250,7 +282,6 @@ function createRepository (repositoryLocation, accountName, repositoryName) {
         }
         return true 
     }
-    
 }
     
 /**

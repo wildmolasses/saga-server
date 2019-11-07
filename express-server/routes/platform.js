@@ -24,6 +24,10 @@ router.get('/profile-page', (req, res) => {
     res.render('profile.html')
 });
 
+router.get('/contact', (req, res) => {
+    res.render('contact.html')
+})
+
 
 /* Create a new account */
 router.post('/createAccount', (req, res) => {

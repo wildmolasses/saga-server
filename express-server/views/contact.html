@@ -1,0 +1,104 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Saga</title>
+  <meta name="description" content="Saga - Version Control for All Your Files">
+  <meta name="author" content="Saga">
+  <link rel='icon' href='logo.png' type='image/x-icon' />
+
+  <link rel="stylesheet" href="css/styles.css">
+  
+
+  <style>
+        input[type=text] {
+          padding:5px; 
+          border:2px solid #ccc; 
+          -webkit-border-radius: 5px;
+          border-radius: 5px;
+          display: inline-block;
+          clear: left;
+          width: 150px;
+          text-align: right;
+        }
+    
+        input[type=submit] {
+          padding:5px; 
+          border:2px solid #ccc; 
+          -webkit-border-radius: 5px;
+          border-radius: 5px;
+          width: 100px;
+          display: block;
+          margin: 0 auto;
+        }
+    
+        label {
+          padding:5px; 
+          display: inline-block;
+        }
+    
+        input[type=text], label {
+          display: inline-block;
+          vertical-align: baseline;
+          width: 125px;
+        }  
+  </style>
+
+  
+
+</head>
+
+<body>
+    
+    <header>
+        <div class="header">
+            <a href="/" class="logo">
+                <div class="title">
+                    <img src="logo.png" width="100"></img>
+                    saga
+                </div>
+            </a>
+            <div class="header-right">
+                <a href="/alpha">alpha</a>
+                <a href="/contact">contact</a>
+            </div>
+        </div> 
+    </header>
+
+
+    <div class = "content">
+        <form onSubmit="createAccount(); return false" id = "createAccount">
+            <div class="container">
+                <h1>Sign Up For Our List-Serve</h1>
+                <hr>
+            
+                <label for="first-name"><b>First Name</b></label>
+                <input type="text" name="first-name" id = "contact-first-name" required>
+                <br>
+
+
+                <label for="last-name"><b>First Name</b></label>
+                <input type="text" name="last-name" id = "contact-last-name" required>
+                
+                <br>
+                <label for="email"><b>Email</b></label>
+                <input type="text"  name="email" id = "createAccount-email" required>
+          
+                <br><br><br>
+
+                <input type="submit" value="Submit">
+            
+              </div>
+            </form>
+          </div>
+
+    <!-- Load react scripts. 
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+
+    <script src="landing_page.js"></script>
+    -->
+</body>
+</html>

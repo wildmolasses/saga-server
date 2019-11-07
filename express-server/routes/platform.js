@@ -1,62 +1,84 @@
-var express = require('express');
-var router = express.Router();
-const path = require('path')
-fs = require('fs-extra'); 
-
-var LOGGED_IN_USER = ""
+const express = require('express');
+const router = express.Router();
+const path = require('path');
+const fs = require('fs-extra'); 
+const mongoose = require('mongoose');
+const Users = mongoose.model('Users');
+const passport = require('./auth');
 
 // Render the landing page
 router.get('/', (req, res) => {
     res.render('landing.html')
 });
 
-// Render the landing page
+// Render the homepage of the alpha
 router.get('/alpha', (req, res) => {
     res.render('login.html')
 });
 
 
-/* Render the account sign-up page */
-router.get('/profile-page', (req, res) => {
-    res.render('profile.html')
-});
+// render the profile page
+router.get('/profile-page',
+    loggedIn,
+    (req, res) => {
+        console.log("RENDERING PROFILE");
+        res.render('profile.html')
+    }
+) 
 
+function loggedIn(req, res, next) {
+    if (req.user) {
+        next();
+    } else {
+        res.redirect('/');
+    };
+}
 
 /* Create a new account */
-router.post('/createAccount', (req, res) => {
-    username = req.body.username
-    password = req.body.password
+router.post('/createAccount',
+    createAccount,
+    passport.authenticate('local', {
+        successRedirect: '/profile-page',
+        failureRedirect: '/alpha'
+    })
+)
 
-    if (usernameTaken(username)) {
-        res.send(data = {"success" : false})
-    } else {
-        createAccount(username, password)
-        LOGGED_IN_USER = username
-        res.send(data = {"success" : true})
-    }
+function createAccount(req, _, next) {
+    const username = req.body.username;
+    const password = req.body.password;
+    usernameTakenProm(username).then((usernameTaken) => {
+        if (usernameTaken) {
+            next("Error: username taken");
+        }
+
+        const user = new Users();
+        user.username = username;
+
+        console.log(username);
+        console.log(password);
+
+        user.setPassword(password);
     
-    res.end()
-})
+        user.save().then(() => {
+            next();
+        });
+    })
+}
+
 
 /* Login in to an account */
-router.post('/login', (req, res) => {
-    username = req.body.username
-    password = req.body.password
-    
-    if (login(username, password)) {
-        LOGGED_IN_USER = username
-        res.send(data = {"success" : true})
-    } else {
-        res.send(data = {"success" : false})
-    }
-    res.end()
-    
-})
+router.post('/login', 
+    passport.authenticate('local', {
+        successRedirect: '/profile-page',
+        failureRedirect: '/alpha'
+    })
+);
 
 // Logs user out of account by resetting LOGGED_IN_USER
 router.get('/logout', (req, res) => {
-    LOGGED_IN_USER = ""
-    res.send(data = {"success" : true})
+    console.log("HERE");
+    req.logout();
+    res.redirect('/');
 })
 
 // Creates new empty repository with given name
@@ -168,23 +190,13 @@ function login (username, password) {
     return false
 }
 
-function usernameTaken (username) {
-    for (var i = 0; i < accounts.length; i++) {
-        if (accounts[i].username == username) {
-            return true
-        }
-    }
-    return false 
+function usernameTakenProm (username) {
+    return new Promise(resolve => {
+        Users.findOne({username: username}, function(err, user) {
+            resolve(user !== null);
+        });
+    });
 }
-
-function createAccount (username, password) {
-    accounts.push({"username" : username, "password" : password})
-}
-
-var accounts = [
-    {"username" : "aaron", "password" : "aaron_password"},
-    {"username" : "jacob", "password" : "jacob_password"}
-]
 
 /** Repository Database */
 repositoryMapping = {"aaron" : [".saga"]}

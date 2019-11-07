@@ -114,21 +114,6 @@
       });
     }
 
-    // Logs the user out of the platform
-    function logout() {
-      $.ajax({
-        type: "GET",
-        url: "/logout",
-        success: function(data) { 
-          if (data.success) {
-            location.href = "/"
-          } else {
-            alert("Warning: Unsuccessful Logout")
-          }
-        }
-      });
-    }
-
     //Creates a label for results of search
     function createSearchResultLabel(repositoryName, repositoryOwner, idx) {
 
@@ -244,7 +229,7 @@
 
   <div id = repositoryDisplay></div>
 
-  <form onSubmit=logout(); id = "logout">
+  <form action="/logout" method="get">
     <div class="container">
       <h1>Logout</h1>
       <p>Please press this button to logout.</p>

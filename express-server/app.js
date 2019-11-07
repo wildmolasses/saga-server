@@ -3,18 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var multer = require('multer');
-var upload = multer({dest:'uploads/'});
-
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var platformRouter = require('./routes/platform')
+const passport = require('./routes/auth')
 
 var app = express();
 
 app.engine('html', require('ejs').renderFile);
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,6 +22,15 @@ app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '../public'));
 
+// Finially, we set up passports and sessions
+app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// setup routes
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const platformRouter = require('./routes/platform')
 
 app.use('/', platformRouter);
 app.use('/users', usersRouter);
@@ -38,5 +40,8 @@ app.use('/cli', indexRouter)
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+// supress the favicon.ico stuff
+app.get('/favicon.ico', (req, res) => res.status(204));
 
 module.exports = app;

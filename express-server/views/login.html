@@ -3,91 +3,31 @@
 </head>
 
 
-<script>
+<form action="/createAccount" method="post">
+  <h1>Sign Up</h1>
+  <p>Please fill in this form to create an account.</p>
+  <hr>
 
-    // Ajax call to create a new account. On success: redirect to profile page
-    function createAccount() {
-        var username = document.getElementById('createAccount-username').value
-        var password = document.getElementById('createAccount-password').value
+  <label for="username"><b>Username</b></label>
+  <input type="text" placeholder="Enter Username" name="username" id = "createAccount-username" required>
 
-        $.ajax({
-           type: "POST",
-           url: "/createAccount",
-           data: {"username" : username, "password" : password}, 
-           success: function(data)
-           {
-              if (data.success) {
-                location.href = "/profile-page"
-              } else {
-                alert("Account Already Exists")
-              }
-           }
-         });
-    }
+  <label for="password"><b>Password</b></label>
+  <input type="password" placeholder="Enter Password" name="password" id = "password" required>
 
-    // Ajax call to login to existing account. On success: redirect to profile page
-    function login() {    
-        var username = document.getElementById('login-username').value
-        var password = document.getElementById('login-password').value
+  <input type="submit" value="Submit">
+</form> 
 
-        $.ajax({
-           type: "POST",
-           url: "/login",
-           data: {"username" : username, "password" : password}, 
-           success: function(data)
-           { 
-              if (data.success) {
-                location.href = "/profile-page"
-              } else {
-                alert("Incorrect Username or Password")
-              }
-           }
-         });
-    }
+<form action="/login" method="post">
+  <h1>Login</h1>
+  <p>Please fill in this form to login.</p>
+  <hr>
 
-</script>
+  <label for="username"><b>Username</b></label>
+  <input type="text" placeholder="Enter Username" name="username" id = "createAccount-username" required>
 
-<div id="test_react"></div>
+  <label for="password"><b>Password</b></label>
+  <input type="password" placeholder="Enter Password" name="password" id = "password" required>
 
-
-<form onSubmit="createAccount(); return false" id = "createAccount">
-    <div class="container">
-      <h1>Sign Up</h1>
-      <p>Please fill in this form to create an account.</p>
-      <hr>
-  
-      <label for="username"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="username" id = "createAccount-username" required>
-  
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" id = "createAccount-password" required>
-
-      <input type="submit" value="Submit">
-  
-    </div>
-  </form>
-
-
-  <form onSubmit="login(); return false" id = "login">
-    <div class="container">
-      <h1>Login</h1>
-      <p>Please fill in this form to login.</p>
-      <hr>
-  
-      <label for="username"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="username" id = "login-username" required>
-  
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" id = "login-password" required>
-
-      <input type="submit" value="Submit">
-  
-    </div>
-  </form>
-
-  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-
-  <!-- Load our React component. -->
-  <script src="like_button.js"></script>
+  <input type="submit" value="Submit">
+</form> 
 

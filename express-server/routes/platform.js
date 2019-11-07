@@ -59,7 +59,16 @@ router.post('/login', (req, res) => {
 // Logs user out of account by resetting LOGGED_IN_USER
 router.get('/logout', (req, res) => {
     LOGGED_IN_USER = ""
-    res.send(data = {"success" : true})
+    res.redirect('/')
+})
+
+// Return Profile Information
+router.get('/getProfileData', (req, res) => {
+    var numRepositories = getCurrentUserNumberOfRepositories(LOGGED_IN_USER)
+    res.send(data = {
+        "username" : LOGGED_IN_USER,
+        "numRepositories" : numRepositories
+    });  
 })
 
 // Creates new empty repository with given name
@@ -72,7 +81,7 @@ router.post('/createNewRepository', (req, res) => {
     if (createRepository(folder_path, LOGGED_IN_USER, repositoryName)) {
         res.send(data = {"success" : true})
     } else {
-        res.send(date = {"success" : false})
+        res.send(data = {"success" : false})
     }
 })
 
@@ -216,6 +225,14 @@ function getCurrentUsersRepositories(accountName) {
     }
 }
 
+function getCurrentUserNumberOfRepositories(accountName) {
+    var count = 0
+    if (accountName in repositoryMapping) {
+        count++
+    } 
+    return count
+}
+
 function repositoryExists(accountName, repositoryName) {
     if (accountName in repositoryMapping && repositoryMapping[accountName].indexOf(repositoryName) > -1) {
         return true
@@ -241,7 +258,6 @@ function createRepository (repositoryLocation, accountName, repositoryName) {
         }
         return true 
     }
-    
 }
     
 /**

@@ -1,9 +1,86 @@
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <meta charset="utf-8">
+    <title>Saga</title>
+    <meta name="description" content="Saga - Version Control for All Your Files">
+    <meta name="author" content="Saga">
+    <link rel='icon' href='logo.png' type='image/x-icon' />
+
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    
+
+    input[type=text] {
+      padding:5px; 
+      border:2px solid #ccc; 
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+      clear: left;
+      width: 150px;
+    }
+
+    input[type=submit] {
+      padding:5px; 
+      border:2px solid #ccc; 
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+      width: 100px;
+      margin: 20 auto;
+    }
+
+    input[class=viewAllRepositories] {
+      padding:5px; 
+      border:2px solid #ccc; 
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+      clear: left;
+      width: 250px;
+    }
+
+    label {
+      padding:5px; 
+      display: inline-block;
+    }
+  </style>
+  
 </head>
 
 
 <script>
+
+    function getProfilePageData() {
+      getProfileData()
+      getAllRepositories()
+    }
+
+    function getProfileData() {
+      $.ajax({
+        type: "GET",
+        url: "/getProfileData",
+        data: {}, 
+        success: function(data)
+        {
+          clearAllDisplaysAndInputs() 
+
+          var username = data.username
+          var numRepositories = data.numRepositories
+
+          var usernameLabel = document.createElement("Label");
+          usernameLabel.setAttribute("class", "profile-text")
+          usernameLabel.innerHTML = "Username: " + username;
+
+          var numRepositoriesLabel = document.createElement("Label");
+          numRepositoriesLabel.setAttribute("class", "profile-text")
+          numRepositoriesLabel.innerHTML = "Total Repositories: " + numRepositories;
+
+          $('#profile-text').append(usernameLabel);
+          $('#profile-text').append("<br>");
+          $('#profile-text').append(numRepositoriesLabel);
+
+        }
+      });
+    }
 
     function searchForRepositories() {
       var repositoryName = document.getElementById('searchForRepositories-repositoryName').value
@@ -40,12 +117,11 @@
         data: {"repositoryName" : repositoryName }, 
         success: function(data)
         {
-          clearAllDisplaysAndInputs()
-
-          if (data.success) {
-            alert("Successfully Created Repository")
-          } else {
+          if (!data.success) {
             alert("Repository Already Exists")
+          } else {
+            clearAllDisplaysAndInputs()
+            getAllRepositories()
           }
         }
       });
@@ -102,7 +178,7 @@
               clearAllDisplaysAndInputs()
 
 
-              $('#repositoryList').append('<h1>All Your Repositories</h1>')
+              $('#repositoryList').append('<h1>Your Repositories:</h1>')
 
               // iterates through repositories and creates a button for the user
               // to select which one to view the contents of
@@ -201,55 +277,61 @@
 
 </script>
 
-<form onSubmit="searchForRepositories(); return false" id = "searchForRepositories">
-  <div class="container">
-    <h1>Search for Repositories With This Form</h1>
-    <hr>
+<body onload="getProfilePageData()">
+    <header>
+        <div class="header">
+            <a href="/" class="logo">
+                <div class="title">
+                    <img src="logo.png" width="100"></img>
+                    saga
+                </div>
+            </a>
+            <div class="header-right">
+                <a href="/alpha">alpha</a>
+                <a href="#contact">contact</a>
+                <a href="logout">logout</a>
+                <form onSubmit="searchForRepositories(); return false" id = "searchForRepositories">
+                  <input type="text" placeholder="Search For Repository" name="repositoryName" id = "searchForRepositories-repositoryName" required>
+                  <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div> 
+      </header>
+    
+      
+    <div class = content>
+      <div class = "column">
+          <div class = "profile-information" style="text-align: center">
+              <div class = profile-photo>
+                  <img src="profile-photo.jpg" width="400"></img>
+              </div>
+              <div class = "profile-text" id = "profile-text" ></div>
+              <form>
+                  <input class = "viewAllRepositories" type="submit" value="View All of Your Repositories">
+              </form>
+          </div>
+      </div>
 
-    <label for="repositoryName"><b>Repository Name</b></label>
-    <input type="text" placeholder="Enter Repository Name" name="repositoryName" id = "searchForRepositories-repositoryName" required>
+      <div class = "column">    
+          <div id = searchResultsDisplay></div>  
+          <div id = repositoryList></div>  
+          <div id = repositoryDisplay></div>
+          <div id = userRepositories>
+            <form onSubmit="createRepository(); return false" id = "createRepository">
+              <div class="container">
+                
+                <label for="repositoryName"><b></b></label>
 
-    <input type="submit" value="Submit">
+                <br>
+                <br>
+                <input type="text" placeholder="Create New Repository" name="repositoryName" id = "createRepository-repositoryName" required> 
+                <input type="submit" value="Submit">
+                    
+              </div>
+            </form>
+                  
+        </div>
+    </div> 
+  </div>    
+</body>
 
-  </div>
-</form>
-
-<div id = searchResultsDisplay></div>
-
-
-<form onSubmit="createRepository(); return false" id = "createRepository">
-    <div class="container">
-      <h1>Create a new Repository with this Form</h1>
-      <hr>
-  
-      <label for="repositoryName"><b>Repository Name</b></label>
-      <input type="text" placeholder="Enter Repository Name" name="repositoryName" id = "createRepository-repositoryName" required>
-
-      <input type="submit" value="Submit">
-  
-    </div>
-  </form>
-
-  <form onSubmit="getAllRepositories(); return false" id = "logout">
-    <div class="container">
-      <h1>Get All Repositories</h1>
-      <p>Use this button to find all of your repositories</p>
-      <hr>
-      <input type="submit" value="Find">
-  
-    </div>
-  </form>
-
-  <div id = repositoryList></div>
-
-  <div id = repositoryDisplay></div>
-
-  <form onSubmit=logout(); id = "logout">
-    <div class="container">
-      <h1>Logout</h1>
-      <p>Please press this button to logout.</p>
-      <hr>
-      <input type="submit" value="Logout">
-  
-    </div>
-  </form>

@@ -5,6 +5,8 @@ const fs = require('fs-extra');
 const mongoose = require('mongoose');
 const Users = mongoose.model('Users');
 const passport = require('./auth');
+var exec = require('child_process').exec, child;
+
 
 // Render the landing page
 router.get('/', (req, res) => {
@@ -239,6 +241,18 @@ function getPathInRepositoryHelper(accountName, repositoryName, pathInRepository
         }
     }
     return false
+}
+
+function getRepositoryContent(accountName, repositoryName) {
+    child = exec('cat *.js bad_file | wc -l',
+    function (error, stdout, stderr) {
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        if (error !== null) {
+             console.log('exec error: ' + error);
+        }
+    });
+ child();
 }
 
 function getCurrentUsersRepositories(accountName) {

@@ -9,56 +9,37 @@
   <meta name="author" content="Saga">
   <link rel='icon' href='logo.png' type='image/x-icon' />
 
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/body.css">
+  <link rel="stylesheet" href="css/landing.css">
+
   
 </head>
 
-<body>
+<body class = "body">
     <header>
         <div class="header">
-            <a href="/" class="logo">
-                <div class="title">
-                    <img src="logo.png" width="100"></img>
-                    saga
-                </div>
-            </a>
+            <div class="header-left">
+                <a href="/" >
+                    <img class = "logo" src="saga-logo.png" width = 100 ></img>
+                    <div class = "saga-name"> saga </div>
+                </a>
+            </div>
             <div class="header-right">
-                <a href="/alpha">alpha</a>
-                <a href="/contact">contact</a>
+                <a class = "team" href= "/team"> team</a>
+                <a class = "contact" href="/contact">contact</a>
+                <a class = "login" href="/login">login</a>
             </div>
         </div> 
     </header>
 
-    <div class="content">
-        <div class="copy">
-            <p class="copy-header"> 
-                Modern version control <br>
-                for all of your files
+    <div class="center-tile">
+            <p class="center-text"> 
+                    Version Control <br>
+                    for all your files
             </p>
-            <p class="copy-content">
-                Distributed branching and merging with <br>
-                the Saga version control system
-            </p>
-        </div>
-        <div class="file-img">
-            <img src="files.png"></img>
-        </div>
+        <button class = "signup-button"> signup for alpha</button>
     </div>
-    <div class="content">
-        <div class="file-img">
-            <img src="distributed.png"></img>
-        </div>
-        <div class="copy">
-            <p class="copy-header"> 
-                Support for any workflow <br>
-                or process
-            </p>
-            <p class="copy-content">
-                Saga doesn't force creators to always be online, <br>
-                and allows for more than one master document
-                
-            </p>
-        </div>
-    </div>
+
 </body>
 </html>

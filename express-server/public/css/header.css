@@ -1,83 +1,57 @@
-/* contact */
 
-/* Style the header with a grey background and some padding */
-
-.header {
-    position: fixed;
-    width: 1783px;
-    height: 127px;
-    left: 71px;
-    top: 30px;
-}
-
-.header-right a:link, .header-right a:visited{
-
-    font-family: Signika;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 50px;
-    line-height: 62px;
+/* large screens */
+.navbar {
     display: flex;
+    flex-flow: row wrap;
+    /* This aligns items to the end line on main-axis */
+    justify-content: space-between;
     align-items: center;
-    text-align: center;
-    text-decoration: none;
-
-    color: #8E8D8A;
-}
-
-.header-right a:hover, .header-left {
-    font-size: 60px;
-}
-
-.team {
-    position: absolute;
-    width: 174px;
-    height: 37px;
-    right: 495px;
-    top: 69px;
-}
-
-.contact {
-    position: absolute;
-    width: 174px;
-    height: 37px;
-    right: 276px;
-    top: 69px;
-}
-
-.login {
-    position: absolute;
-    width: 165px;
-    height: 37px;
-    right: 66px;
-    top: 69px;
-}
-
-.header-left .logo {
-    position: absolute;
-    width: 200px;
-    height: 127px;
-    left: 71px;
-    top: 30px;
-}
-
-.saga-name {
-    position: absolute;
-    width: 224px;
-    height: 102px;
-    left: 276px;
-    top: 55px;
-
-    font-family: Suez One;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 75px;
-    line-height: 98px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-
-    color: #E98074;
-
-}
+  }
   
+  .left-navbar {
+      display: flex;
+      flex-flow: row wrap;
+      flex-grow: 10;
+      /* This aligns items to the end line on main-axis */
+      justify-content: flex-start;
+      align-items: center;
+  }
+  
+  .right-navbar {
+      display: flex;
+      flex-flow: row wrap;
+      flex-grow: 1;
+      /* This aligns items to the end line on main-axis */
+      justify-content: flex-end;
+  
+      font-size: 30px;
+      line-height: 38px;
+  }
+  
+  .navbar-link {
+      flex-grow: 1;
+      align-self: center
+  }
+  
+  /* Small screens */
+  @media all and (max-width: 500px) {
+      .navbar {
+        /* On small screens, we are no longer using row direction but column */
+        flex-flow: column;
+      }
+  
+      .right-navbar {
+          display: flex;
+          flex-flow: column;
+      }
+  }
+  
+  .logo-text {
+      font-size: 50px;
+      line-height: 63px;
+  }
+  
+  a:link, a:visited{
+      text-decoration: none; 
+      color: #242B36
+  }

@@ -1,6 +1,6 @@
 .wrapper {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column;
     background: var(--background-color);
 
 }
@@ -17,6 +17,9 @@
     justify-content: flex-start;
     align-items: center;
     text-align: center;
+
+    margin-bottom: 300px;
+
 }
 
 .main-text {

@@ -1,0 +1,70 @@
+.explainer-card {
+    display: flex;
+    flex-flow: column wrap;
+    /* This aligns items to the end line on main-axis */
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+
+    padding-bottom: 50px;
+
+    background: var(--dark-color)
+}
+
+.card-title {
+    font-size: 60px;
+    line-height: 76px;
+}
+
+.explanation {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.col1, .col5 {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.col2, .col4 {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    flex-basis: 0
+}
+
+
+.excel-graphics {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+}
+
+.explanation-text {
+    font-size: 30px;
+    line-height: 38px;
+    text-align: center;
+
+}
+
+.excel-image {
+    width: 150px;
+    height: 125px;
+}
+
+.excel-arrows-image {
+    width: 198px;
+    height: 227px;
+}
+
+
+.explainer-card-scroll-down{
+    margin-top: 10px;
+    left: calc(50% - 50px/2);
+}

@@ -10,7 +10,7 @@
   <link rel='icon' href='logo.png' type='image/x-icon' />
 
   <link rel="stylesheet" href="css/landingpage/titlecard.css">
-  <link rel="stylesheet" href="css/landingpage/titlecard.css">
+  <link rel="stylesheet" href="css/landingpage/explainercard.css">
   <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/font.css">
   <link rel="stylesheet" href="css/colors.css">
@@ -19,9 +19,15 @@
 
 <script>
     
-    // handle click for 'sign up for alpha button'
+    // handle click for 'sign up for alpha' button
     function redirectToAlpha() {
         window.location = "http://localhost:3000/signup";
+    }
+
+    // handle click on scroll down button on title card
+    function titleCardScrollDown() {
+        console.log("scroll")
+        document.getElementById('explainer-card').scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
 
 </script>
@@ -56,10 +62,74 @@
                 signup for the alpha
             </button>
         </div>
-        <div class = "lower-title-card">
-            <img src = "/graphics/landingpage/down-arrow.png" width = "50px"></img>
+        <div class = "lower-title-card" onclick ="titleCardScrollDown()">
+            <img src = "/graphics/landingpage/dark-down-arrow.png" width = "50px"></img>
         </div>
         
+    </div>
+
+    <div class = "explainer-card" id = "explainer-card">
+        <p class = "card-title bold-font white-font">
+            manage any project with <br>
+            saga version control
+        </p>
+
+        <div class = "explanation">
+
+            <div class = "col1">
+                <div class = "explanation-text standard-font white-font">
+                    <p>
+                        team members manage <br>
+                        their shared files using <br> 
+                        saga version control
+                    </p>
+
+                    <img class = "excel-image" src = "/graphics/landingpage/Excel_1.png"></img>
+                    
+                </div>
+            </div>
+
+            <div class = "col2">
+                <img class = "excel-arrows-image" src = "/graphics/landingpage/first-excel-arrows.png"></img>
+            </div>
+
+            <div class = "col3">
+                <div class = "explanation-text standard-font white-font">
+                    <img class = "excel-image" src = "/graphics/landingpage/Excel_2a.png"></img>
+
+                    <p>
+                        saga allows each <br>
+                        user to edit their <br> 
+                        own version of a file
+                    </p>
+
+                    <img class = "excel-image" src = "/graphics/landingpage/Excel_2b.png"></img>
+
+                </div>
+            </div>
+
+            <div class = "col4">
+                    <img class = "excel-arrows-image" src = "/graphics/landingpage/second-excel-arrows.png"></img>
+            </div>
+
+
+            <div class = "col5">
+                <div class = "explanation-text standard-font white-font">
+                    <p>
+                        and merge their  <br>
+                        individual changes back <br>
+                        together when ready
+                    </p>
+
+                    <img class = "excel-image" src = "/graphics/landingpage/Excel_3.png"></img>
+                </div>
+
+            </div>
+
+        </div>
+        <div class = "explainer-card-scroll-down">
+            <img src = "/graphics/landingpage/white-down-arrow.png" width = "50px"></img>
+        </div>
     </div>
    
 

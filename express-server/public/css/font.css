@@ -22,3 +22,7 @@
 .green-font {
     color: var(--green-color);
 }
+
+.white-font {
+    color: #FFFFFF;
+}

@@ -1,0 +1,78 @@
+.differentiators-card {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+}
+
+.reason {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
+.content {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    width: 100%;
+    flex-grow: 2;
+    flex-basis: 1;
+    align-items: center;
+
+}
+
+.graphic-content {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    flex-grow: 1;
+}
+
+.text-content {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.text-column {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+}
+
+.subtext-with-bar {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-start;
+    flex-grow: 0;
+    flex-basis: 0;
+    align-items: center;
+    margin: 0, 0, 0, 0;
+}
+
+.reason-title {
+    font-size: 60px;
+    line-height: 76px;
+    margin-top: 100px;
+    margin-bottom: 0;
+}
+
+.divider-bar-small {
+    height: 99px;
+    width: 2px;
+}
+
+.subtext {
+    font-size: 40px;
+    line-height: 51px;
+    margin-left: 20px;
+}
+
+.differentiators-link {
+    text-decoration: underline;
+}

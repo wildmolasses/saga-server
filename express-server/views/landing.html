@@ -9,56 +9,204 @@
   <meta name="author" content="Saga">
   <link rel='icon' href='logo.png' type='image/x-icon' />
 
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/landingpage/titlecard.css">
+  <link rel="stylesheet" href="css/landingpage/explainercard.css">
+  <link rel="stylesheet" href="css/landingpage/differentiatorsCard.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/font.css">
+  <link rel="stylesheet" href="css/colors.css">
   
 </head>
 
-<body>
+<script>
+    
+    // handle click for 'sign up for alpha' button
+    function redirectToAlpha() {
+        window.location = "http://localhost:3000/signup";
+    }
+
+    // handle click on scroll down button on title card
+    function titleCardScrollDown() {
+        console.log("scroll")
+        document.getElementById('explainer-card').scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+
+</script>
+
+<body class = "wrapper">
     <header>
-        <div class="header">
-            <a href="/" class="logo">
-                <div class="title">
-                    <img src="logo.png" width="100"></img>
-                    saga
-                </div>
+        <div class="navbar standard-font dark-font">
+            <a href="/" class="left-navbar">
+                <img src="/graphics/saga-website-logo.png" width="100"></img>
+                <p class = logo-text>saga</p>
             </a>
-            <div class="header-right">
-                <a href="/alpha">alpha</a>
-                <a href="/contact">contact</a>
+            <div class="right-navbar">
+                <a class = "navbar-link standard-font" href= "/about"> about</a>
+                <a class = "navbar-link standard-font" href="/contact">contact</a>
+                <a class = "navbar-link standard-font" href="/login">login</a>
             </div>
         </div> 
     </header>
 
-    <div class="content">
-        <div class="copy">
-            <p class="copy-header"> 
-                Modern version control <br>
-                for all of your files
+    <div class = "title-card">
+        <div class = "upper-title-card">
+            <p class = "main-text bold-font dark-font">
+                modern version control <br>
+                for all of your projects
             </p>
-            <p class="copy-content">
-                Distributed branching and merging with <br>
-                the Saga version control system
-            </p>
+            <p class = "subtitle-text standard-font dark-font">
+                saga helps teams collaboratively <br>
+                edit and manage their files
+            </p>  
+                    
+            <button class = "button" onclick="redirectToAlpha()">
+                signup for the alpha
+            </button>
         </div>
-        <div class="file-img">
-            <img src="files.png"></img>
+        <div class = "lower-title-card" onclick ="titleCardScrollDown()">
+            <img src = "/graphics/landingpage/dark-down-arrow.png" width = "50px"></img>
         </div>
+        
     </div>
-    <div class="content">
-        <div class="file-img">
-            <img src="distributed.png"></img>
+
+    <div class = "explainer-card" id = "explainer-card">
+        <p class = "card-title bold-font white-font">
+            manage any project with <br>
+            saga version control
+        </p>
+
+        <div class = "explanation">
+
+            <div class = "col1">
+                <div class = "explanation-text standard-font white-font">
+                    <p>
+                        team members <br>
+                        manage their files  <br> 
+                        using saga
+                    </p>
+
+                    <img class = "excel-image" src = "/graphics/landingpage/Excel_1.png"></img>
+                    
+                </div>
+            </div>
+
+            <div class = "col2">
+                <img class = "excel-arrows-image" src = "/graphics/landingpage/first-excel-arrows.png"></img>
+            </div>
+
+            <div class = "col3">
+                <div class = "explanation-text standard-font white-font">
+                    <img class = "excel-image" src = "/graphics/landingpage/Excel_2a.png"></img>
+
+                    <p>
+                        saga allows each <br>
+                        user to edit their <br> 
+                        own version of a file
+                    </p>
+
+                    <img class = "excel-image" src = "/graphics/landingpage/Excel_2b.png"></img>
+
+                </div>
+            </div>
+
+            <div class = "col4">
+                    <img class = "excel-arrows-image" src = "/graphics/landingpage/second-excel-arrows.png"></img>
+            </div>
+
+
+            <div class = "col5">
+                <div class = "explanation-text standard-font white-font">
+                    <p>
+                        and merge their  <br>
+                        changes together <br>
+                        when ready
+                    </p>
+
+                    <img class = "excel-image" src = "/graphics/landingpage/Excel_3.png"></img>
+                </div>
+
+            </div>
+
         </div>
-        <div class="copy">
-            <p class="copy-header"> 
-                Support for any workflow <br>
-                or process
-            </p>
-            <p class="copy-content">
-                Saga doesn't force creators to always be online, <br>
-                and allows for more than one master document
+            <img class = "explainer-card-scroll-down" src = "/graphics/landingpage/white-down-arrow.png"></img>
+    </div>
+
+    <div class = "differentiatiorsCard"> 
+        <div class = "reason">
+            <div class = "content">
+                <div class = "text-content">
+                    <div class = "text-column">
+                        <p class = "reason-title bold-font dark-font">
+                            designed for all <br>
+                            your files
+                        </p> 
+            
+                        <div class = "subtext-with-bar">
+                            <img class = "divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
+            
+                            <p class = "subtext standard-font headline-font"> 
+                                collaboratively edit source code, <br>
+                                design, and office files
+                            </p>
+                        </div>
+
+                        <div class = "subtext-with-bar">
+                            <img class = "divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
                 
-            </p>
+                            <p class = "subtext standard-font headline-font"> 
+                                easily add new file formats to the <br>
+                                saga version control system
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class = "graphic-content">
+                    <img src = "/graphics/landingpage/files.png" width = "400px" height = "413px"></img>
+                </div> 
+
+            </div>
+
+            <div class = "standard-font headline-font">
+                see the <a class = "differentiators-link" href= "/about"> supported file formats</a>
+            </div>
         </div>
+
+        <div class = "reason">
+            <div class = "content">
+                <div class = "graphic-content">
+                                    
+                </div> 
+                <div class = "text-content">
+
+                </div>
+                        
+            </div>
+    
+            <div class = "link">
+                    
+            </div>
+        </div>
+
+        <div class = "reason">
+            <div class = "content">
+                <div class = "text-content">
+
+                </div>
+                <div class = "graphic-content">
+                            
+                </div> 
+        
+            </div>
+        
+            <div class = "link">
+                        
+            </div>
+        </div>
+
     </div>
+   
+
+
 </body>
 </html>

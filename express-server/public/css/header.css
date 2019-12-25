@@ -1,0 +1,63 @@
+
+/* large screens */
+.navbar {
+    display: flex;
+    flex-flow: row wrap;
+    /* This aligns items to the end line on main-axis */
+    justify-content: space-between;
+    align-items: center;
+    color: var(--background-color);
+  }
+  
+  .left-navbar {
+      display: flex;
+      flex-flow: row wrap;
+      flex-grow: 10;
+      /* This aligns items to the end line on main-axis */
+      justify-content: flex-start;
+      align-items: center;
+  }
+  
+  .right-navbar {
+      display: flex;
+      flex-flow: row wrap;
+      flex-grow: 1;
+      /* This aligns items to the end line on main-axis */
+      justify-content: flex-end;
+  
+      font-size: 30px;
+      line-height: 38px;
+  }
+  
+  .navbar-link {
+      flex-grow: 1;
+      align-self: center
+  }
+  
+  /* Small screens */
+  @media all and (max-width: 500px) {
+      .navbar {
+        /* On small screens, we are no longer using row direction but column */
+        flex-flow: column;
+      }
+  
+      .right-navbar {
+          display: flex;
+          flex-flow: column;
+      }
+  }
+  
+  .logo-text {
+      font-size: 50px;
+      line-height: 63px;
+  }
+  
+  a:link, a:visited{
+      text-decoration: none; 
+      color: var(--dark-color)
+  }
+
+  .navbar-link:hover {
+    transition: .25s ease;
+    color: var(--orange-color)
+  }

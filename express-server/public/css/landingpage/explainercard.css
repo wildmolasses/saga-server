@@ -19,9 +19,7 @@
 .explanation {
     display: flex;
     flex-flow: row wrap;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    justify-content: flex-start;
 }
 
 .col1, .col5 {
@@ -35,7 +33,7 @@
 .col2, .col4 {
     display: flex;
     flex-flow: column;
-    justify-content: flex-start;
+    justify-content: center;
     flex-basis: 0
 }
 
@@ -59,12 +57,14 @@
 }
 
 .excel-arrows-image {
-    width: 198px;
-    height: 227px;
+    width: 175px;
+    height: 200px;
 }
 
 
-.explainer-card-scroll-down{
+.explainer-card-scroll-down {
     margin-top: 10px;
     left: calc(50% - 50px/2);
+    width: 50px;
 }
+

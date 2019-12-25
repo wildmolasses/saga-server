@@ -1,0 +1,14 @@
+.button {
+    background-color: var(--background-color);
+    color: var(--dark-color);
+    border: 3px solid var(--dark-color);
+    border-radius: 20px;
+    font-size: 30px;
+    padding: 15px 40px;
+}
+
+.button:hover {
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    background-color: var(--orange-color);
+}

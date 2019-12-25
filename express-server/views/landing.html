@@ -7,7 +7,7 @@
   <title>Saga</title>
   <meta name="description" content="Saga - Version Control for All Your Files">
   <meta name="author" content="Saga">
-  <link rel='icon' href='logo.png' type='image/x-icon' />
+  <link rel='icon' href='/graphics/saga-website-logo.png' type='image/x-icon' />
 
   <link rel="stylesheet" href="css/landingpage/titlecard.css">
   <link rel="stylesheet" href="css/landingpage/explainercard.css">
@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/font.css">
   <link rel="stylesheet" href="css/colors.css">
+  <link rel="stylesheet" href="css/button.css">
   
 </head>
 
@@ -29,6 +30,11 @@
     // handle click on scroll down button on title card
     function titleCardScrollDown() {
         document.getElementById('explainer-card').scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+
+    // handle click on scroll down button on explainer card
+    function explainerCardScrollDown() {
+        document.getElementById('reason1').scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
 
     // handle twitter redirect
@@ -58,7 +64,7 @@
             <div class="right-navbar">
                 <a class = "navbar-link standard-font" href= "/about"> about</a>
                 <a class = "navbar-link standard-font" href="/contact">contact</a>
-                <a class = "navbar-link standard-font" href="/login">login</a>
+                <a class = "navbar-link standard-font" href="/login-page">login</a>
             </div>
         </div> 
     </header>

@@ -22,6 +22,10 @@ router.get('/signup', (req, res) => {
     res.render('signup.html')
 });
 
+router.get('/login-page', (req, res) => {
+    res.render('login.html')
+});
+
 // render the profile page
 router.get('/profile-page',
     loggedIn,

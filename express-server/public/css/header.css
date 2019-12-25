@@ -6,6 +6,7 @@
     /* This aligns items to the end line on main-axis */
     justify-content: space-between;
     align-items: center;
+    color: var(--background-color);
   }
   
   .left-navbar {
@@ -53,5 +54,10 @@
   
   a:link, a:visited{
       text-decoration: none; 
-      color: #242B36
+      color: var(--dark-color)
+  }
+
+  .navbar-link:hover {
+    transition: .25s ease;
+    color: var(--orange-color)
   }

@@ -1,0 +1,55 @@
+.wrapper {
+    display: flex;
+    flex-flow: row wrap;
+    background: var(--background-color);
+
+}
+
+/* We tell all items to be 100% width, via flex-basis */
+.wrapper > * {
+    flex: 1 100%;
+}
+
+.title-card {
+    display: flex;
+    flex-flow: column wrap;
+    /* This aligns items to the end line on main-axis */
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+}
+
+.main-text {
+    font-size: 90px;
+    line-height: 87px;
+    margin: 0;
+    padding: 0;
+}
+
+.subtitle-text {
+    font-size: 50px;
+    line-height: 63px;
+    margin: 5;
+    padding: 0;
+}
+
+.button {
+    background-color: var(--background-color);
+    color: var(--dark-color);
+    border: 3px solid var(--dark-color);
+    border-radius: 20px;
+    font-size: 30px;
+    padding: 15px 40px;
+}
+
+.button:hover {
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    background-color: var(--orange-color);
+}
+
+.lower-title-card{
+    position: absolute;
+    left: calc(50% - 50px/2);
+    top: 847px;
+}

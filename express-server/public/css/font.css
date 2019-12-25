@@ -1,4 +1,24 @@
+
 .standard-font {
     font-family: Circular Std;
     font-style: normal;
+    font-weight: normal;
+}
+
+.bold-font {
+    font-family: Circular Std;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.headline-font{
+    color: var(--headline-color);
+}
+
+.dark-font{
+    color: var(--dark-color);
+}
+
+.green-font {
+    color: var(--green-color);
 }

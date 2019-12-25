@@ -9,18 +9,28 @@
   <meta name="author" content="Saga">
   <link rel='icon' href='logo.png' type='image/x-icon' />
 
-  <link rel="stylesheet" href="css/landingpage.css">
+  <link rel="stylesheet" href="css/landingpage/titlecard.css">
+  <link rel="stylesheet" href="css/landingpage/titlecard.css">
   <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/font.css">
   <link rel="stylesheet" href="css/colors.css">
   
 </head>
 
+<script>
+    
+    // handle click for 'sign up for alpha button'
+    function redirectToAlpha() {
+        window.location = "http://localhost:3000/signup";
+    }
+
+</script>
+
 <body class = "wrapper">
     <header>
-        <div class="navbar standard-font dark">
+        <div class="navbar standard-font dark-font">
             <a href="/" class="left-navbar">
-                <img src="/saga-website-logo.png" width="100"></img>
+                <img src="/graphics/saga-website-logo.png" width="100"></img>
                 <p class = logo-text>saga</p>
             </a>
             <div class="right-navbar">
@@ -30,6 +40,27 @@
             </div>
         </div> 
     </header>
+
+    <div class = "title-card">
+        <div class = "upper-title-card">
+            <p class = "main-text bold-font dark-font">
+                modern version control <br>
+                for all of your projects
+            </p>
+            <p class = "subtitle-text standard-font dark-font">
+                saga helps teams collaboratively <br>
+                edit and manage their files
+            </p>  
+                    
+            <button class = "button" onclick="redirectToAlpha()">
+                signup for the alpha
+            </button>
+        </div>
+        <div class = "lower-title-card">
+            <img src = "/graphics/landingpage/down-arrow.png" width = "50px"></img>
+        </div>
+        
+    </div>
    
 
 

@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/landingpage/explainercard.css">
   <link rel="stylesheet" href="css/landingpage/differentiatorsCard.css">
   <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/font.css">
   <link rel="stylesheet" href="css/colors.css">
   
@@ -30,9 +31,19 @@
         document.getElementById('explainer-card').scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
 
-    // handle click on scroll down button on title card
-    function explainerCardScrollDown() {
-        document.getElementById('reason1').scrollIntoView({ behavior: 'smooth', block: 'center' })
+    // handle twitter redirect
+    function twitterRedirect() {
+        window.location = "http://localhost:3000/signup";
+    }
+
+    // handle medium redirect
+    function mediumRedirect() {
+        window.location = "http://localhost:3000/signup";
+    }
+
+    // handle reddit redirect
+    function redditRedirect() {
+        window.location = "http://localhost:3000/signup";
     }
 
 </script>
@@ -258,8 +269,17 @@
         </div>
 
     </div>
-   
 
+    <footer class = "footer">
+
+        <p class = "standard-font headline-font footer-text"> thanks for checking us out :) </p>
+
+        <div class = "social-media-logos">
+            <img class = "twitter-logo" onclick = "twitterRedirect()" src = "/graphics/twitter-logo.png" width = "50px" height = "50px"></img>
+            <img class = "medium-logo" onclick = "mediumRedirect()" src = "/graphics/medium-logo.png" width = "70px" height = "50px"></img>
+            <img class = "reddit-logo" onclick = "redditRedirect()" src = "/graphics/reddit-logo.png" width = "50px" height = "50px"></img>
+        </div>
+    </footer>
 
 </body>
 </html>

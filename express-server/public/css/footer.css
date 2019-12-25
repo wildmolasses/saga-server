@@ -1,0 +1,22 @@
+.footer {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    background: var(--dark-color);
+
+    margin-top: 200px;
+    padding: 50px;
+}
+
+.social-media-logos {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.footer-text {
+    font-size: 20px;
+    line-height: 38px;
+}

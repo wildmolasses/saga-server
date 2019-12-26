@@ -13,17 +13,24 @@ router.get('/', (req, res) => {
     res.render('landing.html')
 });
 
-// Render the homepage of the alpha
+// Render the login of the alpha
 router.get('/alpha', (req, res) => {
     res.render('login.html')
 });
 
+// Render the signup page of the alpha
 router.get('/signup', (req, res) => {
     res.render('signup.html')
 });
 
+// Render the login page of the alpha
 router.get('/login-page', (req, res) => {
     res.render('login.html')
+});
+
+// Render the about page of the alpha
+router.get('/about', (req, res) => {
+    res.render('about.html')
 });
 
 // render the profile page

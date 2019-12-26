@@ -1,0 +1,107 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Saga</title>
+  <meta name="description" content="Saga - Version Control for All Your Files">
+  <meta name="author" content="Saga">
+  <link rel='icon' href='logo.png' type='image/x-icon' />
+
+  <link rel="stylesheet" href="css/aboutpage/about.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/button.css">
+  <link rel="stylesheet" href="css/colors.css">
+  <link rel="stylesheet" href="css/font.css">  
+</head>
+
+<script>
+    // handle click on scroll down button on explainer card
+    function scrollDown() {
+        document.getElementById('employees').scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+</script>
+
+<body class = "wrapper">
+    <header class = "header">
+        <div class="navbar standard-font dark-font">
+            <a href="/" class="left-navbar">
+                <img src="/graphics/saga-website-logo.png" width="100"></img>
+                <p class = logo-text>saga</p>
+            </a>
+            <div class="right-navbar">
+                <a class = "navbar-link standard-font" href= "/about"> about</a>
+                <a class = "navbar-link standard-font" href="/contact">contact</a>
+                <a class = "navbar-link standard-font" href="/login-page">login</a>
+            </div> 
+        </div> 
+    </header>
+
+    <div class = "page-content">
+        <div class = "card1">
+            <p class = "title-text bold-font dark-font ">
+                we built saga to help <br> 
+                us collaborate
+            </p>
+            <p class = "subtext standard-font dark-font">
+                We’re three students at the University of Pennsylvania who’ve <br>
+                been friends and collaborators for 7 years. We built saga for <br>
+                ourselves - to help us build projects that matter to us. 
+            </p>
+        </div>
+        <img class = "scroll-down" onclick = "scrollDown()" src = "/graphics/dark-down-arrow.png"></img>
+        <div class = "employees" id = "employees">
+            <div class = "employee-card left-card">
+                <img class = "employee-photo" src = "/graphics/aboutpage/circle-placeholder.png" width="250" height = "250"></img>
+                <p class = "first-name bold-font dark-font">Nate</p>
+                <p class = "last-name bold-font dark-font">Rush</p>
+                <p class = "employee-title standard-font dark-font">Cofounder</p>
+                <p class = "email standard-font dark-font">nate@saga.com</p>
+
+            </div>
+            <div class = "employee-card">
+                <img class = "employee-photo" src = "/graphics/aboutpage/circle-placeholder.png" width="250" height = "250"></img>
+                <p class = "first-name bold-font dark-font">Aaron</p>
+                <p class = "last-name bold-font dark-font">Diamond-Reivich</p>
+                <p class = "employee-title standard-font dark-font">Cofounder</p>
+                <p class = "email standard-font dark-font">aaron@saga.com</p>
+            </div>
+            <div class = "employee-card right-card">
+                <img class = "employee-photo" src = "/graphics/aboutpage/circle-placeholder.png" width="250" height = "250"></img>
+                <p class = "first-name bold-font dark-font">Jake</p>
+                <p class = "last-name bold-font dark-font">Diamond-Reivich</p>
+                <p class = "employee-title standard-font dark-font">Cofounder</p>
+                <p class = "email standard-font dark-font">jake@saga.com</p>
+
+            </div>
+        </div>
+        <div class = "hiring-card">
+            <div class = "you-card">
+                <img class = "employee-photo" src = "/graphics/aboutpage/you-icon.png" width="235" height = "235"></img>
+                <p class = "you-text bold-font dark-font">You?</p>
+            </div>
+
+            <p class = "hiring-text standard-font dark-font">
+                    We are hiring developpers and designers! <br>
+                    <br>
+                    Reach out to  jobs@saga.com
+            </p>
+        </div>
+    </div>
+
+    <footer class = "footer">
+
+        <p class = "standard-font headline-font footer-text"> thanks for checking us out :) </p>
+    
+        <div class = "social-media-logos">
+            <img class = "twitter-logo" onclick = "twitterRedirect()" src = "/graphics/footer/twitter-logo.png" width = "50px" height = "50px"></img>
+            <img class = "medium-logo" onclick = "mediumRedirect()" src = "/graphics/footer/medium-logo.png" width = "70px" height = "50px"></img>
+            <img class = "reddit-logo" onclick = "redditRedirect()" src = "/graphics/footer/reddit-logo.png" width = "50px" height = "50px"></img>
+        </div>
+    </footer>
+</body>
+
+
+</html>

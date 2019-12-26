@@ -1,0 +1,150 @@
+.wrapper {
+    display: flex;
+    flex-flow: column;
+    background: var(--background-color);
+
+}
+
+/* We tell all items to be 100% width, via flex-basis */
+.wrapper > * {
+    flex: 1 100%;
+}
+
+.page-content {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+}
+
+.card1 {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+}
+
+.title-text {
+    font-size: 100px;
+    line-height: 95px;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
+.subtext {
+    font-size: 40px;
+    line-height: 63px;
+}
+
+.scroll-down {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    left: calc(50% - 50px/2);
+    width: 50px;
+}
+
+.employees {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+
+    width: 100%;
+    background: var(--dark-color)
+}
+
+.employee-card {
+
+    background: var(--background-color);
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 30px;
+
+    flex: 1;
+    
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    margin-left: 2vw;
+    margin-right: 2vw;
+
+
+    padding-left: 2vw;
+    padding-right: 2vw;
+
+}
+
+.left-card {
+    margin-left: 10vh;
+}
+
+.right-card {
+    margin-right: 10vh;
+}
+
+.employee-photo {
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
+.first-name {
+    font-size: 100px;
+    line-height: 100px;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.last-name {
+    font-size: 50px;
+    line-height: 50px;
+
+    margin-top: 5px;
+    margin-bottom: 5vh;
+}
+
+.employee-title {
+    font-size: 50px;
+    line-height: 50px;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.email {
+    font-size: 50px;
+    line-height: 50px;
+
+    margin-top: 5px;
+    margin-bottom: 5vh;
+}
+
+.you-card {
+    background: #FFFCF5;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 30px;
+
+    margin-top: 10vh;
+    padding-left: 7vw;
+    padding-right: 7vw;
+
+}
+
+.you-text {
+    font-size: 75px;
+    line-height: 127px;
+
+    margin-top: 0px;
+    margin-bottom: 3vh;
+}
+
+.hiring-text {
+    font-size: 36px;
+    line-height: 44px;
+
+    margin-top: 5vh;
+    margin-bottom:10vh;
+}

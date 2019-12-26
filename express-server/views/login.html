@@ -5,90 +5,97 @@
     <title>Saga</title>
     <meta name="description" content="Saga - Version Control for All Your Files">
     <meta name="author" content="Saga">
-    <link rel='icon' href='logo.png' type='image/x-icon' />
+    <link rel='icon' href='/graphics/saga-website-logo.png' type='image/x-icon' />
 
-  <link rel="stylesheet" href="css/styles.css">
-  <style>
-    
+  <link rel="stylesheet" href="css/loginpage/login.css">
+  <link rel="stylesheet" href="css/form.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/colors.css">
+  <link rel="stylesheet" href="css/font.css">
+  <link rel="stylesheet" href="css/button.css">
 
-    input[type=text] {
-      padding:5px; 
-      border:2px solid #ccc; 
-      -webkit-border-radius: 5px;
-      border-radius: 5px;
-      display: inline-block;
-      clear: left;
-      width: 150px;
-      text-align: right;
-    }
 
-    input[type=submit] {
-      padding:5px; 
-      border:2px solid #ccc; 
-      -webkit-border-radius: 5px;
-      border-radius: 5px;
-      width: 100px;
-      display: block;
-      margin: 0 auto;
-    }
-
-    label {
-      padding:5px; 
-      display: inline-block;
-    }
-
-    input[type=text], label {
-      display: inline-block;
-      vertical-align: baseline;
-      width: 125px;
-    }
-  </style>
-  
 </head>
 
+<script>
 
-<body>
-  <header>
-    <div class="header">
-        <a href="/" class="logo">
-            <div class="title">
-                <img src="logo.png" width="100"></img>
-                saga
-            </div>
-        </a>
-        <div class="header-right">
-            <a href="/alpha">alpha</a>
-            <a href="/contact">contact</a>
-        </div>
-    </div> 
-  </header>
+  // handle click for 'sign up for alpha' button
+  function redirectToAlpha() {
+    window.location = "http://localhost:3000/signup";
+  }
 
-  <div class = "content">
-    <form action="/login" method="post" id="login">
-      <div class="container">
-        <h1>Login</h1>
-        <p>Please fill in this form to login.</p>
-        <hr>
-    
-        <label for="username"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="username" id="username" required>
-    
-        <br>
-        <label for="password"><b>Password</b></label>
-        <input type="text" placeholder="Enter Password" name="password" id="password" required>
-  
-        <br>
-        <br>
-        <br>
-        <input type="submit" value="Submit">
-        <br>
-        <br>
+  // handle twitter redirect
+  function twitterRedirect() {
+    window.location = "http://localhost:3000/signup";
+  }
 
-        <div style="text-align: center">
-            <a href="/signup"> Create an Account</a>
-        </div>
-        
+  // handle medium redirect
+  function mediumRedirect() {
+    window.location = "http://localhost:3000/signup";
+  }
+
+  // handle reddit redirect
+  function redditRedirect() {
+    window.location = "http://localhost:3000/signup";
+  }
+
+</script>
+
+<body class = "wrapper">
+    <header class = "header">
+      <div class="navbar standard-font dark-font">
+          <a href="/" class="left-navbar">
+              <img src="/graphics/saga-website-logo.png" width="100"></img>
+              <p class = logo-text>saga</p>
+          </a>
+          <div class="right-navbar">
+              <a class = "navbar-link standard-font" href= "/about"> about</a>
+              <a class = "navbar-link standard-font" href="/contact">contact</a>
+              <a class = "navbar-link standard-font" href="/login-page">login</a>
+          </div>
+      </div> 
+    </header>
+
+  <div class = "page-content">
+    <form class = "form">
+      <p class = "form-title standard-font dark-font">
+        user login
+      </p>
+
+      <div class = "form-input">
+        <p class = "input-promt standard-font headline-font"> 
+          username or email
+        </p>
+
+        <input class = "input-field standard-font headline-font" type = "text">
       </div>
+
+      <div class = "form-input">
+        <p class = "input-promt standard-font headline-font"> 
+          password
+        </p>
+  
+        <input class = "input-field standard-font headline-font" type = "password">
+      </div>
+
+      <button class = "submit-button button standard-font dark-font"> submit </button>
     </form>
+
+    <button class = "button" onclick="redirectToAlpha()">
+        signup for the alpha
+    </button>
+    
   </div>
+
+  <footer class = "footer">
+
+      <p class = "standard-font headline-font footer-text"> thanks for checking us out :) </p>
+
+      <div class = "social-media-logos">
+          <img class = "twitter-logo" onclick = "twitterRedirect()" src = "/graphics/twitter-logo.png" width = "50px" height = "50px"></img>
+          <img class = "medium-logo" onclick = "mediumRedirect()" src = "/graphics/medium-logo.png" width = "70px" height = "50px"></img>
+          <img class = "reddit-logo" onclick = "redditRedirect()" src = "/graphics/reddit-logo.png" width = "50px" height = "50px"></img>
+      </div>
+    </footer>
 </body>

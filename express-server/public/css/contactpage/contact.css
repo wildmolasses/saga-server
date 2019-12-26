@@ -1,0 +1,123 @@
+.wrapper {
+    display: flex;
+    flex-flow: column;
+    background: var(--background-color);
+
+}
+
+/* We tell all items to be 100% width, via flex-basis */
+.wrapper > * {
+    flex: 1 100%;
+}
+
+.page-content {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    flex-grow: 100;
+}
+
+.left-card {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: left;
+    text-align: center;
+    margin-left: 5vw;
+    flex-grow: 2;
+}
+
+.right-card {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    flex-grow: 1;
+
+}
+
+.title-text {
+    font-size: 80px;
+    line-height: 118px;
+    text-align: left;
+    margin-top: 0vh;
+    margin-bottom: 0px;
+}
+
+.feedback-field {
+    width: 383px;
+    height: 200px;
+
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 5px;
+
+    font-size: 25px;
+}
+
+.form-title-reduced-margin {
+    font-size: 50px;
+    line-height: 63px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.radio-buttons {
+    align-content: left;
+    width: 383px;
+}
+
+
+
+/* The container */
+.custom-radio-button{
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.custom-radio-button input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: var(--headline-color);
+    border-radius: 50%;
+}
+  
+/* When the radio button is checked, add a red background */
+.custom-radio-button input:checked ~ .checkmark {
+    background-color: var(--orange-color);
+}
+
+.submit-button-reduced-margins {
+    width: 172px;
+    height: 77px;
+
+    font-size: 30px;
+
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+  

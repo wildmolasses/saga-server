@@ -1,0 +1,74 @@
+.wrapper {
+    display: flex;
+    flex-flow: column;
+    background: var(--background-color);
+
+}
+
+/* We tell all items to be 100% width, via flex-basis */
+.wrapper > * {
+    flex: 1 100%;
+}
+
+.page-content {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    flex-grow: 100;
+}
+
+.left-card {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: left;
+    text-align: center;
+    margin-left: 5vw;
+    flex-grow: 2;
+}
+
+.right-card {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    flex-grow: 1;
+
+}
+
+.title-text {
+    font-size: 80px;
+    line-height: 118px;
+    text-align: left;
+    margin-top: 0vh;
+    margin-bottom: 0px;
+}
+
+.subtitle-text {
+    font-size: 46px;
+    line-height: 59px;
+    text-align: left;
+    margin-top: 5px;
+}
+
+.jogging-image {
+    align-self: right;
+}
+
+.form-title-reduced-margin {
+    font-size: 50px;
+    line-height: 63px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.submit-button-reduced-margins {
+    width: 172px;
+    height: 77px;
+
+    font-size: 30px;
+
+    margin-top: 25px;
+    margin-bottom: 25px;
+}

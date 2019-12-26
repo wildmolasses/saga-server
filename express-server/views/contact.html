@@ -9,96 +9,100 @@
   <meta name="author" content="Saga">
   <link rel='icon' href='logo.png' type='image/x-icon' />
 
-  <link rel="stylesheet" href="css/styles.css">
-  
-
-  <style>
-        input[type=text] {
-          padding:5px; 
-          border:2px solid #ccc; 
-          -webkit-border-radius: 5px;
-          border-radius: 5px;
-          display: inline-block;
-          clear: left;
-          width: 150px;
-          text-align: right;
-        }
-    
-        input[type=submit] {
-          padding:5px; 
-          border:2px solid #ccc; 
-          -webkit-border-radius: 5px;
-          border-radius: 5px;
-          width: 100px;
-          display: block;
-          margin: 0 auto;
-        }
-    
-        label {
-          padding:5px; 
-          display: inline-block;
-        }
-    
-        input[type=text], label {
-          display: inline-block;
-          vertical-align: baseline;
-          width: 125px;
-        }  
-  </style>
-
-  
-
+  <link rel="stylesheet" href="css/contactpage/contact.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/form.css">
+  <link rel="stylesheet" href="css/button.css">
+  <link rel="stylesheet" href="css/colors.css">
+  <link rel="stylesheet" href="css/font.css">  
 </head>
 
-<body>
-    
-    <header>
-        <div class="header">
-            <a href="/" class="logo">
-                <div class="title">
-                    <img src="logo.png" width="100"></img>
-                    saga
-                </div>
-            </a>
-            <div class="header-right">
-                <a href="/alpha">alpha</a>
-                <a href="/contact">contact</a>
-            </div>
-        </div> 
-    </header>
+<body class = "wrapper">
+  <header class = "header">
+      <div class="navbar standard-font dark-font">
+          <a href="/" class="left-navbar">
+              <img src="/graphics/saga-website-logo.png" width="100"></img>
+              <p class = logo-text>saga</p>
+          </a>
+            <div class="right-navbar">
+              <a class = "navbar-link standard-font" href= "/about"> about</a>
+              <a class = "navbar-link standard-font" href="/contact">contact</a>
+              <a class = "navbar-link standard-font" href="/login-page">login</a>
+            </div> 
+      </div> 
+  </header>
 
+  <div class = "page-content">
+      <div class = "left-card"> 
+        <p class = "title-text bold-font dark-font">
+          honesty is the <br>
+          best policy!
+        </p>
+        <div class = "graphic">
+            <img class = "jogging-image" src="/graphics/contactpage/construction-image.png" width="600" height="437"></img>
+        </div>
+      </div>
+      
+      <div class = "right-card">
+          <form class = "form">
+            <p class = "form-title-reduced-margin standard-font dark-font ">
+              feedback
+            </p>
 
-    <div class = "content">
-        <form onSubmit="createAccount(); return false" id = "createAccount">
-            <div class="container">
-                <h1>Sign Up For Our List-Serve</h1>
-                <hr>
-            
-                <label for="first-name"><b>First Name</b></label>
-                <input type="text" name="first-name" id = "contact-first-name" required>
-                <br>
-
-
-                <label for="last-name"><b>First Name</b></label>
-                <input type="text" name="last-name" id = "contact-last-name" required>
-                
-                <br>
-                <label for="email"><b>Email</b></label>
-                <input type="text"  name="email" id = "createAccount-email" required>
+            <div class = "form-input">
+              <p class = "input-promt standard-font headline-font"> 
+                email
+              </p>
           
-                <br><br><br>
-
-                <input type="submit" value="Submit">
-            
+              <input class = "input-field standard-font headline-font" type = "text">
+            </div>
+        
+            <div class = "form-input">
+              <p class = "input-promt standard-font headline-font"> 
+                what is this about?
+              </p>
+          
+              <div class = "radio-buttons standard-font headline-font">
+                  <label class="custom-radio-button"> a bug
+                    <input type="radio" checked="checked" name="radio">
+                    <span class="checkmark"></span>
+                  </label>
+                  <label class="custom-radio-button"> a feature request
+                    <input type="radio" name="radio">
+                    <span class="checkmark"></span>
+                  </label>
+                  <label class="custom-radio-button"> other
+                    <input type="radio" name="radio">
+                    <span class="checkmark"></span>
+                  </label>
               </div>
-            </form>
-          </div>
+            </div>
 
-    <!-- Load react scripts. 
-    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+            <div class = "form-input">
+              <p class = "input-promt standard-font headline-font"> 
+                what should we know?
+              </p>
+              <textarea class = "feedback-field standard-font headline-font" type = "text" rows="10" cols="30"></textarea>
+            </div>
+        
+            <button class = "submit-button-reduced-margins button standard-font dark-font"> submit </button>
+          </form>
+      </div>
+  </div>
 
-    <script src="landing_page.js"></script>
-    -->
+  <footer class = "footer">
+
+      <p class = "standard-font headline-font footer-text"> thanks for checking us out :) </p>
+  
+      <div class = "social-media-logos">
+          <img class = "twitter-logo" onclick = "twitterRedirect()" src = "/graphics/twitter-logo.png" width = "50px" height = "50px"></img>
+          <img class = "medium-logo" onclick = "mediumRedirect()" src = "/graphics/medium-logo.png" width = "70px" height = "50px"></img>
+          <img class = "reddit-logo" onclick = "redditRedirect()" src = "/graphics/reddit-logo.png" width = "50px" height = "50px"></img>
+      </div>
+    </footer>
+
+
+
 </body>
 </html>

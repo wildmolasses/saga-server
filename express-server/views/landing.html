@@ -7,14 +7,16 @@
   <title>Saga</title>
   <meta name="description" content="Saga - Version Control for All Your Files">
   <meta name="author" content="Saga">
-  <link rel='icon' href='logo.png' type='image/x-icon' />
+  <link rel='icon' href='/graphics/saga-website-logo.png' type='image/x-icon' />
 
   <link rel="stylesheet" href="css/landingpage/titlecard.css">
   <link rel="stylesheet" href="css/landingpage/explainercard.css">
   <link rel="stylesheet" href="css/landingpage/differentiatorsCard.css">
   <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/font.css">
   <link rel="stylesheet" href="css/colors.css">
+  <link rel="stylesheet" href="css/button.css">
   
 </head>
 
@@ -27,8 +29,27 @@
 
     // handle click on scroll down button on title card
     function titleCardScrollDown() {
-        console.log("scroll")
         document.getElementById('explainer-card').scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+
+    // handle click on scroll down button on explainer card
+    function explainerCardScrollDown() {
+        document.getElementById('reason1').scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+
+    // handle twitter redirect
+    function twitterRedirect() {
+        window.location = "http://localhost:3000/signup";
+    }
+
+    // handle medium redirect
+    function mediumRedirect() {
+        window.location = "http://localhost:3000/signup";
+    }
+
+    // handle reddit redirect
+    function redditRedirect() {
+        window.location = "http://localhost:3000/signup";
     }
 
 </script>
@@ -43,7 +64,7 @@
             <div class="right-navbar">
                 <a class = "navbar-link standard-font" href= "/about"> about</a>
                 <a class = "navbar-link standard-font" href="/contact">contact</a>
-                <a class = "navbar-link standard-font" href="/login">login</a>
+                <a class = "navbar-link standard-font" href="/login-page">login</a>
             </div>
         </div> 
     </header>
@@ -128,11 +149,11 @@
             </div>
 
         </div>
-            <img class = "explainer-card-scroll-down" src = "/graphics/landingpage/white-down-arrow.png"></img>
+            <img class = "explainer-card-scroll-down" onclick = "explainerCardScrollDown()" src = "/graphics/landingpage/white-down-arrow.png"></img>
     </div>
 
-    <div class = "differentiatiorsCard"> 
-        <div class = "reason">
+    <div class = "differentiatiorsCard" > 
+        <div class = "reason" id = "reason1">
             <div class = "content">
                 <div class = "text-content">
                     <div class = "text-column">
@@ -150,7 +171,7 @@
                             </p>
                         </div>
 
-                        <div class = "subtext-with-bar">
+                        <div class = "subtext-with-bar subtext-bottom-margin">
                             <img class = "divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
                 
                             <p class = "subtext standard-font headline-font"> 
@@ -175,38 +196,96 @@
         <div class = "reason">
             <div class = "content">
                 <div class = "graphic-content">
-                                    
+                    <img src = "/graphics/landingpage/workflow-image.png" width = "698px" height = "349px"></img>
                 </div> 
                 <div class = "text-content">
-
+                    <div class = "text-column">
+                        <p class = "reason-title bold-font dark-font">
+                            support for any <br>
+                            workflow
+                        </p> 
+                
+                        <div class = "subtext-with-bar">
+                            <img class = "divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
+                
+                            <p class = "subtext standard-font headline-font"> 
+                                branching and merging lets you <br>
+                                design your own worflow
+                            </p>
+                        </div>
+    
+                        <div class = "subtext-with-bar subtext-bottom-margin">
+                            <img class = "divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
+                    
+                            <p class = "subtext standard-font headline-font"> 
+                                owning your files locally means <br>
+                                you are not forced onto the cloud
+                            </p>
+                        </div>
+                    </div>
+    
                 </div>
-                        
+    
             </div>
     
-            <div class = "link">
-                    
+            <div class = "standard-font headline-font">
+                understand a <a class = "differentiators-link" href= "/about"> saga workflow </a>
             </div>
         </div>
 
         <div class = "reason">
             <div class = "content">
                 <div class = "text-content">
-
+                    <div class = "text-column">
+                        <p class = "reason-title bold-font dark-font">
+                            built for every <br>
+                            experiment
+                        </p> 
+                
+                        <div class = "subtext-with-bar">
+                            <img class = "divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
+                
+                            <p class = "subtext standard-font headline-font"> 
+                                experiment in your own workspace <br>
+                                before sharing with your team
+                            </p>
+                        </div>
+    
+                        <div class = "subtext-with-bar subtext-bottom-margin">
+                            <img class = "divider-bar-large" src = "/graphics/landingpage/divider-line-small.png"></img>
+                    
+                            <p class = "subtext standard-font headline-font"> 
+                                maintain a master copy of your <br>
+                                files so your teamates failed <br>
+                                experiments don’t ruin yours
+                            </p>
+                        </div>
+                    </div>
+    
                 </div>
                 <div class = "graphic-content">
-                            
+                    <img src = "/graphics/landingpage/experiment-image.png" width = "611px" height = "473px"></img>
                 </div> 
-        
+    
             </div>
-        
-            <div class = "link">
-                        
+    
+            <div class = "standard-font headline-font">
+                start <a class = "differentiators-link" href= "/about"> experimenting with saga</a>
             </div>
         </div>
 
     </div>
-   
 
+    <footer class = "footer">
+
+        <p class = "standard-font headline-font footer-text"> thanks for checking us out :) </p>
+
+        <div class = "social-media-logos">
+            <img class = "twitter-logo" onclick = "twitterRedirect()" src = "/graphics/twitter-logo.png" width = "50px" height = "50px"></img>
+            <img class = "medium-logo" onclick = "mediumRedirect()" src = "/graphics/medium-logo.png" width = "70px" height = "50px"></img>
+            <img class = "reddit-logo" onclick = "redditRedirect()" src = "/graphics/reddit-logo.png" width = "50px" height = "50px"></img>
+        </div>
+    </footer>
 
 </body>
 </html>

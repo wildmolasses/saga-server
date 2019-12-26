@@ -7,92 +7,83 @@
     <meta name="author" content="Saga">
     <link rel='icon' href='logo.png' type='image/x-icon' />
 
-  <link rel="stylesheet" href="css/styles.css">
-  <style>
-    
+  <link rel="stylesheet" href="css/signuppage/signup.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/form.css">
+  <link rel="stylesheet" href="css/button.css">
+  <link rel="stylesheet" href="css/colors.css">
+  <link rel="stylesheet" href="css/font.css">
 
-    input[type=text] {
-      padding:5px; 
-      border:2px solid #ccc; 
-      -webkit-border-radius: 5px;
-      border-radius: 5px;
-      display: inline-block;
-      clear: left;
-      width: 150px;
-      text-align: right;
-    }
-
-    input[type=submit] {
-      padding:5px; 
-      border:2px solid #ccc; 
-      -webkit-border-radius: 5px;
-      border-radius: 5px;
-      width: 100px;
-      display: block;
-      margin: 0 auto;
-    }
-
-    label {
-      padding:5px; 
-      display: inline-block;
-    }
-
-    input[type=text], label {
-      display: inline-block;
-      vertical-align: baseline;
-      width: 125px;
-    }
-  </style>
 </head>
     
-<body>
-  <header>
-    <div class="header">
-        <a href="/" class="logo">
-            <div class="title">
-                <img src="logo.png" width="100"></img>
-                saga
-            </div>
-        </a>
-        <div class="header-right">
-            <a href="/alpha">alpha</a>
-            <a href="/contact">contact</a>
-        </div>
-    </div> 
-  </header>
+<body class = "wrapper">
+  <header class = "header">
+      <div class="navbar standard-font dark-font">
+          <a href="/" class="left-navbar">
+              <img src="/graphics/saga-website-logo.png" width="100"></img>
+              <p class = logo-text>saga</p>
+          </a>
+          <div class="right-navbar">
+              <a class = "navbar-link standard-font" href= "/about"> about</a>
+              <a class = "navbar-link standard-font" href="/contact">contact</a>
+              <a class = "navbar-link standard-font" href="/login-page">login</a>
+           </div> 
+      </div> 
+    </header>
 
-  <div class = "content">
-    <form action="/createAccount" method="post" id="createAccount">
-      <div class="container">
-        <h1>Sign Up</h1>
-        <p>Please fill in this form to create an account.</p>
-        <hr>
-    
-        <label for="username"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="username" id="username" required>
-        
-        <br>
-        <label for="email"><b>Email</b></label>
-        <input type="text" placeholder="Enter Email" name="email" id="email" required>
-    
-        <br>
-        <label for="password"><b>Password</b></label>
-        <input type="text" placeholder="Enter Password" name="password" id="password" required>
-  
-        <br>
-        <br>
-        <br>
-        <input type="submit" value="Submit">
-
-        <br>
-        <br>
-        <div style="text-align: center">
-            <a href="/alpha"> Login </a>
+    <div class = "page-content">
+      <div class = "left-card"> 
+        <p class = "title-text bold-font dark-font">
+          built for your team
+        </p>
+        <p class = "subtitle-text standard-font headline-font">
+          saga can help you collaborate, <br>
+          no matter how many projects <br>
+          you’re juggling
+        </p>
+        <div class = "graphic">
+            <img class = "joggin-image" src="/graphics/signuppage/jogging-image.png" width="392" height="350"></img>
         </div>
-    
       </div>
-    </form>
-  </div>
+      
+      <div class = "right-card">
+          <form class = "form">
+            <p class = "form-title-reduced-margin standard-font dark-font ">
+              create your account
+            </p>
+        
+            <div class = "form-input">
+              <p class = "input-promt standard-font headline-font"> 
+                username
+              </p>
+        
+              <input class = "input-field standard-font headline-font" type = "text">
+            </div>
+
+            <div class = "form-input">
+              <p class = "input-promt standard-font headline-font"> 
+                email
+              </p>
+          
+              <input class = "input-field standard-font headline-font" type = "text">
+            </div>
+        
+            <div class = "form-input">
+              <p class = "input-promt standard-font headline-font"> 
+                password
+              </p>
+          
+              <input class = "input-field standard-font headline-font" type = "password">
+            </div>
+        
+            <button class = "submit-button-reduced-margins button standard-font dark-font"> submit </button>
+          </form>
+        
+          <button class = "button" onclick="redirectToAlpha()">
+              signup for the alpha
+          </button>
+      </div>
+    </div>
 </body>
     
     

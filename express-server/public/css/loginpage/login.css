@@ -10,17 +10,12 @@
     flex: 1 100%;
 }
 
-.header {
-    margin-bottom: 0px;
-}
-
 .page-content {
     display: flex;
     flex-flow: column wrap;
     justify-content: flex-start;
     align-items: center;
     text-align: center;
-
 }
 
 

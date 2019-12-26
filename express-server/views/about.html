@@ -17,6 +17,13 @@
   <link rel="stylesheet" href="css/font.css">  
 </head>
 
+<script>
+    // handle click on scroll down button on explainer card
+    function scrollDown() {
+        document.getElementById('employees').scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+</script>
+
 <body class = "wrapper">
     <header class = "header">
         <div class="navbar standard-font dark-font">
@@ -44,8 +51,8 @@
                 ourselves - to help us build projects that matter to us. 
             </p>
         </div>
-        <img class = "scroll-down" onclick = "explainerCardScrollDown()" src = "/graphics/dark-down-arrow.png"></img>
-        <div class = "employees">
+        <img class = "scroll-down" onclick = "scrollDown()" src = "/graphics/dark-down-arrow.png"></img>
+        <div class = "employees" id = "employees">
             <div class = "employee-card left-card">
                 <img class = "employee-photo" src = "/graphics/aboutpage/circle-placeholder.png" width="250" height = "250"></img>
                 <p class = "first-name bold-font dark-font">Nate</p>
@@ -70,7 +77,30 @@
 
             </div>
         </div>
+        <div class = "hiring-card">
+            <div class = "you-card">
+                <img class = "employee-photo" src = "/graphics/aboutpage/you-icon.png" width="235" height = "235"></img>
+                <p class = "you-text bold-font dark-font">You?</p>
+            </div>
+
+            <p class = "hiring-text standard-font dark-font">
+                    We are hiring developpers and designers! <br>
+                    <br>
+                    Reach out to  jobs@saga.com
+            </p>
+        </div>
     </div>
+
+    <footer class = "footer">
+
+        <p class = "standard-font headline-font footer-text"> thanks for checking us out :) </p>
+    
+        <div class = "social-media-logos">
+            <img class = "twitter-logo" onclick = "twitterRedirect()" src = "/graphics/footer/twitter-logo.png" width = "50px" height = "50px"></img>
+            <img class = "medium-logo" onclick = "mediumRedirect()" src = "/graphics/footer/medium-logo.png" width = "70px" height = "50px"></img>
+            <img class = "reddit-logo" onclick = "redditRedirect()" src = "/graphics/footer/reddit-logo.png" width = "50px" height = "50px"></img>
+        </div>
+    </footer>
 </body>
 
 

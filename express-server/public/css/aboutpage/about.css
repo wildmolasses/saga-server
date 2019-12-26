@@ -65,8 +65,8 @@
 
     flex: 1;
     
-    margin-top: 5vh;
-    margin-bottom: 5vh;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
     margin-left: 2vw;
     margin-right: 2vw;
 
@@ -119,4 +119,32 @@
 
     margin-top: 5px;
     margin-bottom: 5vh;
+}
+
+.you-card {
+    background: #FFFCF5;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 30px;
+
+    margin-top: 10vh;
+    padding-left: 7vw;
+    padding-right: 7vw;
+
+}
+
+.you-text {
+    font-size: 75px;
+    line-height: 127px;
+
+    margin-top: 0px;
+    margin-bottom: 3vh;
+}
+
+.hiring-text {
+    font-size: 36px;
+    line-height: 44px;
+
+    margin-top: 5vh;
+    margin-bottom:10vh;
 }

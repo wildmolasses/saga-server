@@ -1,0 +1,45 @@
+.wrapper {
+    display: flex;
+    flex-flow: column;
+    background: var(--background-color);
+
+}
+
+/* We tell all items to be 100% width, via flex-basis */
+.wrapper > * {
+    flex: 1 100%;
+}
+
+.page-content {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+}
+
+.card1 {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+}
+
+.title-text {
+    font-size: 100px;
+    line-height: 95px;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
+.subtext {
+    font-size: 40px;
+    line-height: 63px;
+}
+
+.scroll-down {
+    margin-top: 100px;
+    left: calc(50% - 50px/2);
+    width: 50px;
+}

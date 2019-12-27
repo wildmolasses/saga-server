@@ -66,6 +66,7 @@ router.post('/createAccount',
 
 function createAccount(req, _, next) {
     const username = req.body.username;
+    const email = req.body.email;
     const password = req.body.password;
     usernameTakenProm(username).then((usernameTaken) => {
         if (usernameTaken) {
@@ -74,9 +75,7 @@ function createAccount(req, _, next) {
 
         const user = new Users();
         user.username = username;
-
-        console.log(username);
-        console.log(password);
+        user.email = email
 
         user.setPassword(password);
     

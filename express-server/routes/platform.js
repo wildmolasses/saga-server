@@ -64,7 +64,7 @@ router.get('/contact', (req, res) => {
 router.post('/createAccount',
     createAccount,
     passport.authenticate('local', {
-        successRedirect: '/profile-page',
+        successRedirect: '/comingsoon',
         failureRedirect: '/alpha'
     })
 )
@@ -74,19 +74,17 @@ function createAccount(req, _, next) {
     const email = req.body.email;
     const password = req.body.password;
     usernameTakenProm(username).then((usernameTaken) => {
-        if (usernameTaken) {
-            next("Error: username taken");
-        }
-
-        const user = new Users();
-        user.username = username;
-        user.email = email
-
-        user.setPassword(password);
+        if (!usernameTaken) {
+            const user = new Users();
+            user.username = username;
+            user.email = email
     
-        user.save().then(() => {
-            next();
-        });
+            user.setPassword(password);
+        
+            user.save().then(() => {
+                next();
+            });
+        }  
     })
 }
 
@@ -95,12 +93,13 @@ function createAccount(req, _, next) {
 router.post('/login', 
     temp,
     passport.authenticate('local', {
-        successRedirect: '/profile-page',
+        successRedirect: '/comingsoon',
         failureRedirect: '/alpha'
     })
 );
 
 function temp(req, res, next) {
+    console.log("TRYING TO LOG IN")
     console.log(req.body.username);
     console.log(req.body.password);
     next()

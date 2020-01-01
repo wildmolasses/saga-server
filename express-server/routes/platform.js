@@ -33,6 +33,11 @@ router.get('/about', (req, res) => {
     res.render('about.html')
 });
 
+// Render the coming soon page
+router.get('/comingsoon', (req, res) => {
+    res.render('comingsoon.html')
+});
+
 // render the profile page
 router.get('/profile-page',
     loggedIn,

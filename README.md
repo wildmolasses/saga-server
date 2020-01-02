@@ -20,7 +20,7 @@ quit();
 
 This will create a mongo table for the saga-server. Finially, you can start the app with:
 ```
-DEBUG=myapp:* npm start;
+npm run devStart;
 ```
 
 Navigate to ```http://localhost:3000/``` to use website

@@ -238,22 +238,6 @@ router.post('/getPathInRepository', (req, res) => {
  */
 
  /** Accounts Database */
-function login (username, password) {
-    for (var i = 0; i < accounts.length; i++) {
-        if (accounts[i].username == username && accounts[i].password == password) {
-            return true
-        }
-    }
-    return false
-}
-
-function usernameTakenProm (username) {
-    return new Promise(resolve => {
-        Users.findOne({username: username}, function(err, user) {
-            resolve(user !== null);
-        });
-    });
-}
 
 /** Repository Database */
 repositoryMapping = {"aaron" : [".saga"]}
@@ -332,16 +316,6 @@ function createRepository (repositoryLocation, accountName, repositoryName) {
 /**
  * Testing Routes!
  */
-
-router.get('/seeAccounts', (req, res) => {
-    console.log(accounts)
-    res.end()
-})
-
-router.get('/seeLOGGED_IN_USER', (req, res) => {
-    console.log("LOGGED_IN_USER" + LOGGED_IN_USER)
-    res.end()
-})
 
 router.get('/allRepositories', (req, res) => {
     console.log("ALL REPOS")

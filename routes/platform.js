@@ -10,9 +10,9 @@ const passport = require('./auth');
 var exec = require('child_process').exec, child;
 
 
-// Render the landing page
+// Render the homePage page
 router.get('/', (req, res) => {
-    res.render('landing.html')
+    res.render('homePage.html')
 });
 
 // Render the login of the alpha

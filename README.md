@@ -7,7 +7,6 @@ This server will serve as a basic tool for allowing users to `saga pull` and `sa
 First, install the server code:
 
 ```
-cd express-server;
 npm install;
 ```
 

@@ -4,6 +4,8 @@
 <head>
   <meta charset="utf-8">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
   <title>Saga</title>
   <meta name="description" content="Saga - Version Control for All Your Files">
   <meta name="author" content="Saga">
@@ -19,6 +21,12 @@
 </head>
 
 <script> 
+
+  function submitFeedback() {
+    console.log("HERE")
+    $("#feedbackForm:radio:checked").val();    
+  }
+
   // handle twitter redirect
   function twitterRedirect() {
     window.location = "http://localhost:3000/comingsoon";
@@ -63,7 +71,7 @@
       </div>
       
       <div class = "right-card">
-          <form class = "form">
+          <form action = '/submit-feedback' method = "POST" class = "form">
             <p class = "form-title-reduced-margin standard-font dark-font ">
               feedback
             </p>
@@ -73,35 +81,27 @@
                 email
               </p>
           
-              <input class = "input-field standard-font headline-font" type = "text">
+              <input class = "input-field standard-font headline-font" type = "text" name = "email" required>
             </div>
         
             <div class = "form-input">
               <p class = "input-promt standard-font headline-font"> 
                 what is this about?
               </p>
+
+              <select class = "option-selector standard-font headline-font" name = "relevance">
+                <option selected value= "Bug"> A Bug</option>
+                <option value= "Feature">A Feature Request</option>
+                <option value= "Other">Other</option>
+             </select>
           
-              <div class = "radio-buttons standard-font headline-font">
-                  <label class="custom-radio-button"> a bug
-                    <input type="radio" checked="checked" name="radio">
-                    <span class="checkmark"></span>
-                  </label>
-                  <label class="custom-radio-button"> a feature request
-                    <input type="radio" name="radio">
-                    <span class="checkmark"></span>
-                  </label>
-                  <label class="custom-radio-button"> other
-                    <input type="radio" name="radio">
-                    <span class="checkmark"></span>
-                  </label>
-              </div>
             </div>
 
             <div class = "form-input">
               <p class = "input-promt standard-font headline-font"> 
                 what should we know?
               </p>
-              <textarea class = "feedback-field standard-font headline-font" type = "text" rows="10" cols="30"></textarea>
+              <textarea class = "feedback-field standard-font headline-font" name = "response" type = "text" rows="10" cols="30"></textarea>
             </div>
         
             <button class = "submit-button-reduced-margins button standard-font dark-font"> submit </button>

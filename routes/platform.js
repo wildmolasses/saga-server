@@ -3,6 +3,8 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs-extra'); 
 const mongoose = require('mongoose');
+require("../models/Feedback");
+const Feedback = mongoose.model('Feedback');
 const Users = mongoose.model('Users');
 const passport = require('./auth');
 var exec = require('child_process').exec, child;
@@ -57,6 +59,21 @@ function loggedIn(req, res, next) {
 
 router.get('/contact', (req, res) => {
     res.render('contact.html')
+})
+
+router.post('/submit-feedback', (req, res) => {
+    const email = req.body.email;
+    const relevance = req.body.relevance; 
+    const response = req.body.response;
+
+    const feedback = new Feedback();
+    feedback.email = email
+    feedback.relevance = relevance;
+    feedback.response = response;
+
+    feedback.save().then(() =>{
+        res.render('contact.html')
+    })
 })
 
 

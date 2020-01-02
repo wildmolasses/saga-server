@@ -10,7 +10,7 @@ First, install the server code:
 npm install;
 ```
 
-Then, make sure mongoDB is installed on your computer. After mongo is installed and running, run the following code in a terminal:
+Then, make sure mongoDB is installed on your computer. After mongo is installed and running (command mongod), run the following code in a terminal:
 
 ```
 mongo;

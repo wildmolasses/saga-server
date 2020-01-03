@@ -10,6 +10,8 @@
 }
 
 .bold-font {
+    font-family: Circular Std;
+    font-style: bold;
     font-weight: bold;
 }
 
@@ -31,9 +33,9 @@
 
 .title-text {
     font-size: 75px;
-    line-height: 70px;
+    line-height: 85px;
     margin-top: 5vh;
-    margin-bottom: -1.5vh;
+    margin-bottom: 1.5vh;
 }
 
 .subtitle-text {

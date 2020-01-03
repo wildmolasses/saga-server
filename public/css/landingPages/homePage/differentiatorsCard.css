@@ -29,6 +29,7 @@
     flex-flow: row wrap;
     justify-content: space-evenly;
     flex-grow: 1;
+    margin-top: 10vh;
 }
 
 .text-content {

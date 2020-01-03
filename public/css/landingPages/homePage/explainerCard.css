@@ -11,8 +11,8 @@
 
 .card-title {
     font-size: 60px;
-    line-height: 50px;
-    margin-bottom: 100px;
+    line-height: 70px;
+    margin-bottom: 10vh;
 }
 
 .explanation {
@@ -60,7 +60,7 @@
 
 
 .explainer-card-scroll-down {
-    margin-top: 145px;
+    margin-top: 10vh;
     left: calc(50% - 50px/2);
     width: 50px;
 }

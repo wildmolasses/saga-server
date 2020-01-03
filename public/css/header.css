@@ -10,6 +10,8 @@
     color: var(--background-color);
 
     margin-top: -5vh;
+
+    background: var(--background-color)
   }
   
   .left-navbar {
@@ -36,6 +38,13 @@
       flex-grow: 1;
       align-self: center
   }
+
+    /* The sticky class is added to the header with JS when it reaches its scroll position */
+    .sticky {
+        position: fixed;
+        top: 0;
+        width: 100%
+    }
   
   /* Small screens */
   @media all and (max-width: 500px) {
@@ -54,6 +63,7 @@
       font-size: 50px;
       line-height: 63px;
   }
+
   
   a:link, a:visited{
       text-decoration: none; 

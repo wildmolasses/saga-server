@@ -9,7 +9,7 @@
     flex-grow: 1;
     color: var(--background-color);
 
-    margin-top: 0vh;
+    margin-top: -5vh;
   }
   
   .left-navbar {
@@ -61,6 +61,6 @@
   }
 
   .navbar-link:hover {
-    transition: .25s ease;
+    transition: .10s ease;
     color: var(--orange-color)
   }

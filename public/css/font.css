@@ -5,17 +5,19 @@
     font-weight: normal;
 }
 
+.light-font {
+    font-weight: 100;
+}
+
 .bold-font {
-    font-family: Circular Std;
-    font-style: normal;
     font-weight: bold;
 }
 
-.headline-font{
+.headline-font {
     color: var(--headline-color);
 }
 
-.dark-font{
+.dark-font {
     color: var(--dark-color);
 }
 
@@ -27,3 +29,14 @@
     color: #FFFFFF;
 }
 
+.title-text {
+    font-size: 75px;
+    line-height: 70px;
+    margin-top: 5vh;
+    margin-bottom: -1.5vh;
+}
+
+.subtitle-text {
+    font-size: 35px;
+    line-height: 40px;
+}

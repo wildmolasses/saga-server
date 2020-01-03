@@ -29,12 +29,12 @@
 
     // handle click on scroll down button on title card
     function titleCardScrollDown() {
-        document.getElementById('explainer-card').scrollIntoView({ behavior: 'smooth', block: 'center' })
+        document.getElementById('explainer-card').scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
 
     // handle click on scroll down button on explainer card
     function explainerCardScrollDown() {
-        document.getElementById('reason1').scrollIntoView({ behavior: 'smooth', block: 'center' })
+        document.getElementById('reason1').scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
 
     // handle twitter redirect
@@ -54,127 +54,122 @@
 
 </script>
 
-<body class = "wrapper">
+<body class="wrapper">
     <header>
         <div class="navbar standard-font dark-font">
             <a href="/" class="left-navbar">
                 <img src="/graphics/saga-website-logo.png" width="100"></img>
-                <p class = logo-text>saga</p>
+                <p class=logo-text>saga</p>
             </a>
             <div class="right-navbar">
-                <a class = "navbar-link standard-font" href= "/about"> about</a>
-                <a class = "navbar-link standard-font" href="/contact">contact</a>
-                <a class = "navbar-link standard-font" href="/login-page">login</a>
+                <a class="navbar-link standard-font" href= "/about"> about</a>
+                <a class="navbar-link standard-font" href="/contact">contact</a>
+                <a class="navbar-link standard-font" href="/login-page">login</a>
             </div>
         </div> 
     </header>
 
-    <div class = "title-card">
-        <div class = "upper-title-card">
-            <p class = "main-text bold-font dark-font">
+    <div class="title-card">
+        <div class="upper-title-card">
+            <p class="title-text standard-font bold-font dark-font">
                 modern version control <br>
                 for all of your projects
             </p>
-            <p class = "subtitle-text standard-font dark-font">
+            <p class="subtitle-text standard-font light-font dark-font">
                 saga helps teams collaboratively <br>
                 edit and manage their files
             </p>  
                     
-            <button class = "button" onclick="redirectToAlpha()">
+            <button class="button" onclick="redirectToAlpha()">
                 signup for the alpha
             </button>
         </div>
-        <div class = "lower-title-card" onclick ="titleCardScrollDown()">
+        <div class="lower-title-card" onclick ="titleCardScrollDown()">
             <img src = "/graphics/dark-down-arrow.png" width = "50px"></img>
         </div>
         
     </div>
 
-    <div class = "explainer-card" id = "explainer-card">
-        <p class = "card-title bold-font white-font">
+    <div class="explainer-card" id = "explainer-card">
+        <p class="card-title standard-font white-font">
             manage any project with <br>
             saga version control
         </p>
 
-        <div class = "explanation">
+        <div class="explanation">
 
-            <div class = "col1">
-                <div class = "explanation-text standard-font white-font">
+            <div class="col1">
+                <div class="explanation-text standard-font white-font">
                     <p>
                         team members <br>
                         manage their files  <br> 
                         using saga
                     </p>
-
-                    <img class = "excel-image" src = "/graphics/landingpage/Excel_1.png"></img>
-                    
+                    <img class="excel-image" src = "/graphics/landingpage/Excel_1.png"></img>
                 </div>
             </div>
 
-            <div class = "col2">
-                <img class = "excel-arrows-image" src = "/graphics/landingpage/first-excel-arrows.png"></img>
+            <div class="col2">
+                <img class="excel-arrows-image" src = "/graphics/landingpage/first-excel-arrows.png"></img>
             </div>
 
-            <div class = "col3">
-                <div class = "explanation-text standard-font white-font">
-                    <img class = "excel-image" src = "/graphics/landingpage/Excel_2a.png"></img>
-
+            <div class="col3">
+                <div class="explanation-text standard-font white-font">
+                    <img class="excel-image" src = "/graphics/landingpage/Excel_2a.png"></img>
                     <p>
                         saga allows each <br>
                         user to edit their <br> 
                         own version of a file
                     </p>
-
-                    <img class = "excel-image" src = "/graphics/landingpage/Excel_2b.png"></img>
-
+                    <img class="excel-image" src = "/graphics/landingpage/Excel_2b.png"></img>
                 </div>
             </div>
 
-            <div class = "col4">
-                    <img class = "excel-arrows-image" src = "/graphics/landingpage/second-excel-arrows.png"></img>
+            <div class="col4">
+                    <img class="excel-arrows-image" src = "/graphics/landingpage/second-excel-arrows.png"></img>
             </div>
 
 
-            <div class = "col5">
-                <div class = "explanation-text standard-font white-font">
+            <div class="col5">
+                <div class="explanation-text standard-font white-font">
                     <p>
                         and merge their  <br>
                         changes together <br>
                         when ready
                     </p>
 
-                    <img class = "excel-image" src = "/graphics/landingpage/Excel_3.png"></img>
+                    <img class="excel-image" src = "/graphics/landingpage/Excel_3.png"></img>
                 </div>
 
             </div>
 
         </div>
-            <img class = "explainer-card-scroll-down" onclick = "explainerCardScrollDown()" src = "/graphics/landingpage/white-down-arrow.png"></img>
+            <img class="explainer-card-scroll-down" onclick = "explainerCardScrollDown()" src = "/graphics/landingpage/white-down-arrow.png"></img>
     </div>
 
-    <div class = "differentiatiorsCard" > 
-        <div class = "reason" id = "reason1">
-            <div class = "content">
-                <div class = "text-content">
-                    <div class = "text-column">
-                        <p class = "reason-title bold-font dark-font">
+    <div class="differentiatiorsCard" > 
+        <div class="reason" id = "reason1">
+            <div class="content">
+                <div class="text-content">
+                    <div class="text-column">
+                        <p class="reason-title standard-font dark-font">
                             designed for all <br>
                             your files
                         </p> 
             
-                        <div class = "subtext-with-bar">
-                            <img class = "divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
+                        <div class="subtext-with-bar">
+                            <img class="divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
             
-                            <p class = "subtext standard-font headline-font"> 
+                            <p class="subtext standard-font headline-font"> 
                                 collaboratively edit source code, <br>
                                 design, and office files
                             </p>
                         </div>
 
-                        <div class = "subtext-with-bar subtext-bottom-margin">
-                            <img class = "divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
+                        <div class="subtext-with-bar subtext-bottom-margin">
+                            <img class="divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
                 
-                            <p class = "subtext standard-font headline-font"> 
+                            <p class="subtext standard-font headline-font"> 
                                 easily add new file formats to the <br>
                                 saga version control system
                             </p>
@@ -182,42 +177,42 @@
                     </div>
 
                 </div>
-                <div class = "graphic-content">
+                <div class="graphic-content">
                     <img src = "/graphics/landingpage/files.png" width = "400px" height = "413px"></img>
                 </div> 
 
             </div>
 
-            <div class = "standard-font headline-font">
-                see the <a class = "differentiators-link" href= "/comingsoon"> supported file formats</a>
+            <div class="standard-font headline-font">
+                see the <a class="differentiators-link" href= "/comingsoon"> supported file formats</a>
             </div>
         </div>
 
-        <div class = "reason">
-            <div class = "content">
-                <div class = "graphic-content">
+        <div class="reason">
+            <div class="content">
+                <div class="graphic-content">
                     <img src = "/graphics/landingpage/workflow-image.png" width = "698px" height = "349px"></img>
                 </div> 
-                <div class = "text-content">
-                    <div class = "text-column">
-                        <p class = "reason-title bold-font dark-font">
+                <div class="text-content">
+                    <div class="text-column">
+                        <p class="reason-title standard-font bold-font dark-font">
                             support for any <br>
                             workflow
                         </p> 
                 
-                        <div class = "subtext-with-bar">
-                            <img class = "divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
+                        <div class="subtext-with-bar">
+                            <img class="divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
                 
-                            <p class = "subtext standard-font headline-font"> 
+                            <p class="subtext standard-font headline-font"> 
                                 branching and merging lets you <br>
                                 design your own worflow
                             </p>
                         </div>
     
-                        <div class = "subtext-with-bar subtext-bottom-margin">
-                            <img class = "divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
+                        <div class="subtext-with-bar subtext-bottom-margin">
+                            <img class="divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
                     
-                            <p class = "subtext standard-font headline-font"> 
+                            <p class="subtext standard-font headline-font"> 
                                 owning your files locally means <br>
                                 you are not forced onto the cloud
                             </p>
@@ -228,33 +223,33 @@
     
             </div>
     
-            <div class = "standard-font headline-font">
-                understand a <a class = "differentiators-link" href= "/comingsoon"> saga workflow </a>
+            <div class="standard-font headline-font">
+                understand a <a class="differentiators-link" href= "/comingsoon"> saga workflow </a>
             </div>
         </div>
 
-        <div class = "reason">
-            <div class = "content">
-                <div class = "text-content">
-                    <div class = "text-column">
-                        <p class = "reason-title bold-font dark-font">
+        <div class="reason">
+            <div class="content">
+                <div class="text-content">
+                    <div class="text-column">
+                        <p class="reason-title standard-font bold-font dark-font">
                             built for every <br>
                             experiment
                         </p> 
                 
-                        <div class = "subtext-with-bar">
-                            <img class = "divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
+                        <div class="subtext-with-bar">
+                            <img class="divider-bar-small" src = "/graphics/landingpage/divider-line-small.png"></img>
                 
-                            <p class = "subtext standard-font headline-font"> 
+                            <p class="subtext standard-font headline-font"> 
                                 experiment in your own workspace <br>
                                 before sharing with your team
                             </p>
                         </div>
     
-                        <div class = "subtext-with-bar subtext-bottom-margin">
-                            <img class = "divider-bar-large" src = "/graphics/landingpage/divider-line-small.png"></img>
+                        <div class="subtext-with-bar subtext-bottom-margin">
+                            <img class="divider-bar-large" src = "/graphics/landingpage/divider-line-small.png"></img>
                     
-                            <p class = "subtext standard-font headline-font"> 
+                            <p class="subtext standard-font headline-font"> 
                                 maintain a master copy of your <br>
                                 files so your teamates failed <br>
                                 experiments don’t ruin yours
@@ -263,27 +258,27 @@
                     </div>
     
                 </div>
-                <div class = "graphic-content">
+                <div class="graphic-content">
                     <img src = "/graphics/landingpage/experiment-image.png" width = "611px" height = "473px"></img>
                 </div> 
     
             </div>
     
-            <div class = "standard-font headline-font">
-                start <a class = "differentiators-link" href= "/comingsoon"> experimenting with saga</a>
+            <div class="standard-font headline-font">
+                start <a class="differentiators-link" href= "/comingsoon"> experimenting with saga</a>
             </div>
         </div>
 
     </div>
 
-    <footer class = "footer">
+    <footer class="footer">
 
-        <p class = "standard-font headline-font footer-text"> thanks for checking us out :) </p>
+        <p class="standard-font headline-font footer-text"> thanks for checking us out :) </p>
 
-        <div class = "social-media-logos">
-            <img class = "twitter-logo" onclick = "twitterRedirect()" src = "/graphics/footer/twitter-logo.png" width = "50px" height = "50px"></img>
-            <img class = "medium-logo" onclick = "mediumRedirect()" src = "/graphics/footer/medium-logo.png" width = "70px" height = "50px"></img>
-            <img class = "reddit-logo" onclick = "redditRedirect()" src = "/graphics/footer/reddit-logo.png" width = "50px" height = "50px"></img>
+        <div class="social-media-logos">
+            <img class="twitter-logo" onclick = "twitterRedirect()" src = "/graphics/footer/twitter-logo.png" width = "50px" height = "50px"></img>
+            <img class="medium-logo" onclick = "mediumRedirect()" src = "/graphics/footer/medium-logo.png" width = "70px" height = "50px"></img>
+            <img class="reddit-logo" onclick = "redditRedirect()" src = "/graphics/footer/reddit-logo.png" width = "50px" height = "50px"></img>
         </div>
     </footer>
 

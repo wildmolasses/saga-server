@@ -5,15 +5,14 @@
     justify-content: flex-start;
     align-items: center;
     text-align: center;
-
-    padding-bottom: 50px;
-
+    padding-bottom: 20px;
     background: var(--dark-color)
 }
 
 .card-title {
     font-size: 60px;
-    line-height: 76px;
+    line-height: 50px;
+    margin-bottom: 100px;
 }
 
 .explanation {
@@ -48,7 +47,6 @@
     font-size: 30px;
     line-height: 38px;
     text-align: center;
-
 }
 
 .excel-image {
@@ -63,7 +61,7 @@
 
 
 .explainer-card-scroll-down {
-    margin-top: 100px;
+    margin-top: 145px;
     left: calc(50% - 50px/2);
     width: 50px;
 }

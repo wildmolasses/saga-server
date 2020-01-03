@@ -105,6 +105,14 @@ function createAccount(req, _, next) {
     })
 }
 
+function usernameTakenProm (username) {
+    return new Promise(resolve => {
+        Users.findOne({username: username}, function(err, user) {
+            resolve(user !== null);
+        });
+    });
+}
+
 
 /* Login in to an account */
 router.post('/login', 

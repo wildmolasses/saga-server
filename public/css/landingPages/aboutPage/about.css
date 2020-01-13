@@ -1,7 +1,7 @@
 .wrapper {
     display: flex;
     flex-flow: column;
-    background: var(--background-color);
+    background: var(--background-color-landing);
 
 }
 
@@ -52,7 +52,7 @@
 
 .employee-card {
 
-    background: var(--background-color);
+    background: var(--background-color-landing);
     border: 2px solid #000000;
     box-sizing: border-box;
     border-radius: 30px;

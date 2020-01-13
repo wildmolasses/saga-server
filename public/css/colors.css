@@ -1,5 +1,6 @@
 :root {
-    --background-color: #FFFCF5;
+    --background-color-landing: #FFFCF5;
+    --background-color-user: #FFFFFF;
     --headline-color: #8E8D8A;
     --orange-color:  #DB8578;
     --green-color: #A9CAB9;

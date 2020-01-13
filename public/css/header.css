@@ -1,20 +1,19 @@
 
 /* large screens */
-.navbar {
+.header {
     display: flex;
     flex-flow: row wrap;
-    /* This aligns items to the end line on main-axis */
     justify-content: space-between;
     align-items: center;
     flex-grow: 1;
-    color: var(--background-color);
+    color: var(--background-color-landing);
 
     margin-top: -5vh;
 
-    background: var(--background-color)
+    background: var(--background-color-landing)
   }
   
-  .left-navbar {
+  .left-header {
       display: flex;
       flex-flow: row wrap;
       flex-grow: 10;
@@ -23,7 +22,7 @@
       align-items: center;
   }
   
-  .right-navbar {
+  .right-header {
       display: flex;
       flex-flow: row wrap;
       flex-grow: 1;
@@ -34,26 +33,19 @@
       line-height: 38px;
   }
   
-  .navbar-link {
+  .header-link {
       flex-grow: 1;
       align-self: center
   }
-
-    /* The sticky class is added to the header with JS when it reaches its scroll position */
-    .sticky {
-        position: fixed;
-        top: 0;
-        width: 100%
-    }
   
   /* Small screens */
   @media all and (max-width: 500px) {
-      .navbar {
+      .header {
         /* On small screens, we are no longer using row direction but column */
         flex-flow: column;
       }
   
-      .right-navbar {
+      .right-header {
           display: flex;
           flex-flow: column;
       }
@@ -70,7 +62,7 @@
       color: var(--dark-color)
   }
 
-  .navbar-link:hover {
+  .header-link:hover {
     transition: .10s ease;
     color: var(--orange-color)
   }

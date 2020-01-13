@@ -41,11 +41,11 @@ router.get('/comingsoon', (req, res) => {
 });
 
 // render the profile page
-router.get('/profile-page',
+router.get('/projects',
     loggedIn,
     (req, res) => {
         console.log("RENDERING PROFILE");
-        res.render('profile.html')
+        res.render('userProjects.html')
     }
 ) 
 
@@ -81,7 +81,7 @@ router.post('/submit-feedback', (req, res) => {
 router.post('/createAccount',
     createAccount,
     passport.authenticate('local', {
-        successRedirect: '/comingsoon',
+        successRedirect: '/projects',
         failureRedirect: '/alpha'
     })
 )
@@ -118,7 +118,7 @@ function usernameTakenProm (username) {
 router.post('/login', 
     temp,
     passport.authenticate('local', {
-        successRedirect: '/comingsoon',
+        successRedirect: '/projects',
         failureRedirect: '/alpha'
     })
 );

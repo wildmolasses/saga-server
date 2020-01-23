@@ -4,11 +4,11 @@
     justify-content: space-between;
     align-items: center;
     flex-grow: 1;
-    color: var(--background-color-landing);
+    color: var(--background-color-user);
 
     margin-top: 1vh;
 
-    background: var(--background-color-landing)
+    background: var(--background-color-user)
   }
   
 .left-header {

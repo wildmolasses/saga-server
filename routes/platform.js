@@ -49,6 +49,15 @@ router.get('/projects',
     }
 ) 
 
+// render the profile page
+router.get('/projectHome',
+    loggedIn,
+    (req, res) => {
+        console.log("RENDERING PROFILE");
+        res.render('projectHome.html')
+    }
+) 
+
 function loggedIn(req, res, next) {
     if (req.user) {
         next();

@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const passport = require('./routes/auth')
+var busboy = require('connect-busboy');
 
 var app = express();
 
@@ -26,6 +27,9 @@ app.use(express.static(__dirname + '../public'));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+// For files?
+app.use(busboy()); 
 
 // setup routes
 const indexRouter = require('./routes/index');

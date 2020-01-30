@@ -30,7 +30,6 @@ router.post('/push/:project', function(req, res) {
   projectZip = "./" + req.params.project + ".zip"
   req.pipe(req.busboy);
   req.busboy.on('file', function (fieldname, file, filename) {
-    console.log("Uploading: " + filename); 
     file.pipe(unzipper.Extract({ path: 'projects/' + req.params.project }));
     res.end()
   });

@@ -32,13 +32,13 @@ app.use(passport.session());
 app.use(busboy()); 
 
 // setup routes
-const indexRouter = require('./routes/index');
+const cliRouter = require('./routes/cli');
 const usersRouter = require('./routes/users');
 const platformRouter = require('./routes/platform')
 
 app.use('/', platformRouter);
 app.use('/users', usersRouter);
-app.use('/cli', indexRouter)
+app.use('/cli', cliRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

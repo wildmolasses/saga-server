@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const passport = require('./routes/auth')
+const passport = require('./routes/auth').passport;
 var busboy = require('connect-busboy');
 
 var app = express();

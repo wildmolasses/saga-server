@@ -11,29 +11,108 @@ mongoose.set('debug', false);
 
 require("../models/Users");
 const Users = mongoose.model('Users');
+require("../models/Projects");
+const Projects = mongoose.model('Projects');
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
         Users.findOne({ username: username }, function (err, user) {
             if (err) { return done(err); }
             if (!user) { return done(null, false); }
-            if (!user.verifyPassword(password)) { return done(null, false); }
+            if (!user.verifyPassword(password)) { 
+                console.log("Incorrect password");
+                return done(null, false); 
+            }
+            console.log("CORRECT password");
             return done(null, user);
         });
     }
 ));
 
 passport.serializeUser(function(user, done) {
-    console.log("HERE", user.id);
     done(null, user.username);
 });
 
 passport.deserializeUser(function(username, done) {
-    console.log("HERE1", username);
     Users.findOne({ username: username }, function (err, user) {
-        console.log(user);
         done(err, user);
     });
 });
 
-module.exports = passport
+async function isCollaborator(username, project) {
+    user = await Users.findOne({ username: username }).exec();
+    return user.projects.includes(project);
+}
+
+
+function createAccount(req, _, next) {
+    const username = req.body.username;
+    const email = req.body.email;
+    const password = req.body.password;
+    usernameTakenProm(username).then((usernameTaken) => {
+        if (!usernameTaken) {
+            const user = new Users();
+            user.username = username;
+            user.email = email
+    
+            user.setPassword(password);
+        
+            user.save().then(() => {
+                next();
+            });
+        }  
+    })
+}
+
+async function addCollaborator(project, collaborator) {
+    // TODO: stop assuming that both the project and collaborator exist
+    user = await Users.findOne({ username: collaborator }).exec();
+    project = await Projects.findOne({ project: project }).exec();
+
+    user.projects.push(project.project);
+    project.collaborators.push(collaborator);
+    await user.save();
+    await project.save();
+}
+
+async function createProject(project, creator) {
+    // TODO: make sure the
+    if (!await projectExists(project)) {
+        const p = new Projects();
+        p.project = project;
+        await p.save();
+        // We also add the user as a collaborator
+        await addCollaborator(project, creator);
+    }
+    return;
+}
+
+function usernameTakenProm (username) {
+    return new Promise(resolve => {
+        Users.findOne({username: username}, function(err, user) {
+            resolve(user !== null);
+        });
+    });
+}
+
+function loggedIn(req, res, next) {
+    if (req.user) {
+        next();
+    } else {
+        res.redirect('/');
+    };
+}
+
+async function projectExists(project) {
+    project = await Projects.findOne({project: project}).exec();
+    return project != null
+}
+
+module.exports = {
+    passport: passport,
+    isCollaborator: isCollaborator,
+    createAccount: createAccount,
+    loggedIn: loggedIn,
+    projectExists: projectExists,
+    createProject: createProject
+}

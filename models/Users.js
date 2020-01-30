@@ -7,6 +7,7 @@ const UsersSchema = new mongoose.Schema({
     username: String,
     hash: String,
     salt: String,
+    projects: [String]
 });
 
 UsersSchema.methods.setPassword = function(password) {

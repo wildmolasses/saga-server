@@ -5,8 +5,7 @@ const fs = require('fs-extra');
 const mongoose = require('mongoose');
 require("../models/Feedback");
 const Feedback = mongoose.model('Feedback');
-const Users = mongoose.model('Users');
-const passport = require('./auth');
+const auth = require('./auth');
 var exec = require('child_process').exec, child;
 
 
@@ -42,29 +41,19 @@ router.get('/comingsoon', (req, res) => {
 
 // render the profile page
 router.get('/projects',
-    loggedIn,
+    auth.loggedIn,
     (req, res) => {
-        console.log("RENDERING PROFILE");
         res.render('userProjects.html')
     }
 ) 
 
 // render the profile page
 router.get('/projectHome',
-    loggedIn,
+    auth.loggedIn,
     (req, res) => {
-        console.log("RENDERING PROFILE");
         res.render('projectHome.html')
     }
 ) 
-
-function loggedIn(req, res, next) {
-    if (req.user) {
-        next();
-    } else {
-        res.redirect('/');
-    };
-}
 
 router.get('/contact', (req, res) => {
     res.render('contact.html')
@@ -88,56 +77,35 @@ router.post('/submit-feedback', (req, res) => {
 
 /* Create a new account */
 router.post('/createAccount',
-    createAccount,
-    passport.authenticate('local', {
+    auth.createAccount,
+    auth.passport.authenticate('local', {
         successRedirect: '/projects',
         failureRedirect: '/alpha'
     })
 )
 
-function createAccount(req, _, next) {
-    const username = req.body.username;
-    const email = req.body.email;
-    const password = req.body.password;
-    usernameTakenProm(username).then((usernameTaken) => {
-        if (!usernameTaken) {
-            const user = new Users();
-            user.username = username;
-            user.email = email
-    
-            user.setPassword(password);
-        
-            user.save().then(() => {
-                next();
-            });
-        }  
-    })
-}
-
-function usernameTakenProm (username) {
-    return new Promise(resolve => {
-        Users.findOne({username: username}, function(err, user) {
-            resolve(user !== null);
-        });
-    });
-}
-
 
 /* Login in to an account */
-router.post('/login', 
-    temp,
-    passport.authenticate('local', {
+/*router.post('/login', 
+    auth.passport.authenticate('local', {
         successRedirect: '/projects',
         failureRedirect: '/alpha'
     })
-);
+);*/
 
-function temp(req, res, next) {
-    console.log("TRYING TO LOG IN")
-    console.log(req.body.username);
-    console.log(req.body.password);
-    next()
-}
+router.post('/login', function(req, res, next) {
+    auth.passport.authenticate('local', function(err, user, info) {
+        if (err) { return next(err); }
+        if (!user) {
+            return res.redirect(401, '/alpha');
+        }
+        req.logIn(user, function(err) {
+            if (err) { return next(err); }
+            res.status(200);
+            return res.redirect('/projects');
+        });
+    })(req, res, next);
+});
 
 // Logs user out of account by resetting LOGGED_IN_USER
 router.get('/logout', (req, res) => {

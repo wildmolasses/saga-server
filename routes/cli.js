@@ -7,13 +7,16 @@ fs = require('fs-extra');
 
 var router = express.Router();
 
+
+
+
 router.get(
-  '/pull*',
+  "/:project.saga",
   function(req, res) {
   // TODO: we want to get the specific thing they want to pull
   // TODO: we need to authenticate they can actually pull it
 
-  project = req.params["0"]
+  project = req.params.project
 
   console.log(project)
 
@@ -33,13 +36,13 @@ router.get(
 });
 
 router.post(
-  '/push*',
+  "/:project.saga",
   auth.loggedIn,
   async function(req, res) {
     // TODO: we need to authenticate they can actually push it
     // TODO: we need to authetnicate its a real project!
 
-    project = req.params["0"]
+    project = req.params.project
 
     // If the project exists, we need to check if the user is a collaborator
     
@@ -50,7 +53,6 @@ router.post(
         return;
       }
     } else {
-      console.log("CREATING PROJECT")
       await auth.createProject(project, req.user.username);
     }
 

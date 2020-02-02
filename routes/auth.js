@@ -20,10 +20,8 @@ passport.use(new LocalStrategy(
             if (err) { return done(err); }
             if (!user) { return done(null, false); }
             if (!user.verifyPassword(password)) { 
-                console.log("Incorrect password");
                 return done(null, false); 
             }
-            console.log("CORRECT password");
             return done(null, user);
         });
     }

@@ -38,7 +38,7 @@ const platformRouter = require('./routes/platform')
 
 app.use('/', platformRouter);
 app.use('/users', usersRouter);
-app.use('/cli', cliRouter)
+app.use(cliRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

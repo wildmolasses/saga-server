@@ -44,7 +44,7 @@ app.use(cliRouter)
 app.use(function(req, res, next) {
   console.log(req.path);
   next(createError(404));
-/});
+});
 
 // supress the favicon.ico stuff
 app.get('/favicon.ico', (req, res) => res.status(204));

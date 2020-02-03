@@ -41,9 +41,9 @@ app.use('/users', usersRouter);
 app.use(cliRouter)
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+//app.use(function(req, res, next) {
+//  next(createError(404));
+//});
 
 // supress the favicon.ico stuff
 app.get('/favicon.ico', (req, res) => res.status(204));

@@ -94,6 +94,7 @@ router.post('/createAccount',
 );*/
 
 router.post('/login', function(req, res, next) {
+    console.log("HERE")
     auth.passport.authenticate('local', function(err, user, info) {
         if (err) { return next(err); }
         if (!user) {

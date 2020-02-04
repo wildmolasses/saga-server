@@ -14,11 +14,6 @@ router.get('/', (req, res) => {
     res.render('homePage.html')
 });
 
-// Render the login of the alpha
-router.get('/alpha', (req, res) => {
-    res.render('login.html')
-});
-
 // Render the signup page of the alpha
 router.get('/signup', (req, res) => {
     res.render('signup.html')
@@ -86,27 +81,32 @@ router.post('/createAccount',
 
 
 /* Login in to an account */
-/*router.post('/login', 
-    auth.passport.authenticate('local', {
-        successRedirect: '/projects',
-        failureRedirect: '/alpha'
-    })
-);*/
+//router.post('/login', auth.passport.authenticate('local'));
+router.post('/login',
+    auth.passport.authenticate('local'),
+    function(req, res) {
+        res.status(200).end();
+    }
+);
 
+/*
 router.post('/login', function(req, res, next) {
-    console.log("HERE")
     auth.passport.authenticate('local', function(err, user, info) {
         if (err) { return next(err); }
         if (!user) {
-            return res.redirect(401, '/alpha');
+            res.status(401);
+            res.end();
+            return;
         }
         req.logIn(user, function(err) {
             if (err) { return next(err); }
             res.status(200);
+            res.end();
+            return;
             return res.redirect('/projects');
         });
     })(req, res, next);
-});
+});*/
 
 // Logs user out of account by resetting LOGGED_IN_USER
 router.get('/logout', (req, res) => {

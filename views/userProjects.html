@@ -4,6 +4,9 @@
 <head>
   <meta charset="utf-8">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
   <title>Saga</title>
   <meta name="description" content="Saga - Version Control for All Your Files">
   <meta name="author" content="Saga">
@@ -18,6 +21,26 @@
 
   
 </head>
+
+
+<script>
+  function test() {
+    console.log("CALLING TEST");
+    $.post("/addcollaborator",
+      {
+        project: "saga",
+        collaborator: "1234"
+      },
+      function(data, status) {
+        alert("Added collaborator")
+      }
+    ).fail(function() { 
+      alert("Failed to add collaborator");
+    })
+  }
+
+  test()
+</script>
 
 <body class = "wrapper">
   <header class = "header">

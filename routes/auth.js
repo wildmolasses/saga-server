@@ -63,14 +63,29 @@ function createAccount(req, _, next) {
 }
 
 async function addCollaborator(project, collaborator) {
-    // TODO: stop assuming that both the project and collaborator exist
     user = await Users.findOne({ username: collaborator }).exec();
     project = await Projects.findOne({ project: project }).exec();
 
+    // We don't add the user to the project if the user or project
+    // do not exist
+    if (user == null || project == null) {
+        return false;
+    }
+
+    // We also don't add the user to the project if they are already
+    // a collaborator
+    if (user.projects.includes(project.project)) {
+        return false;
+    }
+
     user.projects.push(project.project);
     project.collaborators.push(collaborator);
+
+    // TODO: this probably should be a single transaction...
     await user.save();
     await project.save();
+
+    return true;
 }
 
 async function createProject(project, creator) {
@@ -111,6 +126,7 @@ module.exports = {
     isCollaborator: isCollaborator,
     createAccount: createAccount,
     loggedIn: loggedIn,
+    addCollaborator: addCollaborator,
     projectExists: projectExists,
     createProject: createProject
 }

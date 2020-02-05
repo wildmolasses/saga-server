@@ -8,6 +8,8 @@ const Feedback = mongoose.model('Feedback');
 const auth = require('./auth');
 var exec = require('child_process').exec, child;
 
+const Users = mongoose.model('Users');
+const Projects = mongoose.model('Projects');
 
 // Render the homePage page
 router.get('/', (req, res) => {
@@ -81,7 +83,6 @@ router.post('/createAccount',
 
 
 /* Login in to an account */
-//router.post('/login', auth.passport.authenticate('local'));
 router.post('/login',
     auth.passport.authenticate('local'),
     function(req, res) {
@@ -89,31 +90,55 @@ router.post('/login',
     }
 );
 
-/*
-router.post('/login', function(req, res, next) {
-    auth.passport.authenticate('local', function(err, user, info) {
-        if (err) { return next(err); }
-        if (!user) {
-            res.status(401);
-            res.end();
-            return;
-        }
-        req.logIn(user, function(err) {
-            if (err) { return next(err); }
-            res.status(200);
-            res.end();
-            return;
-            return res.redirect('/projects');
-        });
-    })(req, res, next);
-});*/
+/* Log out of an account */
+router.get('/logout', 
+    auth.loggedIn,  
+    (req, res) => {
+        req.logout();
+        res.redirect('/');
+    }
+)
 
-// Logs user out of account by resetting LOGGED_IN_USER
-router.get('/logout', (req, res) => {
-    console.log("HERE");
-    req.logout();
-    res.redirect('/');
+
+router.get("/userprojects", async function(req, res) {
+    var username = req.query.username;
+    var user = await Users.findOne({ username: username }).exec();
+    res.send(data={
+        "username": username,
+        "projects": user.projects
+    }).end();
 })
+
+router.get("/projectinfo", async function(req, res) {
+    var project = req.query.project;
+    projectData = await Projects.findOne({ project: project }).exec();
+    res.send(data={
+        "project": project,
+        "collaborators": projectData.collaborators
+    }).end();
+})
+
+router.post("/addcollaborator", 
+    auth.loggedIn,    
+    async function(req, res) {
+        var project = req.body.project;
+        var collaborator = req.body.collaborator;
+
+        // you can only add a collaborator if you are already a 
+        // collaborator on the projct
+        if (await auth.isCollaborator(req.user.username, project)) {
+            const addedCollaborator = await auth.addCollaborator(project, collaborator);
+            if (addedCollaborator) {
+                res.status(200).end();
+            } else {
+                res.status(400).end();
+            }
+        } else {
+            res.status(401).end();
+        }
+    }
+)
+
 
 // Return Profile Information
 router.get('/getProfileData', (req, res) => {

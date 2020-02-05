@@ -8,7 +8,6 @@ const Feedback = mongoose.model('Feedback');
 const auth = require('./auth');
 var exec = require('child_process').exec, child;
 
-
 // Render the homePage page
 router.get('/', (req, res) => {
     res.render('homePage.html')
@@ -78,7 +77,6 @@ router.post('/createAccount',
         failureRedirect: '/alpha'
     })
 )
-
 
 /* Login in to an account */
 //router.post('/login', auth.passport.authenticate('local'));

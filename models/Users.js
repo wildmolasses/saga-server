@@ -3,8 +3,8 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
 const UsersSchema = new mongoose.Schema({
-    email: String,
     username: String,
+    email: String,
     hash: String,
     salt: String,
     projects: [String]

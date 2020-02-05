@@ -39,9 +39,6 @@ router.post(
   "/:project.saga",
   auth.loggedIn,
   async function(req, res) {
-    // TODO: we need to authenticate they can actually push it
-    // TODO: we need to authetnicate its a real project!
-
     project = req.params.project
 
     // If the project exists, we need to check if the user is a collaborator

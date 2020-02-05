@@ -81,7 +81,6 @@ router.post('/createAccount',
     })
 )
 
-
 /* Login in to an account */
 router.post('/login',
     auth.passport.authenticate('local'),

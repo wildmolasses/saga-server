@@ -15,25 +15,6 @@
   <link rel="stylesheet" href="css/colors.css">
 </head>
 
-<script>
-  function test() {
-    console.log("CALLING TEST")
-    $.post("/addcollaborator",
-      {
-        project: "saga",
-        collaborator: "test_user"
-      },
-      function(data, status) {
-        alert("Added collaborator")
-      }
-    ).fail(function() { 
-      alert("Failed to add collaborator");
-    })
-  }
-
-  test()
-</script>
-
 <body class = "wrapper">
   <header class = "header">
     <div class="header standard-font dark-font">

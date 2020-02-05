@@ -31,7 +31,7 @@ router.get(
 
   //this is the streaming magic
   archive.pipe(res);
-  archive.directory("./projects/" + project, project);
+  archive.directory("./efs/" + project, project);
   archive.finalize();
 });
 
@@ -59,7 +59,7 @@ router.post(
     // Else, the user has permission to push
     req.pipe(req.busboy);
     req.busboy.on('file', function (fieldname, file, filename) {
-      file.pipe(unzipper.Extract({ path: './projects/' + project }));
+      file.pipe(unzipper.Extract({ path: './efs/' + project }));
 
 
       res.end()

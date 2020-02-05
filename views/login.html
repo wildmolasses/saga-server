@@ -25,6 +25,35 @@
     window.location = "/signup";
   }
 
+  $(document).ready(function() {
+    // register handler for submit button
+    $("#submit").click(function() {
+      var username = document.getElementById("username").value;
+      var password = document.getElementById("password").value;
+      console.log("about to make post:", username, password)
+      $.post("/login",
+        {
+          username: username,
+          password: password
+        },
+        function(data, status) {
+          window.location = "/projects"
+        }
+      ).fail(function() { 
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+      })
+      return false;
+    });
+
+
+  });
+
+  // handle login
+  function handleLogin() {
+    
+  }
+
   // handle twitter redirect
   function twitterRedirect() {
     window.location = "/comingsoon";
@@ -57,8 +86,8 @@
       </div> 
     </header>
 
-  <div class = "page-content">
-    <form action="/login" method="POST" class = "form">
+  <div class="page-content">
+    <form class="form">
       <p class = "form-title standard-font dark-font">
         user login
       </p>
@@ -68,7 +97,7 @@
           username or email
         </p>
 
-        <input class = "input-field standard-font headline-font" type = "text" name = "username" required>
+        <input class = "input-field standard-font headline-font" type = "text" id="username" name = "username" required>
       </div>
 
       <div class = "form-input">
@@ -76,10 +105,12 @@
           password
         </p>
   
-        <input class = "input-field standard-font headline-font" type = "password" name = "password" required>
+        <input class = "input-field standard-font headline-font" type = "password" id="password" name = "password" required>
       </div>
 
-      <button class = "submit-button button standard-font dark-font"> submit </button>
+      <button class="submit-button button standard-font dark-font" id="submit"> 
+        submit
+      </button>
     </form>
 
     <button class = "button" onclick="redirectToAlpha()">

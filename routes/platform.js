@@ -92,19 +92,16 @@ router.post('/login', function(req, res, next) {
     auth.passport.authenticate('local', function(err, user, info) {
         if (err) { return next(err); }
         if (!user) {
-            res.status(401);
-            res.end();
-            return;
+            return res.redirect('/signup');
         }
         req.logIn(user, function(err) {
             if (err) { return next(err); }
             res.status(200);
-            res.end();
-            return;
             return res.redirect('/projects');
         });
     })(req, res, next);
-});*/
+});
+*/
 
 // Logs user out of account by resetting LOGGED_IN_USER
 router.get('/logout', (req, res) => {

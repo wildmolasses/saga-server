@@ -24,6 +24,37 @@
 
 
 <script>
+  window.onload = function() {
+
+    $.get("/userprojects", function(data){
+      username = data.username
+      projects = data.projects
+
+      var i = 0;
+      for (i; i < projects.length; i++) {
+        name = projects[i]
+        createProjectRow(name)
+      }
+    });
+  }
+
+  function createProjectRow(name) {
+    var outerDiv = document.createElement('div');
+    outerDiv.className = "row"
+    var leftDiv = document.createElement('div');
+    leftDiv.className = "left-side"
+
+    var projectName = document.createElement('h1');
+    projectName.className = "project-name dark-font standard-font"
+    projectName.innerHTML = name
+
+    leftDiv.appendChild(projectName)
+    outerDiv.appendChild(leftDiv)
+
+    document.getElementById('page-content').appendChild(outerDiv)
+
+  }
+
   function test() {
     console.log("CALLING TEST");
     $.post("/addcollaborator",
@@ -60,7 +91,7 @@
     </div> 
   </header>
 
-  <div class = "page-content">
+  <div class = "page-content" id = "page-content">
     <div class = "table-header">
         <h1 class = "headline-font standard-font"> project </h1>
 

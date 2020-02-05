@@ -3,11 +3,12 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 // Setup mongo
-mongoose.connect('mongodb://localhost:27017/saga-server', { 
+mongoose.connect('mongodb+srv://admin:oNL1sXL6R0jktqVC@cluster0-4sm65.mongodb.net/production?retryWrites=true&w=majority', { 
     useNewUrlParser: true,
     useUnifiedTopology: true 
 });
 mongoose.set('debug', false);
+
 
 require("../models/Users");
 const Users = mongoose.model('Users');
@@ -16,6 +17,7 @@ const Projects = mongoose.model('Projects');
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
+
         Users.findOne({ username: username }, function (err, user) {
             if (err) { return done(err); }
             if (!user) { return done(null, false); }

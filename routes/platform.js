@@ -8,20 +8,6 @@ const Feedback = mongoose.model('Feedback');
 const auth = require('./auth');
 var exec = require('child_process').exec, child;
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://admin:oNL1sXL6R0jktqVC@cluster0-4sm65.mongodb.net/test?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-
-    var db = client.db('Users');
-
-    db.collection('user').findOne({}, function (findErr, result) {
-        if (findErr) throw findErr;
-        console.log(result);
-        client.close();
-    });
-});
-
 // Render the homePage page
 router.get('/', (req, res) => {
     res.render('homePage.html')
@@ -97,7 +83,6 @@ router.post('/createAccount',
     })
 )
 
-
 /* Login in to an account */
 /*router.post('/login', 
     auth.passport.authenticate('local', {
@@ -110,7 +95,7 @@ router.post('/login', function(req, res, next) {
     auth.passport.authenticate('local', function(err, user, info) {
         if (err) { return next(err); }
         if (!user) {
-            return res.redirect(401, '/alpha');
+            return res.redirect('/signup');
         }
         req.logIn(user, function(err) {
             if (err) { return next(err); }

@@ -140,15 +140,6 @@ router.post("/addcollaborator",
 )
 
 
-// Return Profile Information
-router.get('/getProfileData', (req, res) => {
-    var numRepositories = getCurrentUserNumberOfRepositories(LOGGED_IN_USER)
-    res.send(data = {
-        "username" : LOGGED_IN_USER,
-        "numRepositories" : numRepositories
-    });  
-})
-
 // Creates new empty repository with given name
 router.post('/createNewRepository', (req, res) => {
     repositoryName = req.body.repositoryName

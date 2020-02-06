@@ -116,6 +116,19 @@ router.get("/projectinfo", async function(req, res) {
     }).end();
 })
 
+router.post("/projectpath", async function (req, res) {
+    var project = req.body.project;
+    var path = req.body.path;
+
+    console.log("Project: " + project)
+    console.log("path: " + path)
+
+    
+    var foundPaths = getPathsInRepository(project, path)
+    res.send(data = {paths: foundPaths}).end();
+
+})
+
 router.post("/addcollaborator", 
     auth.loggedIn,    
     async function(req, res) {
@@ -136,6 +149,7 @@ router.post("/addcollaborator",
         }
     }
 )
+
 
 
 // Creates new empty repository with given name
@@ -176,6 +190,25 @@ router.get('/getAllRepositories', (req, res) => {
     userRepositories = getCurrentUsersRepositories(LOGGED_IN_USER)
     res.send(data = {"repositories" : userRepositories})
 })
+
+
+function getPathsInRepository(project, path) {
+    path = "./efs/" + project + path;
+    var status = fs.lstatSync(path);
+    if (status.isDirectory()) {
+        paths = []
+        var contentsAtPath = fs.readdirSync(path);
+        for (var i = 0; i < contentsAtPath.length; i++ ) {
+            console.log(contentsAtPath[i])
+            paths.push(path + contentsAtPath[i])
+        }
+        return paths
+    } else {
+        // Todo: Return File
+    } 
+}
+
+
 
 // Returns the contents of the repository at the given path
 router.post('/getPathInRepository', (req, res) => {
@@ -232,31 +265,6 @@ router.post('/getPathInRepository', (req, res) => {
         }
     }  
 })
-
-/**
- * Fake Databases
- */
-
- /** Accounts Database */
-
-/** Repository Database */
-repositoryMapping = {"aaron" : [".saga"]}
-
-function getPathInRepositoryHelper(accountName, repositoryName, pathInRepository) { 
-    if (!fs.lstatSync(pathInRepository).isDirectory()) {
-        return []
-    } else {
-        for (var i = 0; i <repositoryMapping[accountName].length; i++) {
-            currentRepoName = repositoryMapping[accountName][i]
-            if (currentRepoName == repositoryName) {
-                var contentsAtPath = fs.readdirSync(pathInRepository);
-                console.log("contents at path: " + contentsAtPath)
-                return contentsAtPath
-            }
-        }
-    }
-    return false
-}
 
 function getRepositoryContent(accountName, repositoryName) {
     child = exec('cat *.js bad_file | wc -l',

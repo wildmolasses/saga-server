@@ -38,22 +38,46 @@
     });
   }
 
+  function openProject(projectName) {
+    console.log("called")
+    $.ajax({
+      type: "POST",
+      url: "/projectpath",
+      data: {project: projectName, path: "/"},
+      success: function (data) {
+        console.log(data)
+      }
+    });
+  }
+
   function createProjectRow(name) {
     var outerDiv = document.createElement('div');
     outerDiv.className = "row"
     var leftDiv = document.createElement('div');
     leftDiv.className = "left-side"
 
-    var projectName = document.createElement('h1');
-    projectName.className = "project-name dark-font standard-font"
-    projectName.innerHTML = name
+    var projectButton = document.createElement('button');
+    projectButton.className = "project-name dark-font standard-font"
+    projectButton.id = name
+    projectButton.onclick = function () {
+      openProject(projectButton.id)
+      console.log("clicked project: " + projectButton.id)
+    }
 
-    leftDiv.appendChild(projectName)
+    projectButton.innerHTML = name
+
+    leftDiv.appendChild(projectButton)
     outerDiv.appendChild(leftDiv)
 
     document.getElementById('page-content').appendChild(outerDiv)
 
   }
+
+  function testFunction(name) {
+    console.log("TestFunction")
+    console.log(name)
+  }
+  
 
   function test() {
     console.log("CALLING TEST");

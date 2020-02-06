@@ -48,7 +48,7 @@
 
 .card {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column wrap;
     justify-content: flex-start;
     align-items: center;
     text-align: center;
@@ -56,27 +56,31 @@
     height: 80vh;
 }
 
-.left-navbar {
+.row {
     display: flex;
-    flex-flow: column wrap;
-    justify-content: flex-start;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
     align-items: center;
-    text-align: center;
-    flex-grow: 0;
+    text-align: center; 
+
+    margin-bottom: 2vh;
+
+    width: 100%;
 }
 
-.main-window {
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: center;
-    flex-grow: 8;
+.file-or-folder {
+    font-size: 20px;
+    line-height: 31px;
+    background-color: var(--background-color-landing);
+    color: var(--dark-color);
+    border: 0px solid var(--dark-color);
+    border-radius: 20px;
+    font-size: 20px;
 }
 
-.divider-line {
-    border-left: 6px solid var(--dark-color);
-    height: 80%;
-    margin-left: 20vw;
-  }
+.file-or-folder:hover {
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.1s;
+    color: var(--orange-color);
+}
 

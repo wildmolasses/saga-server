@@ -38,16 +38,35 @@
     });
   }
 
-  function openProject(projectName) {
-    console.log("called")
+  function openProject(path) {
     $.ajax({
       type: "POST",
       url: "/projectpath",
-      data: {project: projectName, path: "/"},
+      data: {path: path},
       success: function (data) {
         console.log(data)
+        for (var i = 0; i < data.paths.length; i++) {
+          listPathContent(data.paths[i])
+        }
       }
     });
+  }
+
+  function listPathContent(path) {
+    console.log("LIST PATH CONTENTS: " + path)
+    splitPath = path.split('/')
+    name = splitPath[splitPath.length - 1]
+    var contentButton = document.createElement('button');
+    contentButton.className = "project-name dark-font standard-font"
+    contentButton.innerHTML = name
+
+    contentButton.onclick = function () {
+      console.log("clicked content button: " + path)
+      openProject(path)
+    }
+
+    document.getElementById('page-content').appendChild(contentButton)
+
   }
 
   function createProjectRow(name) {
@@ -72,13 +91,7 @@
     document.getElementById('page-content').appendChild(outerDiv)
 
   }
-
-  function testFunction(name) {
-    console.log("TestFunction")
-    console.log(name)
-  }
-  
-
+  /*
   function test() {
     console.log("CALLING TEST");
     $.post("/addcollaborator",
@@ -93,8 +106,10 @@
       alert("Failed to add collaborator");
     })
   }
-
   test()
+
+  */
+
 </script>
 
 <body class = "wrapper">

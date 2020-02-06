@@ -117,17 +117,34 @@ router.get("/projectinfo", async function(req, res) {
 })
 
 router.post("/projectpath", async function (req, res) {
-    var project = req.body.project;
     var path = req.body.path;
 
-    console.log("Project: " + project)
     console.log("path: " + path)
 
-    
-    var foundPaths = getPathsInRepository(project, path)
+    var foundPaths = getPathsInRepository(path)
     res.send(data = {paths: foundPaths}).end();
 
 })
+
+
+function getPathsInRepository(path) {
+    pathStartingAtProject = path
+    pathStartingAtEFS = "./efs/" + path;
+    var status = fs.lstatSync(pathStartingAtEFS);
+    if (status.isDirectory()) {
+        paths = []
+        var contentsAtPath = fs.readdirSync(pathStartingAtEFS);
+        for (var i = 0; i < contentsAtPath.length; i++ ) {
+            paths.push(pathStartingAtProject + "/" + contentsAtPath[i])
+        }
+        console.log(paths)
+        return paths
+    } else {
+        console.log("Return File")
+        return []
+        // Todo: Return File
+    } 
+}
 
 router.post("/addcollaborator", 
     auth.loggedIn,    
@@ -190,25 +207,6 @@ router.get('/getAllRepositories', (req, res) => {
     userRepositories = getCurrentUsersRepositories(LOGGED_IN_USER)
     res.send(data = {"repositories" : userRepositories})
 })
-
-
-function getPathsInRepository(project, path) {
-    path = "./efs/" + project + path;
-    var status = fs.lstatSync(path);
-    if (status.isDirectory()) {
-        paths = []
-        var contentsAtPath = fs.readdirSync(path);
-        for (var i = 0; i < contentsAtPath.length; i++ ) {
-            console.log(contentsAtPath[i])
-            paths.push(path + contentsAtPath[i])
-        }
-        return paths
-    } else {
-        // Todo: Return File
-    } 
-}
-
-
 
 // Returns the contents of the repository at the given path
 router.post('/getPathInRepository', (req, res) => {

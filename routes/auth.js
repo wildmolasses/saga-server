@@ -33,8 +33,10 @@ passport.serializeUser(function(user, done) {
     done(null, user.username);
 });
 
+
 passport.deserializeUser(function(username, done) {
     Users.findOne({ username: username }, function (err, user) {
+        user.path = "/"
         done(err, user);
     });
 });

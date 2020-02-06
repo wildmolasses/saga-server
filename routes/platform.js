@@ -122,8 +122,14 @@ router.post("/projectpath", async function (req, res) {
     console.log("path: " + path)
 
     var foundPaths = getPathsInRepository(path)
-    res.send(data = {paths: foundPaths}).end();
-
+    // Path was a directory
+    if (Array.isArray(foundPaths)) {
+        res.send(data = {paths: foundPaths}).end();
+    // Path was a file    
+    } else {
+        console.log("Returning File: " + foundPaths)
+        res.sendFile(foundPaths)
+    }
 })
 
 
@@ -141,8 +147,7 @@ function getPathsInRepository(path) {
         return paths
     } else {
         console.log("Return File")
-        return []
-        // Todo: Return File
+        return pathStartingAtEFS
     } 
 }
 

@@ -45,8 +45,13 @@
       data: {path: path},
       success: function (data) {
         console.log(data)
-        for (var i = 0; i < data.paths.length; i++) {
-          listPathContent(data.paths[i])
+        // Paths to display
+        if (data.paths) {
+          for (var i = 0; i < data.paths.length; i++) {
+            listPathContent(data.paths[i])
+          }
+        } else {
+          console.log(res)
         }
       }
     });
@@ -66,6 +71,18 @@
     }
 
     document.getElementById('page-content').appendChild(contentButton)
+
+  }
+
+  function displayTextFile(file) {
+    var textFile = document.createElement('object')
+    textFile.setAttribute("width") = 300
+    textFile.setAttribute("height") = 300
+    textFile.setAttribute("type") = "text/plain"
+    textFile.data = file
+
+    document.getElementById('page-content').appendChild(textFile)
+
 
   }
 

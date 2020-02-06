@@ -45,10 +45,12 @@ router.get('/projects',
 ) 
 
 // render the profile page
-router.get('/projectHome',
+router.post('/projectHome',
     auth.loggedIn,
     (req, res) => {
-        res.render('projectHome.html')
+        const projectName = req.body.projectName;
+        console.log(projectName)
+        res.render('projectHome.html', {projectName: projectName});
     }
 ) 
 

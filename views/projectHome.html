@@ -15,6 +15,64 @@
   <link rel="stylesheet" href="css/colors.css">
 </head>
 
+<script>
+
+  // TODO Figure out a better way to do this
+  var projectName = "<%= projectName %>";
+  openProject(projectName)
+
+
+  function openProject(path) {
+    $.ajax({
+      type: "POST",
+      url: "/projectpath",
+      data: {path: path},
+      success: function (data) {
+        console.log("Opening Project")
+        console.log(data)
+        // Paths to display
+        if (data.paths) {
+          for (var i = 0; i < data.paths.length; i++) {
+            listPathContent(data.paths[i])
+          }
+        } else {
+          console.log(res)
+        }
+      }
+    });
+    console.log("error??")
+  }
+
+  function listPathContent(path) {
+    console.log("LIST PATH CONTENTS: " + path)
+    splitPath = path.split('/')
+    name = splitPath[splitPath.length - 1]
+    var contentButton = document.createElement('button');
+    contentButton.className = "project-name dark-font standard-font"
+    contentButton.innerHTML = name
+
+    contentButton.onclick = function () {
+      console.log("clicked content button: " + path)
+      openProject(path)
+    }
+
+    document.getElementById('page-content').appendChild(contentButton)
+
+  }
+
+  function displayTextFile(file) {
+    var textFile = document.createElement('object')
+    textFile.setAttribute("width") = 300
+    textFile.setAttribute("height") = 300
+    textFile.setAttribute("type") = "text/plain"
+    textFile.data = file
+
+    document.getElementById('page-content').appendChild(textFile)
+
+
+  }
+</script>
+
 <body class = "wrapper">
   <header class = "header">
     <div class="header standard-font dark-font">
@@ -33,7 +91,7 @@
     </div> 
   </header>
 
-  <div class = "page-content">
+  <div class = "page-content" id = "page-content">
     <div class = "inner-navbar">
         <div class = "left-inner-navbar">
             <h1 class = "headline-font standard-font"> visit branch</h1>

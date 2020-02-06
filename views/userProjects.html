@@ -1,4 +1,8 @@
+
+<div id= "outerContainer">
+
 <!doctype html>
+
 
 <html lang="en">
 <head>
@@ -38,54 +42,6 @@
     });
   }
 
-  function openProject(path) {
-    $.ajax({
-      type: "POST",
-      url: "/projectpath",
-      data: {path: path},
-      success: function (data) {
-        console.log(data)
-        // Paths to display
-        if (data.paths) {
-          for (var i = 0; i < data.paths.length; i++) {
-            listPathContent(data.paths[i])
-          }
-        } else {
-          console.log(res)
-        }
-      }
-    });
-  }
-
-  function listPathContent(path) {
-    console.log("LIST PATH CONTENTS: " + path)
-    splitPath = path.split('/')
-    name = splitPath[splitPath.length - 1]
-    var contentButton = document.createElement('button');
-    contentButton.className = "project-name dark-font standard-font"
-    contentButton.innerHTML = name
-
-    contentButton.onclick = function () {
-      console.log("clicked content button: " + path)
-      openProject(path)
-    }
-
-    document.getElementById('page-content').appendChild(contentButton)
-
-  }
-
-  function displayTextFile(file) {
-    var textFile = document.createElement('object')
-    textFile.setAttribute("width") = 300
-    textFile.setAttribute("height") = 300
-    textFile.setAttribute("type") = "text/plain"
-    textFile.data = file
-
-    document.getElementById('page-content').appendChild(textFile)
-
-
-  }
-
   function createProjectRow(name) {
     var outerDiv = document.createElement('div');
     outerDiv.className = "row"
@@ -96,8 +52,16 @@
     projectButton.className = "project-name dark-font standard-font"
     projectButton.id = name
     projectButton.onclick = function () {
-      openProject(projectButton.id)
       console.log("clicked project: " + projectButton.id)
+      $.ajax({
+        type: "POST",
+        url: "/projectHome",
+        data: {projectName: projectButton.id},
+        success: function (redirectedPage) {
+          // TODO figure out a better way to render a new page in a AJAX Call
+          $('#outerContainer').html(redirectedPage);
+        }
+      });
     }
 
     projectButton.innerHTML = name
@@ -108,24 +72,6 @@
     document.getElementById('page-content').appendChild(outerDiv)
 
   }
-  /*
-  function test() {
-    console.log("CALLING TEST");
-    $.post("/addcollaborator",
-      {
-        project: "saga",
-        collaborator: "1234"
-      },
-      function(data, status) {
-        alert("Added collaborator")
-      }
-    ).fail(function() { 
-      alert("Failed to add collaborator");
-    })
-  }
-  test()
-
-  */
 
 </script>
 
@@ -177,3 +123,4 @@
 
   </div>
 </body>
+<div>

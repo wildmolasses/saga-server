@@ -28,9 +28,14 @@
       url: "/projectpath",
       data: {path: path},
       success: function (data) {
-        console.log("Opening Project")
         console.log(data)
-        // Paths to display
+         // Clear Project Directory
+        var projectDirectory = document.getElementById('project-directory')
+        while (projectDirectory.firstChild) {
+          projectDirectory.removeChild(projectDirectory.firstChild);
+        }
+
+        // Display new paths
         if (data.paths) {
           for (var i = 0; i < data.paths.length; i++) {
             listPathContent(data.paths[i])
@@ -47,8 +52,17 @@
     console.log("LIST PATH CONTENTS: " + path)
     splitPath = path.split('/')
     name = splitPath[splitPath.length - 1]
+
+    var row = document.createElement('div')
+
+    var graphic = document.createElement('img')
+    graphic.className = "graphics"
+    graphic.src = "/graphics/userPages/folder.png"
+    graphic.width = "20"
+    graphic.height = "20"
+
     var contentButton = document.createElement('button');
-    contentButton.className = "project-name dark-font standard-font"
+    contentButton.className = "file-or-folder standard-font dark-font"
     contentButton.innerHTML = name
 
     contentButton.onclick = function () {
@@ -56,7 +70,10 @@
       openProject(path)
     }
 
-    document.getElementById('page-content').appendChild(contentButton)
+    row.appendChild(graphic)
+    row.appendChild(contentButton)
+
+    document.getElementById('project-directory').appendChild(row)
 
   }
 
@@ -67,8 +84,7 @@
     textFile.setAttribute("type") = "text/plain"
     textFile.data = file
 
-    document.getElementById('page-content').appendChild(textFile)
-
+    document.getElementById('project-directory').appendChild(textFile)
 
   }
 </script>
@@ -101,11 +117,7 @@
             <h1 class = "headline-font standard-font"> contribute</h1>
         </div>
     </div>
-    <div class = "project-directory">
-      <div class = "row">
-          <img class="graphics" src="/graphics/userPages/folder.png" width="20" height="20"></img>
-          <button class = "file-or-folder standard-font dark-font"> Folder Name</button>
-      </div>
+    <div class = "project-directory" id = "project-directory">
     </div>
     
   </div>

@@ -143,11 +143,21 @@ function getPathsInRepository(path) {
         paths = []
         var contentsAtPath = fs.readdirSync(pathStartingAtEFS);
         for (var i = 0; i < contentsAtPath.length; i++ ) {
-            paths.push(pathStartingAtProject + "/" + contentsAtPath[i])
+            var newPath = pathStartingAtProject + "/" + contentsAtPath[i]
+            var newPathStartingAtEFS = "./efs/" + newPath
+            var newPathStatus = fs.lstatSync(newPathStartingAtEFS);
+            if (newPathStatus.isDirectory()) {
+                // true if directory
+                paths.push({path: newPath, isDirectory: true})
+            } else {
+                // false if file
+                paths.push({path: newPath, isDirectory: false})
+            }
         }
         console.log(paths)
         return paths
     } else {
+        // TODO Return the File
         console.log("Return File")
         return pathStartingAtEFS
     } 

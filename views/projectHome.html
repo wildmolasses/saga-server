@@ -38,26 +38,35 @@
         // Display new paths
         if (data.paths) {
           for (var i = 0; i < data.paths.length; i++) {
-            listPathContent(data.paths[i])
+            var path = data.paths[i].path
+            var isDirectory = data.paths[i].isDirectory
+            listPathContent(path, isDirectory)
           }
         } else {
           console.log(res)
         }
       }
     });
-    console.log("error??")
   }
 
-  function listPathContent(path) {
+  function listPathContent(path, isDirectory) {
     console.log("LIST PATH CONTENTS: " + path)
+
+    // Get name of file or directory
     splitPath = path.split('/')
     name = splitPath[splitPath.length - 1]
 
     var row = document.createElement('div')
-
     var graphic = document.createElement('img')
     graphic.className = "graphics"
-    graphic.src = "/graphics/userPages/folder.png"
+
+
+    // Set image for file or directory
+    if (isDirectory) {
+      graphic.src = "/graphics/userPages/folder.png"
+    } else {
+      graphic.src = "/graphics/userPages/file.png"
+    }
     graphic.width = "20"
     graphic.height = "20"
 

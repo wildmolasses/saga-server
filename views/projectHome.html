@@ -35,6 +35,11 @@
           projectDirectory.removeChild(projectDirectory.firstChild);
         }
 
+        // Set project Title 
+        // Todo if projectName is too long, split into multiple rows
+        var projectTitle = document.getElementById("project-title")
+        projectTitle.innerHTML = projectName
+
         // Display new paths
         if (data.paths) {
           for (var i = 0; i < data.paths.length; i++) {
@@ -71,7 +76,7 @@
     graphic.height = "20"
 
     var contentButton = document.createElement('button');
-    contentButton.className = "file-or-folder standard-font dark-font"
+    contentButton.className = "file-or-folder hoverable standard-font dark-font"
     contentButton.innerHTML = name
 
     contentButton.onclick = function () {
@@ -126,8 +131,40 @@
             <h1 class = "headline-font standard-font"> contribute</h1>
         </div>
     </div>
-    <div class = "project-directory" id = "project-directory">
+
+    <div class = "main-card">
+        <div class = "left-nav-bar">
+          <div class = "left-nav-bar-row">
+            <h1 class = "project-title-font bold-font dark-font" id = "project-title"></h1>
+          </div>
+          <div class = "left-nav-bar-row">
+              <img class="graphics" src="/graphics/userPages/overview-logo.png" width="20" height="20"></img>
+              <h1 class = "left-nav-bar-font hoverable standard-font dark-font">overview</h1> 
+          </div>
+
+          <div class = "left-nav-bar-row">
+              <img class="graphics" src="/graphics/userPages/master-logo.png" width="20" height="20"></img>
+              <h1 class = "left-nav-bar-font hoverable standard-font dark-font">master</h1> 
+          </div>
+
+          <div class = "left-nav-bar-row">
+              <img class="graphics" src="/graphics/userPages/branch-logo.png" width="20" height="20"></img>
+              <h1 class = "left-nav-bar-font hoverable standard-font dark-font">branches</h1> 
+          </div>
+
+          <div class = "left-nav-bar-row">
+              <img class="graphics" src="/graphics/userPages/issue-logo.png" width="20" height="20"></img>
+              <h1 class = "left-nav-bar-font hoverable standard-font dark-font">issues</h1> 
+          </div>
+        </div>
+
+        <div class = "project-directory" id = "project-directory"></div>
+
+
+
     </div>
+
+
     
   </div>
 

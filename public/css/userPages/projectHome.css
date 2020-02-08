@@ -23,8 +23,6 @@
     justify-content: flex-start;
     align-items: center;
     text-align: center;
-    width: 80%;
-    margin-left: 15vw;
 }
 
 .left-inner-navbar {
@@ -57,7 +55,7 @@
 .left-nav-bar {
     margin-left: 2vw;
     margin-right: 2vw;
-    border-right: 3px solid var(--dark-color);
+    border-right: 2px solid var(--dark-color);
 }
 
 .project-title-font {
@@ -78,6 +76,10 @@
     font-size: 20px;
     line-height: 30px;
     margin-left: 10px;
+}
+
+.right-side {
+    flex-grow: 1
 }
 
 .project-directory {
@@ -112,3 +114,22 @@
     color: var(--orange-color);
 }
 
+
+.inner-nav-button {
+    background-color: var(--background-color-user);
+    color: var(--dark-color);
+    border: 3px solid var(--dark-color);
+    border-radius: 20px;
+    font-size: 20px;
+    padding: 5px 10px;
+}
+
+.inner-nav-button:hover {
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    background-color: var(--orange-color);
+}
+
+.spacer {
+    margin-right: 1vw;
+}

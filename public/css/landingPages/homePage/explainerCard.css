@@ -9,6 +9,17 @@
     background: var(--dark-color)
 }
 
+/* Small screens */
+@media all and (max-width: 500px) {
+    .explainer-card {
+        display: none;
+    }
+
+    .lower-title-card {
+        display: none;
+    }
+}
+
 .card-title {
     font-size: 60px;
     line-height: 70px;

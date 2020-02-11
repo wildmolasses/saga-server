@@ -9,8 +9,8 @@
     background: var(--dark-color)
 }
 
-/* Small screens */
-@media all and (max-width: 500px) {
+/* smart phones */
+@media (hover: none) and (pointer: coarse) {
     .explainer-card {
         display: none;
     }

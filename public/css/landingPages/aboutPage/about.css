@@ -69,8 +69,8 @@
 }
 
 
-/* Small screens */
-@media all and (max-width: 500px) {
+/* smart phones */
+@media (hover: none) and (pointer: coarse) {
     .employee-card {
         width: 80%;
     }

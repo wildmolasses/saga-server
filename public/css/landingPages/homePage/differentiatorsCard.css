@@ -87,3 +87,11 @@
 .differentiators-link {
     text-decoration: underline;
 }
+
+/* smart phones */
+@media (hover: none) and (pointer: coarse) {
+    .subtext {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+}

@@ -9,6 +9,17 @@
     background: var(--dark-color)
 }
 
+/* smart phones */
+@media (hover: none) and (pointer: coarse) {
+    .explainer-card {
+        display: none;
+    }
+
+    .lower-title-card {
+        display: none;
+    }
+}
+
 .card-title {
     font-size: 60px;
     line-height: 70px;

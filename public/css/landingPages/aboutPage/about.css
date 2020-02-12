@@ -64,18 +64,16 @@
     margin-left: 2vw;
     margin-right: 2vw;
 
-
-    padding-left: 2vw;
-    padding-right: 2vw;
+    width: 25%;
 
 }
 
-.left-card {
-    margin-left: 10vh;
-}
 
-.right-card {
-    margin-right: 10vh;
+/* smart phones */
+@media (hover: none) and (pointer: coarse) {
+    .employee-card {
+        width: 80%;
+    }
 }
 
 .employee-photo {

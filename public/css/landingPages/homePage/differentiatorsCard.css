@@ -78,7 +78,7 @@
 
 .subtext{
     font-size: 40px;
-    line-height: 51px;
+    line-height: 60px;
     margin-left: 20px;
     margin-top: 0px;
     margin-bottom: 0px;
@@ -86,4 +86,12 @@
 
 .differentiators-link {
     text-decoration: underline;
+}
+
+/* smart phones */
+@media (hover: none) and (pointer: coarse) {
+    .subtext {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
 }

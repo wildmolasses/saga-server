@@ -50,6 +50,37 @@ describe('public routes allow access', function () {
   });
 });
 
+
+describe('private routes do not allow unauthenticated', function () {
+
+  it('for /projects', function test(done) {
+    request(app)
+      .get('/projects')
+      .expect(401, done);
+  });
+
+  it('for /projectHome', function test(done) {
+    request(app)
+      .get('/projectHome')
+      .expect(401, done);
+  });
+
+  it('for /userprojects', function test(done) {
+    request(app)
+      .get('/userprojects')
+      .expect(401, done);
+  });
+
+  it('for /addcollaborator', function test(done) {
+    request(app)
+      .post('/addcollaborator')
+      .send({project: "test", collaborator: "test"})
+      .expect(401, done);
+  });
+});
+
+
+
 describe('private routes do allow access', function () {
 
   // helper for logging in

@@ -50,7 +50,7 @@
     projectButton.onclick = function () {
       console.log("clicked project: " + projectButton.id)
       $.ajax({
-        type: "POST",
+        type: "GET",
         url: "/projectHome",
         data: {projectName: projectButton.id},
         success: function (redirectedPage) {

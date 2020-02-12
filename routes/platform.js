@@ -36,7 +36,7 @@ router.get('/projects',
 ) 
 
 // render the profile page
-router.post('/projectHome',
+router.get('/projectHome',
     auth.loggedIn,
     (req, res) => {
         const projectName = req.body.projectName;
@@ -55,7 +55,9 @@ router.post('/createAccount',
     })
 )
 
-router.get("/userprojects", async function(req, res) {
+router.get("/userprojects", 
+    auth.loggedIn,
+    async function(req, res) {
     var username = req.user.username;
     var user = await Users.findOne({ username: username }).exec();
     res.send(data={

@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
-const jwt = require('jsonwebtoken');
 
 const UsersSchema = new mongoose.Schema({
     username: String,

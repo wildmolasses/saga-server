@@ -1,44 +1,40 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const passport = require('./routes/auth').passport;
-var busboy = require('connect-busboy');
+const express = require('express');
+const createError = require('http-errors');
+const cookieParser = require('cookie-parser');
+const path = require('path');
+const logger = require('morgan');
+const busboy = require('connect-busboy');
 
-var app = express();
+// Create the express app
+const app = express();
 
-app.engine('html', require('ejs').renderFile);
+// setup the database
+require("./utils/database");
 
 // view engine setup
+app.engine('html', require('ejs').renderFile);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-//app.use('/static', express.static('public'))
+// Setup some middleware
 app.use(express.static('public'))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-//app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '../public'));
+app.use(busboy()); // for files
 
 // Finially, we set up passports and sessions
+const passport = require('./routes/auth').passport
 app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// For files?
-app.use(busboy()); 
-
 // setup routes
-const cliRouter = require('./routes/cli');
-const usersRouter = require('./routes/users');
-const platformRouter = require('./routes/platform')
-
-app.use('/', platformRouter);
-app.use('/users', usersRouter);
-app.use(cliRouter)
+app.use(require('./routes/public'))
+app.use(require('./routes/platform'));
+app.use(require('./routes/cli'))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

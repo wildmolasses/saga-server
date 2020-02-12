@@ -1,11 +1,10 @@
-var express = require('express');
-var archiver = require('archiver');
-var unzipper = require('unzipper');
-const passport = require('./auth').passport;
-var auth = require('./auth');
-fs = require('fs-extra');
+const express = require('express');
+const archiver = require('archiver');
+const unzipper = require('unzipper');
+const dbutils = require('../utils/utils')
+const auth = require('./auth');
 
-var router = express.Router();
+const router = express.Router();
 
 
 
@@ -13,12 +12,8 @@ var router = express.Router();
 router.get(
   "/:project.saga",
   function(req, res) {
-  // TODO: we want to get the specific thing they want to pull
-  // TODO: we need to authenticate they can actually pull it
 
   project = req.params.project
-
-  console.log(project)
 
   var archive = archiver('zip');
 
@@ -43,14 +38,13 @@ router.post(
 
     // If the project exists, we need to check if the user is a collaborator
     
-    if (await auth.projectExists(project)) {
-      if (!(await auth.isCollaborator(req.user.username, project))) {
-        console.log("NOT AN EDITOR OF THIS PROJECT");
+    if (await dbutils.projectExists(project)) {
+      if (!(await dbutils.isCollaborator(req.user.username, project))) {
         res.status(403).send("You must be a collaborator to edit this project");
         return;
       }
     } else {
-      await auth.createProject(project, req.user.username);
+      await dbutils.createProject(project, req.user.username);
     }
 
     // Else, the user has permission to push

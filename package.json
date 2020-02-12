@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "devStart": "nodemon npm start"
+    "devStart": "nodemon npm start",
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "dependencies": {
     "archive": "0.0.2",
@@ -35,7 +36,10 @@
     "zip-a-folder": "0.0.9"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "dotenv": "^8.2.0",
-    "nodemon": "^1.19.4"
+    "mocha": "^7.0.1",
+    "nodemon": "^1.19.4",
+    "supertest": "^4.0.2"
   }
 }

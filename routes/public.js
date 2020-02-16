@@ -43,9 +43,10 @@ router.post('/submit-feedback', (req, res) => {
     feedback.relevance = relevance;
     feedback.response = response;
 
-    feedback.save().then(() =>{
-        res.render('contact.html')
-    })
+    // TODO: display some "received" message
+    res.render('contact.html');
+    // Then save the feedback
+    feedback.save();
 })
 
 module.exports = router;

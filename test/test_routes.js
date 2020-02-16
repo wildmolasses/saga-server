@@ -1,6 +1,29 @@
+var mongoose = require('mongoose');
 const request = require('supertest');
 const assert = require('chai').assert
 const app = require("../app");
+
+function waitForConnection() {
+  return new Promise(function(resolve, reject) {
+    function checkConnection() {
+      if (mongoose.connection.readyState === 1) {
+        // the connection has veen created
+        resolve();
+      } else {
+        setTimeout(checkConnection, 1000);
+      }
+    }
+    checkConnection();
+  });
+}
+
+
+before(async function() {
+  this.timeout(10000);
+  console.log("Waiting for connection with database");
+  await waitForConnection();
+  console.log("Connected to database");
+})
 
 describe('public routes allow access', function () {
 
@@ -102,14 +125,14 @@ describe('private routes do allow access', function () {
       assert(res.status, 200);
       done();
     });
-  });
+  }).timeout(4000);
 
   it('does not allow the user to login with incorrect password', function test(done) {
     createAuthenticatedRequest({ username: 'aarondia', password: 'aarondia1' }, function(res, user) {
       assert(res.status, 401);
       done();
     });
-  });
+  }).timeout(4000);
 
   it('doesnt allow user in with missing feild', function test(done) {
     createAuthenticatedRequest({ username: 'aarondia'}, function(res, user) {
@@ -120,7 +143,7 @@ describe('private routes do allow access', function () {
       assert(res.status, 400);
       done();
     });
-  });
+  }).timeout(4000);
 
   it('allows use to get homepage', function test(done) {
     createAuthenticatedRequest({ username: 'aarondia', password: 'aarondia'}, function(res, user) {
@@ -134,6 +157,6 @@ describe('private routes do allow access', function () {
           done();
         });
     });
-  });
+  }).timeout(4000);
 });
 

@@ -1,4 +1,4 @@
-.differentiators-card {
+.differentiatiorsCard {
     display: flex;
     flex-flow: column wrap;
     justify-content: flex-start;
@@ -11,6 +11,7 @@
     flex-flow: column wrap;
     justify-content: flex-start;
     align-items: center;
+    width: 90%
 }
 
 .content {
@@ -36,6 +37,7 @@
     display: flex;
     flex-flow: column wrap;
     justify-content: flex-start;
+    text-align: left;
 }
 
 .subtext-with-bar{
@@ -73,8 +75,8 @@
     font-size: 40px;
     line-height: 60px;
     margin-left: 20px;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
 }
 
 .differentiators-link {

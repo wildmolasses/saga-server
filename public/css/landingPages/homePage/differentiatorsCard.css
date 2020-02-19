@@ -44,14 +44,10 @@
     display: flex;
     flex-flow: row;
     justify-content: flex-start;
-    flex-grow: 0;
-    flex-basis: 0;
     align-items: center;
-    margin-top: 30px;
-}
+    margin-top: 1vh;
+    margin-bottom: 1vh;
 
-.subtext-bottom-margin{
-    margin-bottom: 30px;
 }
 
 .reason-title {
@@ -75,10 +71,11 @@
     font-size: 40px;
     line-height: 60px;
     margin-left: 20px;
-    margin-top: 1vh;
-    margin-bottom: 1vh;
 }
 
+.differentiators-link-div {
+    margin-top: 2vh;
+}
 .differentiators-link {
     text-decoration: underline;
 }

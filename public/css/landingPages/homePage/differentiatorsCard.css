@@ -32,13 +32,6 @@
     margin-top: 10vh;
 }
 
-.text-content {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    flex-grow: 1;
-}
-
 .text-column {
     display: flex;
     flex-flow: column wrap;

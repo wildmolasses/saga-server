@@ -1,4 +1,8 @@
+# don't store packages
 node_modules/
+# don't store enviorment secrets
+.env
+# sorry apple :)
 *.DS_Store
+# don't store the efs folder containing the projects
 efs/
-projects/

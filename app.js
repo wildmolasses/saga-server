@@ -5,10 +5,11 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const logger = require('morgan');
 const busboy = require('connect-busboy');
-var compression = require('compression');
-var helmet = require('helmet');
-
-//console.log("Node PORT", process.env.PORT);
+const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const compression = require('compression');
+const helmet = require('helmet');
 
 // Create the express app
 const app = express();
@@ -36,11 +37,12 @@ app.use(busboy()); // for files
 
 // Finially, we set up passports and sessions
 const passport = require('./routes/auth').passport
-app.use(
-  require('express-session')(
-    { secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false }
-  )
-);
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  saveUninitialized: false,
+  resave: false,
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 

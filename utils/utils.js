@@ -70,8 +70,8 @@ async function userExists(username) {
 }
 
 async function projectExists(project) {
-    const project = await Projects.findOne({project: project}).exec();
-    return project !== null;
+    const projectObj = await Projects.findOne({project: project}).exec();
+    return projectObj !== null;
 }
 
 module.exports = {

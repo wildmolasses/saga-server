@@ -43,21 +43,29 @@
         var projectTitle = document.getElementById("project-title")
         projectTitle.innerHTML = projectName
 
-        // Display new paths
+        // If Query Returned Paths -> Display new paths
         if (data.paths) {
           for (var i = 0; i < data.paths.length; i++) {
             var path = data.paths[i].path
             var isDirectory = data.paths[i].isDirectory
             listPathContent(path, isDirectory)
           }
-        // Display File Contents
+
+        // If Query Returned a File -> Display File Contents
         } else {
           // Find each new line in data
           dataLineDivided = data.split("\n")
 
+          // The First line is the path
           var title = document.createElement('h1')
           title.className = "file-title standard-font dark-font"
           title.innerHTML = "viewing: " + dataLineDivided[0]
+          document.getElementById('project-directory').appendChild(title)
+
+          // Create Back Button To Return to Project Library
+          var lastIndex = dataLineDivided[0].lastIndexOf('/');
+          var returnPath = dataLineDivided[0].substr(0, lastIndex)
+          listPathContent(returnPath, true)
 
           // create display window for lines
           var fileContents = document.createElement('div')
@@ -72,7 +80,6 @@
           }
 
           // append file contents to the project view
-          document.getElementById('project-directory').appendChild(title)
           document.getElementById('project-directory').appendChild(fileContents)
         }
       }

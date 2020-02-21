@@ -46,7 +46,7 @@
 
 .main-card {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row;
     justify-content: flex-start;
     align-items: top;
     text-align: left; 
@@ -132,4 +132,20 @@
 
 .spacer {
     margin-right: 1vw;
+}
+
+.file-title {
+    font-size: 30px;
+    line-height: 37px;
+}
+
+.file-contents {
+    border: 3px solid #000000;
+    box-sizing: border-box;
+    border-radius: 20px;
+    margin-right: 3vw;
+}
+
+.file-lines {
+    margin-left: 2vw;
 }

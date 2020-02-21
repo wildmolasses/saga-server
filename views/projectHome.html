@@ -55,19 +55,24 @@
           // Find each new line in data
           dataLineDivided = data.split("\n")
 
+          var title = document.createElement('h1')
+          title.className = "file-title standard-font dark-font"
+          title.innerHTML = "viewing: " + dataLineDivided[0]
+
           // create display window for lines
           var fileContents = document.createElement('div')
-          fileContents.className = 'standard-font dark-font'
+          fileContents.className = 'file-contents standard-font dark-font'
 
           // create each line and append it to display window
-          for (var i = 0; i < dataLineDivided.length; i++) {
-            //appendLineOfFile(parent, lineContent)
+          for (var i = 1; i < dataLineDivided.length; i++) {
             var lineOfFile = document.createElement('div')
+            lineOfFile.className = "file-lines" 
             lineOfFile.innerHTML = dataLineDivided[i]
             fileContents.appendChild(lineOfFile)
           }
 
           // append file contents to the project view
+          document.getElementById('project-directory').appendChild(title)
           document.getElementById('project-directory').appendChild(fileContents)
         }
       }

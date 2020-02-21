@@ -134,6 +134,8 @@ router.post("/projectpath", async function (req, res) {
          // This line opens the file as a readable stream
         var readStream = fs.createReadStream(pathStartingAtEFS);
 
+        readStream.push(path + '\n')
+
         // Open File as a readable stream
         readStream.on('open', function () {
             // This just pipes the read stream to the response object (which goes to the client)

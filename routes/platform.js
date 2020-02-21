@@ -129,8 +129,23 @@ router.post("/projectpath", async function (req, res) {
         res.send(data = {paths: foundPaths}).end();
     // Path was a file    
     } else {
-        console.log("Returning File: " + foundPaths)
-        res.sendFile(foundPaths)
+        pathStartingAtEFS = "./efs/" + path;
+
+         // This line opens the file as a readable stream
+        var readStream = fs.createReadStream(pathStartingAtEFS);
+
+        // Open File as a readable stream
+        readStream.on('open', function () {
+            // This just pipes the read stream to the response object (which goes to the client)
+            readStream.pipe(res);
+            console.log(res)
+
+        });
+
+        // This catches any errors that happen while creating the readable stream (usually invalid names)
+        readStream.on('error', function(err) {
+            res.end(err);
+        });
     }
 })
 
@@ -183,8 +198,6 @@ router.post("/addcollaborator",
         }
     }
 )
-
-
 
 // Creates new empty repository with given name
 router.post('/createNewRepository', (req, res) => {

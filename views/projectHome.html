@@ -50,8 +50,12 @@
             var isDirectory = data.paths[i].isDirectory
             listPathContent(path, isDirectory)
           }
+        // Display File Contents
         } else {
-          console.log(res)
+          var fileContents = document.createElement('div')
+          fileContents.className = 'standard-font dark-font'
+          fileContents.innerHTML = data
+          document.getElementById('project-directory').appendChild(fileContents)
         }
       }
     });
@@ -67,7 +71,6 @@
     var row = document.createElement('div')
     var graphic = document.createElement('img')
     graphic.className = "graphics"
-
 
     // Set image for file or directory
     if (isDirectory) {

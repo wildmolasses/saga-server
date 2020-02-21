@@ -52,9 +52,22 @@
           }
         // Display File Contents
         } else {
+          // Find each new line in data
+          dataLineDivided = data.split("\n")
+
+          // create display window for lines
           var fileContents = document.createElement('div')
           fileContents.className = 'standard-font dark-font'
-          fileContents.innerHTML = data
+
+          // create each line and append it to display window
+          for (var i = 0; i < dataLineDivided.length; i++) {
+            //appendLineOfFile(parent, lineContent)
+            var lineOfFile = document.createElement('div')
+            lineOfFile.innerHTML = dataLineDivided[i]
+            fileContents.appendChild(lineOfFile)
+          }
+
+          // append file contents to the project view
           document.getElementById('project-directory').appendChild(fileContents)
         }
       }

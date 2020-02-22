@@ -1,4 +1,4 @@
-.differentiators-card {
+.differentiatiorsCard {
     display: flex;
     flex-flow: column wrap;
     justify-content: flex-start;
@@ -11,6 +11,7 @@
     flex-flow: column wrap;
     justify-content: flex-start;
     align-items: center;
+    width: 90%
 }
 
 .content {
@@ -32,31 +33,21 @@
     margin-top: 10vh;
 }
 
-.text-content {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    flex-grow: 1;
-}
-
 .text-column {
     display: flex;
     flex-flow: column wrap;
     justify-content: flex-start;
+    text-align: left;
 }
 
 .subtext-with-bar{
     display: flex;
     flex-flow: row;
     justify-content: flex-start;
-    flex-grow: 0;
-    flex-basis: 0;
     align-items: center;
-    margin-top: 30px;
-}
+    margin-top: 1vh;
+    margin-bottom: 1vh;
 
-.subtext-bottom-margin{
-    margin-bottom: 30px;
 }
 
 .reason-title {
@@ -80,10 +71,11 @@
     font-size: 40px;
     line-height: 60px;
     margin-left: 20px;
-    margin-top: 0px;
-    margin-bottom: 0px;
 }
 
+.differentiators-link-div {
+    margin-top: 2vh;
+}
 .differentiators-link {
     text-decoration: underline;
 }

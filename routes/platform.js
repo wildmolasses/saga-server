@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 require("../models/Feedback");
 const Feedback = mongoose.model('Feedback');
 const auth = require('./auth');
-var exec = require('child_process').exec, child;
+const child_process = require('child_process');
 
 const Users = mongoose.model('Users');
 const Projects = mongoose.model('Projects');
@@ -109,6 +109,27 @@ router.get("/userprojects", async function(req, res) {
     }).end();
 })
 
+router.get("/getBranches" , async function (req, res) {
+    // TODO make sure this does not allow for injection attacks
+    var project = req.query.projectName;
+    var child = child_process.spawn('cd efs/' + project + ' && saga branch', {
+        shell: true
+    });
+    
+    child.stderr.on('data', function (data) {
+        console.error("STDERR:", data.toString());
+    });
+    child.stdout.on('data', function (data) {
+        var branches = data.toString()
+        res.send(data= {
+            "branches": branches
+        }).end();
+    });
+    child.on('exit', function (exitCode) {
+        console.log("Child exited with code: " + exitCode);
+    });
+
+})
 router.get("/projectinfo", async function(req, res) {
     var project = req.query.project;
     projectData = await Projects.findOne({ project: project }).exec();
@@ -120,8 +141,10 @@ router.get("/projectinfo", async function(req, res) {
 
 router.post("/projectpath", async function (req, res) {
     var path = req.body.path;
+    var branch = req.body.branch;
 
     console.log("path: " + path)
+    console.log("branch: " + branch)
 
     var foundPaths = getPathsInRepository(path)
     // Path was a directory

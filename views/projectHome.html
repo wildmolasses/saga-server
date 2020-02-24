@@ -22,14 +22,45 @@
 
   // TODO Figure out a better way to do this
   var projectName = "<%= projectName %>";
-  openProject(projectName)
+  console.log(projectName)
+  openProject(projectName, "master")
 
+  function getBranches() {
+    $.ajax({
+      type: "GET",
+      url: "/getBranches",
+      data: {projectName: projectName},
+      success: function (data) {
+        var branches = data.branches.replace("*", " ").trim().split("\n")
+        console.log(branches)
+        var branchesDisplay = document.getElementById("branches")
+        var dropdown = document.createElement('div')
+        dropdown.className = "dropdown"
+        for (var i = 0; i < branches.length; i++) {
+          dropdown.append(createBranchButton(branches[i]))
+        }
+        branchesDisplay.appendChild(dropdown)
+      }
+    })
+  }
 
-  function openProject(path) {
+  function createBranchButton(branchName) {
+      branchName =  branchName.trim()
+      var branch = document.createElement('button')
+      branch.id = branchName
+      branch.innerHTML = branchName
+      branch.onclick = function() {
+        openProject(projectName, branchName)
+      }
+      return branch      
+  }
+
+  function openProject(path, branch) {
+    console.log("BRANCH:" + branch)
     $.ajax({
       type: "POST",
       url: "/projectpath",
-      data: {path: path},
+      data: {path: path, branch: branch},
       success: function (data) {
         console.log(data)
          // Clear Project Directory
@@ -181,8 +212,8 @@
         </div>
         <div class = "right-side">
             <div class = "inner-navbar">
-                <div class = "left-inner-navbar">
-                    <button class = "inner-nav-button headline-font standard-font"> visit branch </button>
+                <div class = "left-inner-navbar" id = "branches">
+                    <button class = "inner-nav-button headline-font standard-font" onclick="getBranches();"> visit branch </button>
                 </div>
                 <div class = "right-inner-navbar">
                     <button class = "inner-nav-button spacer headline-font standard-font"> branch </button>

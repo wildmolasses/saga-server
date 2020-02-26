@@ -45,14 +45,25 @@ router.get('/projectHome',
     }
 ) 
 
+/* Create a new account */
+router.get('/currentuser',
+    function(req, res) {
+        if (req.user) {
+            res.json({username: req.user.username});
+        } else {
+            res.json({});
+        }
+    }
+)
+
 
 /* Create a new account */
 router.post('/createAccount',
     dbutils.createAccount,
-    auth.passport.authenticate('local', {
-        successRedirect: '/projects',
-        failureRedirect: '/alpha'
-    })
+    auth.passport.authenticate('local'),
+    function(req, res) {
+        res.status(200).end();
+    }
 )
 
 router.get("/userprojects", 

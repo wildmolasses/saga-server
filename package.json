@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=production node ./bin/www",
-    "devStart": "NODE_ENV=development nodemon npm start",
+    "devStart": "NODE_ENV=dev nodemon node ./bin/www",
     "test": "NODE_ENV=development ./node_modules/mocha/bin/mocha"
   },
   "dependencies": {

@@ -8,13 +8,13 @@ async function isCollaborator(username, project) {
     return user.projects.includes(project);
 }
 
-async function createAccount(req, _, next) {
+async function createAccount(req, res, next) {
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
 
-    const userExists = await userExists(username);
-    if (!userExists) {
+    const exists = await userExists(username);
+    if (!exists) {
         const user = new Users();
         user.username = username;
         user.email = email
@@ -23,6 +23,8 @@ async function createAccount(req, _, next) {
         user.save().then(() => {
             next();
         });
+    } else {
+        res.status(409).end();
     }
 }
 

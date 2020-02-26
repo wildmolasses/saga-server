@@ -205,7 +205,6 @@ router.post("/projectpath", async function (req, res) {
     }
 })
 
-
 function getPathsInRepository(path) {
     pathStartingAtProject = path
     pathStartingAtEFS = "./efs/" + path;
@@ -354,58 +353,5 @@ function getRepositoryContent(accountName, repositoryName) {
     });
  child();
 }
-
-function getCurrentUsersRepositories(accountName) {
-    if (accountName in repositoryMapping) {
-        return repositoryMapping[accountName]
-    } else {
-        return []
-    }
-}
-
-function getCurrentUserNumberOfRepositories(accountName) {
-    var count = 0
-    if (accountName in repositoryMapping) {
-        count++
-    } 
-    return count
-}
-
-function repositoryExists(accountName, repositoryName) {
-    if (accountName in repositoryMapping && repositoryMapping[accountName].indexOf(repositoryName) > -1) {
-        return true
-    } 
-    return false
-}
-
-function createRepository (repositoryLocation, accountName, repositoryName) {
-    // if the user already has a repo named repositoryName
-    if (repositoryExists(accountName, repositoryName)) {
-        return false    
-    } else {
-        fs.mkdirSync(repositoryLocation, { recursive: true })
-        fs.mkdirSync(repositoryLocation + '/commits', { recursive: true })
-        fs.mkdirSync(repositoryLocation + '/index', { recursive: true })
-        fs.mkdirSync(repositoryLocation + '/states', { recursive: true })
-        // if the user has at least one repo
-        if (accountName in repositoryMapping) {
-            repositoryMapping[accountName] =  repositoryMapping[accountName].concat([repositoryName])
-        // if this is the user's first repo
-        } else {
-            repositoryMapping[accountName] = [repositoryName]
-        }
-        return true 
-    }
-}
     
-/**
- * Testing Routes!
- */
-
-router.get('/allRepositories', (req, res) => {
-    console.log("ALL REPOS")
-    console.log(repositoryMapping)
-    res.end()
-})
-
 module.exports = router;

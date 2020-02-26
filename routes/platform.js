@@ -145,13 +145,44 @@ router.post("/projectpath", async function (req, res) {
 
     console.log("path: " + path)
     console.log("branch: " + branch)
+    
+    /* Read the correct branch: 
 
-    var foundPaths = getPathsInRepository(path)
-    // Path was a directory
-    if (Array.isArray(foundPaths)) {
-        res.send(data = {paths: foundPaths}).end();
-    // Path was a file    
+    get the repository: get_repository()
+
+    get the head commit from branch: repository.head_commit_from_branch(branch)
+
+    get the state hash: result of the last command . state_hash()
+
+    */
+
+    var repository
+    var firstChild = child_process.spawn('cd efs/' + path + ';', {
+        shell: true
+    });
+
+    firstChild.stderr.on('data', function (data) {
+        console.error("STDERR:", data.toString());
+    });
+    firstChild.stdout.on('data', function (data) {
+        repository = data
+        console.log("standard out")
+        console.log(repository)
+    });
+    firstChild.on('exit', function (exitCode) {
+        console.log("Child exited with code: " + exitCode);
+    });
+
+
+    // Check if path is a repository
+    pathStartingAtEFS = "./efs/" + path;
+    var status = fs.lstatSync(pathStartingAtEFS);
+    if (status.isDirectory()) {
+    // If path is a directory
+        var foundPaths = getPathsInRepository(path)
+        res.send(data = {paths: foundPaths}).end(); 
     } else {
+    // If Path is a file
         pathStartingAtEFS = "./efs/" + path;
 
          // This line opens the file as a readable stream
@@ -178,29 +209,22 @@ router.post("/projectpath", async function (req, res) {
 function getPathsInRepository(path) {
     pathStartingAtProject = path
     pathStartingAtEFS = "./efs/" + path;
-    var status = fs.lstatSync(pathStartingAtEFS);
-    if (status.isDirectory()) {
-        paths = []
-        var contentsAtPath = fs.readdirSync(pathStartingAtEFS);
-        for (var i = 0; i < contentsAtPath.length; i++ ) {
-            var newPath = pathStartingAtProject + "/" + contentsAtPath[i]
-            var newPathStartingAtEFS = "./efs/" + newPath
-            var newPathStatus = fs.lstatSync(newPathStartingAtEFS);
-            if (newPathStatus.isDirectory()) {
-                // true if directory
-                paths.push({path: newPath, isDirectory: true})
-            } else {
-                // false if file
-                paths.push({path: newPath, isDirectory: false})
-            }
+    paths = []
+    var contentsAtPath = fs.readdirSync(pathStartingAtEFS);
+    for (var i = 0; i < contentsAtPath.length; i++ ) {
+        var newPath = pathStartingAtProject + "/" + contentsAtPath[i]
+        var newPathStartingAtEFS = "./efs/" + newPath
+        var newPathStatus = fs.lstatSync(newPathStartingAtEFS);
+        if (newPathStatus.isDirectory()) {
+            // true if directory
+            paths.push({path: newPath, isDirectory: true})
+        } else {
+            // false if file
+            paths.push({path: newPath, isDirectory: false})
         }
-        console.log(paths)
-        return paths
-    } else {
-        // TODO Return the File
-        console.log("Return File")
-        return pathStartingAtEFS
-    } 
+    }
+    console.log(paths)
+    return paths
 }
 
 router.post("/addcollaborator", 

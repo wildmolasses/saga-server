@@ -7,6 +7,8 @@ require("../models/Feedback");
 const Feedback = mongoose.model('Feedback');
 const auth = require('./auth');
 const child_process = require('child_process');
+const url = require('url');    
+
 
 const Users = mongoose.model('Users');
 const Projects = mongoose.model('Projects');
@@ -42,15 +44,30 @@ router.get('/projects',
     (req, res) => {
         res.render('userProjects.html')
     }
-) 
+)
 
-// render the profile page
-router.post('/projectHome',
+// Render the project page
+router.get('/project',
     auth.loggedIn,
     (req, res) => {
-        const projectName = req.body.projectName;
-        console.log(projectName)
-        res.render('projectHome.html', {projectName: projectName});
+        res.render('projectHome.html', {projectName: req.query.projectName});
+    }
+) 
+
+// Load a project
+router.get('/load-project',
+    auth.loggedIn,
+    (req, res) => {
+        console.log("PROJECT NAME: " + req.query.projectName)
+        populatedUrl = (url.format({
+            pathname:"/project",
+            query: {
+               "projectName":req.query.projectName
+            }
+        }));
+        // Todo redirect directly to /project without sending to client first.
+        // This seems like a security vulnerability! 
+        res.send({"url" : populatedUrl}).end();
     }
 ) 
 

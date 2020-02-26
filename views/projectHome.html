@@ -9,6 +9,8 @@
   <meta name="author" content="Saga">
   <link rel='icon' href='/graphics/saga-website-logo.png' type='image/x-icon' />
 
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
   <link rel="stylesheet" href="css/userPages/projectHome.css">
   <link rel="stylesheet" href="css/userPages/header.css">
   <link rel="stylesheet" href="css/font.css">
@@ -20,9 +22,9 @@
 
 <script>
 
-  // TODO Figure out a better way to do this
+  //TODO Figure out a better way to do this
   var projectName = "<%= projectName %>";
-  console.log(projectName)
+  console.log("Project Name: " + projectName)
   openProject(projectName, "master")
 
   function getBranches() {

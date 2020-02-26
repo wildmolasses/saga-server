@@ -33,12 +33,6 @@ describe('private routes do not allow unauthenticated', function () {
       .expect(401, done);
   });
 
-  it('for /projectHome', function test(done) {
-    request(app)
-      .get('/projectHome')
-      .expect(401, done);
-  });
-
   it('for /userprojects', function test(done) {
     request(app)
       .get('/userprojects')

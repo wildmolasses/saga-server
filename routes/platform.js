@@ -102,7 +102,9 @@ router.get('/logout',
 )
 
 // Get all Projects of a User
-router.get("/userprojects", async function(req, res) {
+router.get("/userprojects", 
+    auth.loggedIn,
+    async function(req, res) {
     var username = req.user.username;
     var user = await Users.findOne({ username: username }).exec();
     res.send(data={

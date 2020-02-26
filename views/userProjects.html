@@ -53,11 +53,11 @@
       console.log("clicked project: " + projectButton.id)
       $.ajax({
         type: "GET",
-        url: "/projectHome",
+        url: "/load-project",
         data: {projectName: projectButton.id},
-        success: function (redirectedPage) {
-          // TODO figure out a better way to render a new page in a AJAX Call
-          $('#outerContainer').html(redirectedPage);
+        success: function (data) {
+          console.log("Redirecting to: " + data)
+          window.location = data.url
         }
       });
     }

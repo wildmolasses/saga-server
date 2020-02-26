@@ -3,6 +3,9 @@ const router = express.Router();
 const fs = require('fs-extra'); 
 const auth = require('./auth');
 const dbutils = require('../utils/utils');
+const child_process = require('child_process');
+const url = require('url');    
+
 
 // Get required models
 const mongoose = require('mongoose');
@@ -33,15 +36,30 @@ router.get('/projects',
     (req, res) => {
         res.render('userProjects.html')
     }
-) 
+)
 
-// render the profile page
-router.get('/projectHome',
+// Render the project page
+router.get('/project',
     auth.loggedIn,
     (req, res) => {
-        const projectName = req.body.projectName;
-        console.log(projectName)
-        res.render('projectHome.html', {projectName: projectName});
+        res.render('projectHome.html', {projectName: req.query.projectName});
+    }
+) 
+
+// Load a project
+router.get('/load-project',
+    auth.loggedIn,
+    (req, res) => {
+        console.log("PROJECT NAME: " + req.query.projectName)
+        populatedUrl = (url.format({
+            pathname:"/project",
+            query: {
+               "projectName":req.query.projectName
+            }
+        }));
+        // Todo redirect directly to /project without sending to client first.
+        // This seems like a security vulnerability! 
+        res.send({"url" : populatedUrl}).end();
     }
 ) 
 
@@ -57,7 +75,7 @@ router.get('/currentuser',
 )
 
 
-/* Create a new account */
+// Create a new account
 router.post('/createAccount',
     dbutils.createAccount,
     auth.passport.authenticate('local'),
@@ -66,9 +84,25 @@ router.post('/createAccount',
     }
 )
 
-router.get("/userprojects", 
-    auth.loggedIn,
-    async function(req, res) {
+// Login in to an account
+router.post('/login',
+    auth.passport.authenticate('local'),
+    function(req, res) {
+        res.status(200).end();
+    }
+);
+
+// Log out of an account
+router.get('/logout', 
+    auth.loggedIn,  
+    (req, res) => {
+        req.logout();
+        res.redirect('/');
+    }
+)
+
+// Get all Projects of a User
+router.get("/userprojects", async function(req, res) {
     var username = req.user.username;
     var user = await Users.findOne({ username: username }).exec();
     res.send(data={
@@ -77,6 +111,30 @@ router.get("/userprojects",
     }).end();
 })
 
+// Get all branches of a project
+router.get("/getBranches" , async function (req, res) {
+    // TODO make sure this does not allow for injection attacks
+    var project = req.query.projectName;
+    var child = child_process.spawn('cd efs/' + project + ' && saga branch', {
+        shell: true
+    });
+    
+    child.stderr.on('data', function (data) {
+        console.error("STDERR:", data.toString());
+    });
+    child.stdout.on('data', function (data) {
+        var branches = data.toString()
+        res.send(data= {
+            "branches": branches
+        }).end();
+    });
+    child.on('exit', function (exitCode) {
+        console.log("Child exited with code: " + exitCode);
+    });
+
+})
+
+// Get collaborators to project
 router.get("/projectinfo", async function(req, res) {
     var project = req.query.project;
     projectData = await Projects.findOne({ project: project }).exec();
@@ -86,17 +144,52 @@ router.get("/projectinfo", async function(req, res) {
     }).end();
 })
 
+// If path is directory, return folders and files directly inside
+// If path is a file, stream the file
 router.post("/projectpath", async function (req, res) {
     var path = req.body.path;
+    var branch = req.body.branch;
 
     console.log("path: " + path)
+    console.log("branch: " + branch)
+    
+    /* Read the correct branch: 
 
-    var foundPaths = getPathsInRepository(path)
-    // Path was a directory
-    if (Array.isArray(foundPaths)) {
-        res.send(data = {paths: foundPaths}).end();
-    // Path was a file    
+    get the repository: get_repository()
+
+    get the head commit from branch: repository.head_commit_from_branch(branch)
+
+    get the state hash: result of the last command . state_hash()
+
+    */
+
+    var repository
+    var firstChild = child_process.spawn('cd efs/' + path + ';', {
+        shell: true
+    });
+
+    firstChild.stderr.on('data', function (data) {
+        console.error("STDERR:", data.toString());
+    });
+    firstChild.stdout.on('data', function (data) {
+        repository = data
+        console.log("standard out")
+        console.log(repository)
+    });
+    firstChild.on('exit', function (exitCode) {
+        console.log("Child exited with code: " + exitCode);
+    });
+
+
+    // Check if path is a repository
+    pathStartingAtEFS = "./efs/" + path;
+    var status = fs.lstatSync(pathStartingAtEFS);
+    if (status.isDirectory()) {
+    // If path is a directory
+        var foundPaths = getPathsInRepository(path)
+        res.send(data = {paths: foundPaths}).end(); 
     } else {
+    // If Path is a file
         pathStartingAtEFS = "./efs/" + path;
 
          // This line opens the file as a readable stream
@@ -119,35 +212,7 @@ router.post("/projectpath", async function (req, res) {
     }
 })
 
-
-function getPathsInRepository(path) {
-    pathStartingAtProject = path
-    pathStartingAtEFS = "./efs/" + path;
-    var status = fs.lstatSync(pathStartingAtEFS);
-    if (status.isDirectory()) {
-        paths = []
-        var contentsAtPath = fs.readdirSync(pathStartingAtEFS);
-        for (var i = 0; i < contentsAtPath.length; i++ ) {
-            var newPath = pathStartingAtProject + "/" + contentsAtPath[i]
-            var newPathStartingAtEFS = "./efs/" + newPath
-            var newPathStatus = fs.lstatSync(newPathStartingAtEFS);
-            if (newPathStatus.isDirectory()) {
-                // true if directory
-                paths.push({path: newPath, isDirectory: true})
-            } else {
-                // false if file
-                paths.push({path: newPath, isDirectory: false})
-            }
-        }
-        console.log(paths)
-        return paths
-    } else {
-        // TODO Return the File
-        console.log("Return File")
-        return pathStartingAtEFS
-    } 
-}
-
+// Add a collaborator to project
 router.post("/addcollaborator", 
     auth.loggedIn,    
     async function(req, res) {
@@ -169,4 +234,26 @@ router.post("/addcollaborator",
     }
 )
 
+// get all paths inside folder
+function getPathsInRepository(path) {
+    pathStartingAtProject = path
+    pathStartingAtEFS = "./efs/" + path;
+    paths = []
+    var contentsAtPath = fs.readdirSync(pathStartingAtEFS);
+    for (var i = 0; i < contentsAtPath.length; i++ ) {
+        var newPath = pathStartingAtProject + "/" + contentsAtPath[i]
+        var newPathStartingAtEFS = "./efs/" + newPath
+        var newPathStatus = fs.lstatSync(newPathStartingAtEFS);
+        if (newPathStatus.isDirectory()) {
+            // true if directory
+            paths.push({path: newPath, isDirectory: true})
+        } else {
+            // false if file
+            paths.push({path: newPath, isDirectory: false})
+        }
+    }
+    console.log(paths)
+    return paths
+}
+    
 module.exports = router;

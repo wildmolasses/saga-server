@@ -54,10 +54,12 @@ router.post('/projectHome',
     }
 ) 
 
+// render the contact page
 router.get('/contact', (req, res) => {
     res.render('contact.html')
 })
 
+// submite feedback to the database
 router.post('/submit-feedback', (req, res) => {
     const email = req.body.email;
     const relevance = req.body.relevance; 
@@ -74,7 +76,7 @@ router.post('/submit-feedback', (req, res) => {
 })
 
 
-/* Create a new account */
+// Create a new account
 router.post('/createAccount',
     auth.createAccount,
     auth.passport.authenticate('local', {
@@ -83,7 +85,7 @@ router.post('/createAccount',
     })
 )
 
-/* Login in to an account */
+// Login in to an account
 router.post('/login',
     auth.passport.authenticate('local'),
     function(req, res) {
@@ -91,7 +93,7 @@ router.post('/login',
     }
 );
 
-/* Log out of an account */
+// Log out of an account
 router.get('/logout', 
     auth.loggedIn,  
     (req, res) => {
@@ -100,6 +102,7 @@ router.get('/logout',
     }
 )
 
+// Get all Projects of a User
 router.get("/userprojects", async function(req, res) {
     var username = req.user.username;
     var user = await Users.findOne({ username: username }).exec();
@@ -109,6 +112,7 @@ router.get("/userprojects", async function(req, res) {
     }).end();
 })
 
+// Get all branches of a project
 router.get("/getBranches" , async function (req, res) {
     // TODO make sure this does not allow for injection attacks
     var project = req.query.projectName;
@@ -130,6 +134,8 @@ router.get("/getBranches" , async function (req, res) {
     });
 
 })
+
+// Get collaborators to project
 router.get("/projectinfo", async function(req, res) {
     var project = req.query.project;
     projectData = await Projects.findOne({ project: project }).exec();
@@ -139,6 +145,8 @@ router.get("/projectinfo", async function(req, res) {
     }).end();
 })
 
+// If path is directory, return folders and files directly inside
+// If path is a file, stream the file
 router.post("/projectpath", async function (req, res) {
     var path = req.body.path;
     var branch = req.body.branch;
@@ -205,27 +213,7 @@ router.post("/projectpath", async function (req, res) {
     }
 })
 
-function getPathsInRepository(path) {
-    pathStartingAtProject = path
-    pathStartingAtEFS = "./efs/" + path;
-    paths = []
-    var contentsAtPath = fs.readdirSync(pathStartingAtEFS);
-    for (var i = 0; i < contentsAtPath.length; i++ ) {
-        var newPath = pathStartingAtProject + "/" + contentsAtPath[i]
-        var newPathStartingAtEFS = "./efs/" + newPath
-        var newPathStatus = fs.lstatSync(newPathStartingAtEFS);
-        if (newPathStatus.isDirectory()) {
-            // true if directory
-            paths.push({path: newPath, isDirectory: true})
-        } else {
-            // false if file
-            paths.push({path: newPath, isDirectory: false})
-        }
-    }
-    console.log(paths)
-    return paths
-}
-
+// Add a collaborator to project
 router.post("/addcollaborator", 
     auth.loggedIn,    
     async function(req, res) {
@@ -246,5 +234,27 @@ router.post("/addcollaborator",
         }
     }
 )
+
+// get all paths inside folder
+function getPathsInRepository(path) {
+    pathStartingAtProject = path
+    pathStartingAtEFS = "./efs/" + path;
+    paths = []
+    var contentsAtPath = fs.readdirSync(pathStartingAtEFS);
+    for (var i = 0; i < contentsAtPath.length; i++ ) {
+        var newPath = pathStartingAtProject + "/" + contentsAtPath[i]
+        var newPathStartingAtEFS = "./efs/" + newPath
+        var newPathStatus = fs.lstatSync(newPathStartingAtEFS);
+        if (newPathStatus.isDirectory()) {
+            // true if directory
+            paths.push({path: newPath, isDirectory: true})
+        } else {
+            // false if file
+            paths.push({path: newPath, isDirectory: false})
+        }
+    }
+    console.log(paths)
+    return paths
+}
     
 module.exports = router;

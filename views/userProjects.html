@@ -41,6 +41,30 @@
     });
   }
 
+
+  function settings() {
+    var logout = document.createElement('button')
+    logout.id = "logout"
+    logout.innerHTML = "logout"
+    logout.onclick = function() {
+      $.post("/logout",
+        function(data, status) {
+          window.location = "/";
+        }
+      ).fail(function() { 
+        alert("Failed to logout!");
+      })
+    }
+
+    var dropdown = document.createElement('div')
+    dropdown.className = "dropdown"
+    dropdown.append(logout)
+
+    var settingsIcon = document.getElementById("settings-icon")
+    settingsIcon.appendChild(dropdown);
+    console.log(settingsIcon.children)
+  }
+
   function createProjectRow(name) {
     var rowDiv = document.createElement('div');
     rowDiv.className = "row"
@@ -85,8 +109,10 @@
               <input type="submit" style="display: none" />
             </form>
             <img class = "graphics" src="/graphics/userPages/header/plus-icon.png" width="40" height = "40"></img>
-            <img class = "graphics" src="/graphics/userPages/header/settings-icon.png" width="40" height = "40"></img>
-        </div> 
+            <div id="settings-icon">
+              <img class="graphics" src="/graphics/userPages/header/settings-icon.png" width="40" height="40" onclick="settings();"></img>
+            </div>
+          </div> 
     </div> 
   </header>
 

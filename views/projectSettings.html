@@ -1,0 +1,202 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Saga</title>
+  <meta name="description" content="Saga - Version Control for All Your Files">
+  <meta name="author" content="Saga">
+  <link rel='icon' href='/graphics/saga-website-logo.png' type='image/x-icon' />
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="css/userPages/projectSettings.css">
+  <link rel="stylesheet" href="css/userPages/header.css">
+  <link rel="stylesheet" href="css/font.css">
+  <link rel="stylesheet" href="css/colors.css">
+  <link rel="stylesheet" href="css/reset.css">
+
+
+</head>
+
+<script>
+
+  const projectName = "<%= projectName %>";
+
+  function loadCollaborators() {
+    $.get("/projectinfo",
+      {
+        project: projectName,
+      },
+      function(data, status) {
+        var collaborators = data.collaborators;
+
+        ul = document.createElement('ul');
+        ul.class = "collaborators-list";
+        console.log(ul)
+
+        const collaboratorList = document.getElementById('collaborators-list');
+        collaboratorList.innerHTML = "";
+        collaboratorList.appendChild(ul);
+
+        collaborators.forEach(function (collaborator) {
+          let li = document.createElement('li');
+          ul.appendChild(li);
+
+          li.innerHTML += collaborator;
+        });
+      }
+    ).fail(function() { 
+      alert("Failed to get collaborators!");
+    })
+  }
+
+
+  function settings() {
+    var logout = document.createElement('button')
+    logout.id = "logout"
+    logout.innerHTML = "logout"
+    logout.onclick = function() {
+      $.post("/logout",
+        function(data, status) {
+          window.location = "/";
+        }
+      ).fail(function() { 
+        alert("Failed to logout!");
+      })
+    }
+
+    var dropdown = document.createElement('div')
+    dropdown.className = "dropdown"
+    dropdown.append(logout)
+
+    var settingsIcon = document.getElementById("settings-icon")
+    settingsIcon.appendChild(dropdown);
+    console.log(settingsIcon.children)
+  }
+
+  function cannotAddCollaborator(collaborator) {
+    const failureMessage = document.createElement('div');
+    failureMessage.className = "error-message";
+    failureMessage.innerHTML = "Cannot add " + collaborator + " as a collaborator";
+
+    const collaboratorList = document.getElementById('collaborators-list');
+
+    // Remove an existing error message if it's there
+    if (collaboratorList.children.length > 0 && collaboratorList.children[0].className === "error-message") {
+      collaboratorList.removeChild(collaboratorList.childNodes[0]);  
+    }
+
+    collaboratorList.prepend(failureMessage);
+    console.log("CANNOT ADD")
+  }
+
+
+  window.onload = function() {
+    // Get the collaborators, and display them
+
+    loadCollaborators();
+
+    // Register the new collaborator adder
+    $("#collaborator-search").submit(function( event ) {
+      //alert( "Handler for .submit() called." );
+      const newCollaborator = document.getElementById("collaborator-search-input").value;
+      // clear collaborator
+      document.getElementById("collaborator-search-input").value = "";
+      $.post("/addcollaborator",
+        {
+          project: projectName,
+          collaborator: newCollaborator
+        },
+        function(data, status) {
+          var collaborators = data.collaborators;
+          console.log(status);
+          if (status === "success") {
+            loadCollaborators();
+          } else {
+            cannotAddCollaborator(newCollaborator);
+          }
+        }
+      ).fail(function() { 
+        cannotAddCollaborator(newCollaborator);
+      })
+
+      event.preventDefault();
+    });
+  }
+
+  
+
+</script>
+
+<body class = "wrapper">
+  <header class = "header">
+    <div class="header standard-font dark-font">
+        <a href="/" class="left-header">
+            <img src="/graphics/saga-website-logo.png" width="100"></img>
+            <p class = logo-text>saga</p>
+        </a>
+        <div class="right-header">
+            <form> 
+              <input class = "searchbar standard-font dark-font" placeholder="search"> </input>
+              <input type="submit" style="display: none" />
+            </form>
+            <img class="graphics" src="/graphics/userPages/header/plus-icon.png" width="40" height="40"></img>
+            <div id="settings-icon">
+              <img class="graphics" src="/graphics/userPages/header/settings-icon.png" width="40" height="40" onclick="settings();"></img>
+            </div>
+        </div> 
+    </div> 
+  </header>
+
+  <div class = "page-content" id = "page-content">
+
+    <div class = "main-card">
+        <div class = "left-nav-bar">
+          <div class = "left-nav-bar-row">
+            <h1 class = "project-title-font bold-font dark-font" id = "project-title"></h1>
+          </div>
+          <div class = "left-nav-bar-row">
+              <img class="graphics" src="/graphics/userPages/overview-logo.png" width="20" height="20"></img>
+              <h1 class = "left-nav-bar-font hoverable standard-font dark-font">overview</h1> 
+          </div>
+
+          <div class = "left-nav-bar-row">
+              <img class="graphics" src="/graphics/userPages/master-logo.png" width="20" height="20"></img>
+              <h1 class = "left-nav-bar-font hoverable standard-font dark-font">master</h1> 
+          </div>
+
+          <div class = "left-nav-bar-row">
+              <img class="graphics" src="/graphics/userPages/branch-logo.png" width="20" height="20"></img>
+              <h1 class = "left-nav-bar-font hoverable standard-font dark-font">branches</h1> 
+          </div>
+
+          <div class = "left-nav-bar-row">
+              <img class="graphics" src="/graphics/userPages/issue-logo.png" width="20" height="20"></img>
+              <h1 class = "left-nav-bar-font hoverable standard-font dark-font">issues</h1> 
+          </div>
+
+          <div class = "left-nav-bar-row">
+            <img class="graphics" src="/graphics/userPages/header/settings-icon.png" width="20" height="20"></img>
+            <h1 class = "left-nav-bar-font hoverable standard-font dark-font">settings</h1> 
+          </div>
+        </div>
+        <div class = "right-side">
+            <div class = "inner-content">
+                <div class = "collaborators-header">
+                  Project Collaborators
+                </div>
+                <div class = "collaborators-box">
+                  <form id="collaborator-search" class="collaborators-form"> 
+                    <input class = "collaborators-searchbar standard-font dark-font" id="collaborator-search-input" placeholder="add a collaborator"> </input>
+                    <input type="submit" style="display: none" />
+                  </form>
+                  <div id="collaborators-list"> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</body>
+

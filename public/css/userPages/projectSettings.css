@@ -1,0 +1,188 @@
+.wrapper {
+    display: flex;
+    flex-flow: column;
+    background: var(--background-color-user);
+
+}
+
+/* We tell all items to be 100% width, via flex-basis */
+.wrapper > * {
+    flex: 1 100%;
+}
+
+.page-content {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+
+}
+
+.inner-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+    margin: 5%;
+}
+
+.right-inner-navbar {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.main-card {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-start;
+    align-items: top;
+    text-align: left; 
+}
+
+.left-nav-bar {
+    margin-left: 2vw;
+    margin-right: 2vw;
+    border-right: 2px solid var(--dark-color);
+}
+
+.project-title-font {
+    font-size: 35px;
+    margin-right: 2vw;
+    margin-top: 0px;
+}
+
+.left-nav-bar-row {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+}
+
+.left-nav-bar-font {
+    font-size: 20px;
+    line-height: 30px;
+    margin-left: 10px;
+}
+
+.right-side {
+    flex-grow: 1
+}
+
+.project-directory {
+    margin-top: 10px;
+}
+
+.row {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center; 
+
+    margin-bottom: 2vh;
+
+    width: 100%;
+}
+
+.file-or-folder {
+    font-size: 20px;
+    line-height: 31px;
+    background-color: var(--background-color-landing);
+    color: var(--dark-color);
+    border: 0px solid var(--dark-color);
+    border-radius: 20px;
+    font-size: 20px;
+}
+
+.hoverable:hover {
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.1s;
+    color: var(--orange-color);
+}
+
+
+.inner-nav-button {
+    background-color: var(--background-color-user);
+    color: var(--dark-color);
+    border: 3px solid var(--dark-color);
+    border-radius: 20px;
+    font-size: 20px;
+    padding: 5px 10px;
+}
+
+.collaborators-box {
+    background-color: var(--background-color-user);
+    color: var(--dark-color);
+    border: 3px solid var(--dark-color);
+    border-radius: 20px;
+    font-size: 20px;
+}
+
+.collaborators-header {
+    padding-right: 25px;
+    margin-top: 10px;
+    font-size: 30px;
+}
+
+.inner-nav-button:hover {
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    background-color: var(--orange-color);
+}
+
+.collaborators-form {
+    padding-left: 10px;
+}
+
+.collaborators-searchbar {
+    margin-top: 10px;
+    width: 450px;
+    height: 30px;
+    text-indent: 10px;
+    border-radius: 50px;
+    background: var(--light-grey-color);
+    outline: none;
+    font-size: 15px;
+}
+
+.collaborators-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.error-message {
+    margin-left: 10px;
+    color: red;
+}
+
+.spacer {
+    margin-right: 1vw;
+}
+
+.file-title {
+    font-size: 30px;
+    line-height: 37px;
+    margin-bottom: .5vh;
+}
+
+.file-contents {
+    border: 3px solid #000000;
+    box-sizing: border-box;
+    border-radius: 20px;
+    margin-top: 1vw;
+    margin-right: 3vw;
+}
+
+.file-lines {
+    margin-left: 2vw;
+}
+
+.dropdown {
+    border: 2px solid #000000;
+    box-sizing: border-box;
+}

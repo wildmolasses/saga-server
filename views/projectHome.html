@@ -11,7 +11,7 @@
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-  <link rel="stylesheet" href="css/userPagesload-project.css">
+  <link rel="stylesheet" href="css/userPages/projectHome.css">
   <link rel="stylesheet" href="css/userPages/header.css">
   <link rel="stylesheet" href="css/font.css">
   <link rel="stylesheet" href="css/colors.css">
@@ -23,7 +23,7 @@
 <script>
 
   //TODO Figure out a better way to do this
-  var projectName = "<%= projectName %>";
+  const projectName = "<%= projectName %>";
   console.log("Project Name: " + projectName)
   openProject(projectName, "master")
 
@@ -44,6 +44,29 @@
         branchesDisplay.appendChild(dropdown)
       }
     })
+  }
+
+  function settings() {
+    var logout = document.createElement('button')
+    logout.id = "logout"
+    logout.innerHTML = "logout"
+    logout.onclick = function() {
+      $.post("/logout",
+        function(data, status) {
+          window.location = "/";
+        }
+      ).fail(function() { 
+        alert("Failed to logout!");
+      })
+    }
+
+    var dropdown = document.createElement('div')
+    dropdown.className = "dropdown"
+    dropdown.append(logout)
+
+    var settingsIcon = document.getElementById("settings-icon")
+    settingsIcon.appendChild(dropdown);
+    console.log(settingsIcon.children)
   }
 
   function createBranchButton(branchName) {
@@ -163,7 +186,10 @@
     textFile.data = file
 
     document.getElementById('project-directory').appendChild(textFile)
+  }
 
+  function projectSettings(file) {
+    window.location = "/projectSettings?projectName=" + projectName;
   }
 </script>
 
@@ -180,7 +206,9 @@
               <input type="submit" style="display: none" />
             </form>
             <img class="graphics" src="/graphics/userPages/header/plus-icon.png" width="40" height="40"></img>
-            <img class="graphics" src="/graphics/userPages/header/settings-icon.png" width="40" height="40"></img>
+            <div id="settings-icon">
+              <img class="graphics" src="/graphics/userPages/header/settings-icon.png" width="40" height="40" onclick="settings();"></img>
+            </div>
         </div> 
     </div> 
   </header>
@@ -210,6 +238,11 @@
           <div class = "left-nav-bar-row">
               <img class="graphics" src="/graphics/userPages/issue-logo.png" width="20" height="20"></img>
               <h1 class = "left-nav-bar-font hoverable standard-font dark-font">issues</h1> 
+          </div>
+
+          <div class = "left-nav-bar-row" onclick="projectSettings()">
+            <img class="graphics" src="/graphics/userPages/header/settings-icon.png" width="20" height="20"></img>
+            <h1 class = "left-nav-bar-font hoverable standard-font dark-font">settings</h1> 
           </div>
         </div>
         <div class = "right-side">

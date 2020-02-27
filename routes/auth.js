@@ -33,6 +33,7 @@ function loggedIn(req, res, next) {
     if (req.user) {
         next();
     } else {
+        console.log("REDIRECTING");
         res.redirect(401, "/");
     };
 }

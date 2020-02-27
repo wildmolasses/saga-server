@@ -50,3 +50,8 @@
     transition-duration: 0.2s;
     background-color: var(--orange-color);
 }
+
+.dropdown {
+    border: 2px solid #000000;
+    box-sizing: border-box;
+}

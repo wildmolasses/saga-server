@@ -46,6 +46,13 @@ router.get('/project',
     }
 ) 
 
+router.get('/projectSettings',
+    auth.loggedIn,
+    (req, res) => {
+        res.render('projectSettings.html', {projectName: req.query.projectName});
+    }
+) 
+
 // Load a project
 router.get('/load-project',
     auth.loggedIn,
@@ -93,7 +100,7 @@ router.post('/login',
 );
 
 // Log out of an account
-router.get('/logout', 
+router.post('/logout', 
     auth.loggedIn,  
     (req, res) => {
         req.logout();
@@ -224,7 +231,7 @@ router.post("/addcollaborator",
         // you can only add a collaborator if you are already a 
         // collaborator on the projct
         if (await dbutils.isCollaborator(req.user.username, project)) {
-            const addedCollaborator = await auth.addCollaborator(project, collaborator);
+            const addedCollaborator = await dbutils.addCollaborator(project, collaborator);
             if (addedCollaborator) {
                 res.status(200).end();
             } else {

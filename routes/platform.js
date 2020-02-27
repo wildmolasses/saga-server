@@ -133,24 +133,41 @@ router.get("/userprojects", async function(req, res) {
 router.get("/getBranches" , async function (req, res) {
     // TODO make sure this does not allow for injection attacks
     var project = req.query.projectName;
-    var child = child_process.spawn('cd efs/' + project + ' && saga branch', {
-        shell: true
-    });
-    
-    child.stderr.on('data', function (data) {
-        console.error("STDERR:", data.toString());
-    });
-    child.stdout.on('data', function (data) {
-        var branches = data.toString()
-        res.send(data= {
-            "branches": branches
-        }).end();
-    });
-    child.on('exit', function (exitCode) {
-        console.log("Child exited with code: " + exitCode);
-    });
 
+    // Validate the string
+    if (!validateString(project)) {
+        console.log("Alert: Invalid Project Name. Potential Attack")
+        res.end();
+    } else {
+        var child = child_process.spawn('cd efs/' + project + ' && saga branch', {
+            shell: true
+        });
+        
+        child.stderr.on('data', function (data) {
+            console.error("STDERR:", data.toString());
+        });
+        child.stdout.on('data', function (data) {
+            var branches = data.toString()
+            res.send(data= {
+                "branches": branches
+            }).end();
+        });
+        child.on('exit', function (exitCode) {
+            console.log("Child exited with code: " + exitCode);
+        });
+    }
 })
+
+function validateString (string) {
+    blacklist = [';', '|', "||", "&&", ".."]
+    for (var i = 0; i < blacklist.length; i++) {
+        if (string.indexOf(blacklist[i]) > -1) {
+            return false;
+          }
+    }
+    return true;
+}
+
 
 // Get collaborators to project
 router.get("/projectinfo", async function(req, res) {
@@ -170,6 +187,23 @@ router.post("/projectpath", async function (req, res) {
 
     console.log("path: " + path)
     console.log("branch: " + branch)
+    
+    var stateHash
+
+    var stateHashChild = child_process.spawn('saga state_hash ' + branch + ';', {
+        shell: true
+    });
+
+    stateHashChild.stderr.on('data', function (data) {
+        console.error("STDERR:", data.toString());
+    });
+    stateHashChild.stdout.on('data', function (data) {
+        stateHash = data
+        console.log("state hash: " + stateHash)
+    });
+    stateHashChild.on('exit', function (exitCode) {
+        console.log("Child exited with code: " + exitCode);
+    });
     
     /* Read the correct branch: 
 

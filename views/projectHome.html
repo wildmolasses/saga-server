@@ -33,13 +33,21 @@
       url: "/getBranches",
       data: {projectName: projectName},
       success: function (data) {
-        var branches = data.branches.replace("*", " ").trim().split("\n")
+        // Split branches into array
+        var branches = data.branches.replace("*", "").split("\n")
         console.log(branches)
+        
+        // Make branch buttons
         var branchesDisplay = document.getElementById("branches")
         var dropdown = document.createElement('div')
         dropdown.className = "dropdown"
         for (var i = 0; i < branches.length; i++) {
-          dropdown.append(createBranchButton(branches[i]))
+          branch = branches[i]
+          branch = branch.trim()
+          // Make sure branch has valid name
+          if (!branch == "") {
+            dropdown.append(createBranchButton(branch))
+          }
         }
         branchesDisplay.appendChild(dropdown)
       }
@@ -47,9 +55,9 @@
   }
 
   function createBranchButton(branchName) {
-      branchName =  branchName.trim()
+      console.log("BranchName: " + branchName)
       var branch = document.createElement('button')
-      branch.id = branchName
+      branch.id = branchName.trim();
       branch.innerHTML = branchName
       branch.onclick = function() {
         openProject(projectName, branchName)
@@ -64,12 +72,7 @@
       url: "/projectpath",
       data: {path: path, branch: branch},
       success: function (data) {
-        console.log(data)
-         // Clear Project Directory
-        var projectDirectory = document.getElementById('project-directory')
-        while (projectDirectory.firstChild) {
-          projectDirectory.removeChild(projectDirectory.firstChild);
-        }
+        clearProjectDirectory ()
 
         // Set project Title 
         // Todo if projectName is too long, split into multiple rows
@@ -77,15 +80,15 @@
         projectTitle.innerHTML = projectName
 
         // If Query Returned Paths -> Display new paths
-        if (data.paths) {
+        if (data.directory) {
           for (var i = 0; i < data.paths.length; i++) {
             var path = data.paths[i].path
             var isDirectory = data.paths[i].isDirectory
-            listPathContent(path, isDirectory)
+            listPathContent(path, isDirectory, data.branch)
           }
-
-        // If Query Returned a File -> Display File Contents
         } else {
+        // If Query Returned a File -> Display File Contents
+
           // Find each new line in data
           dataLineDivided = data.split("\n")
 
@@ -95,21 +98,38 @@
           title.innerHTML = "viewing: " + dataLineDivided[0]
           document.getElementById('project-directory').appendChild(title)
 
+          // The Second Line is the branch
+          var branch = dataLineDivided[1]
+
           // Create Back Button To Return to Project Library
           var lastIndex = dataLineDivided[0].lastIndexOf('/');
           var returnPath = dataLineDivided[0].substr(0, lastIndex)
-          listPathContent(returnPath, true)
+          listPathContent(returnPath, true, branch)
 
-          // create display window for lines
+          // create display window for file lines
           var fileContents = document.createElement('div')
           fileContents.className = 'file-contents standard-font dark-font'
 
+          console.log("HERE")
+          console.log(dataLineDivided.length)
+
           // create each line and append it to display window
-          for (var i = 1; i < dataLineDivided.length; i++) {
-            var lineOfFile = document.createElement('div')
-            lineOfFile.className = "file-lines" 
-            lineOfFile.innerHTML = dataLineDivided[i]
-            fileContents.appendChild(lineOfFile)
+          for (var i = 2; i < dataLineDivided.length; i++) {
+            lineText = dataLineDivided[i]
+            console.log("Line Text: " + lineText)
+            // If empty line, add line break element else render the line
+            if (lineText == "") {
+              var lineOfFile = document.createElement('br')
+              fileContents.appendChild(lineOfFile)
+            } else { 
+              // break up lines larger than 120 characters
+              for (var j = 0; j < lineText.length; j = j + 120) {
+                var lineOfFile = document.createElement('pre')
+                lineOfFile.className = "file-lines" 
+                lineOfFile.textContent = lineText.substr(j, j + 120)
+                fileContents.appendChild(lineOfFile)
+              }
+            } 
           }
 
           // append file contents to the project view
@@ -119,9 +139,15 @@
     });
   }
 
-  function listPathContent(path, isDirectory) {
-    console.log("LIST PATH CONTENTS: " + path)
+  // Clear Project Directory
+  function clearProjectDirectory () {
+    var projectDirectory = document.getElementById('project-directory')
+    while (projectDirectory.firstChild) {
+      projectDirectory.removeChild(projectDirectory.firstChild);
+    }
+  }
 
+  function listPathContent(path, isDirectory, branch) {
     // Get name of file or directory
     splitPath = path.split('/')
     name = splitPath[splitPath.length - 1]
@@ -145,7 +171,7 @@
 
     contentButton.onclick = function () {
       console.log("clicked content button: " + path)
-      openProject(path)
+      openProject(path, branch)
     }
 
     row.appendChild(graphic)

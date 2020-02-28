@@ -9,7 +9,6 @@ const auth = require('./auth');
 const child_process = require('child_process');
 const url = require('url');    
 
-
 const Users = mongoose.model('Users');
 const Projects = mongoose.model('Projects');
 
@@ -187,9 +186,19 @@ router.post("/projectpath", async function (req, res) {
 
     console.log("path: " + path)
     console.log("branch: " + branch)
-    
-    var stateHash
 
+    /*
+
+        
+    Read the correct branch: 
+
+    get the repository: get_repository()
+
+    get the head commit from branch: repository.head_commit_from_branch(branch)
+
+    get the state hash: result of the last command . state_hash()
+
+    var stateHash
     var stateHashChild = child_process.spawn('saga state_hash ' + branch + ';', {
         shell: true
     });
@@ -205,33 +214,7 @@ router.post("/projectpath", async function (req, res) {
         console.log("Child exited with code: " + exitCode);
     });
     
-    /* Read the correct branch: 
-
-    get the repository: get_repository()
-
-    get the head commit from branch: repository.head_commit_from_branch(branch)
-
-    get the state hash: result of the last command . state_hash()
-
     */
-
-    var repository
-    var firstChild = child_process.spawn('cd efs/' + path + ';', {
-        shell: true
-    });
-
-    firstChild.stderr.on('data', function (data) {
-        console.error("STDERR:", data.toString());
-    });
-    firstChild.stdout.on('data', function (data) {
-        repository = data
-        console.log("standard out")
-        console.log(repository)
-    });
-    firstChild.on('exit', function (exitCode) {
-        console.log("Child exited with code: " + exitCode);
-    });
-
 
     // Check if path is a repository
     pathStartingAtEFS = "./efs/" + path;
@@ -239,7 +222,7 @@ router.post("/projectpath", async function (req, res) {
     if (status.isDirectory()) {
     // If path is a directory
         var foundPaths = getPathsInRepository(path)
-        res.send(data = {paths: foundPaths}).end(); 
+        res.send(data = {directory: true, paths: foundPaths, branch: branch}).end(); 
     } else {
     // If Path is a file
         pathStartingAtEFS = "./efs/" + path;
@@ -248,13 +231,12 @@ router.post("/projectpath", async function (req, res) {
         var readStream = fs.createReadStream(pathStartingAtEFS);
 
         readStream.push(path + '\n')
+        readStream.push(branch + '\n')
 
         // Open File as a readable stream
         readStream.on('open', function () {
             // This just pipes the read stream to the response object (which goes to the client)
             readStream.pipe(res);
-            console.log(res)
-
         });
 
         // This catches any errors that happen while creating the readable stream (usually invalid names)

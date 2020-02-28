@@ -33,6 +33,12 @@
       url: "/getBranches",
       data: {projectName: projectName},
       success: function (data) {
+        // Clear Branch Dropdown
+        var visitBranchDropdown = document.getElementById("visitBranchID")
+        if (visitBranchDropdown) {
+          visitBranchDropdown.remove()
+        }
+        
         // Split branches into array
         var branches = data.branches.replace("*", "").split("\n")
         console.log(branches)
@@ -40,6 +46,7 @@
         // Make branch buttons
         var branchesDisplay = document.getElementById("branches")
         var dropdown = document.createElement('div')
+        dropdown.id = "visitBranchID"
         dropdown.className = "dropdown"
         for (var i = 0; i < branches.length; i++) {
           branch = branches[i]
@@ -109,9 +116,6 @@
           // create display window for file lines
           var fileContents = document.createElement('div')
           fileContents.className = 'file-contents standard-font dark-font'
-
-          console.log("HERE")
-          console.log(dataLineDivided.length)
 
           // create each line and append it to display window
           for (var i = 2; i < dataLineDivided.length; i++) {

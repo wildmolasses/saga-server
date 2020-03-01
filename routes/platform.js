@@ -124,24 +124,41 @@ router.get("/userprojects",
 router.get("/getBranches" , async function (req, res) {
     // TODO make sure this does not allow for injection attacks
     var project = req.query.projectName;
-    var child = child_process.spawn('cd efs/' + project + ' && saga branch', {
-        shell: true
-    });
-    
-    child.stderr.on('data', function (data) {
-        console.error("STDERR:", data.toString());
-    });
-    child.stdout.on('data', function (data) {
-        var branches = data.toString()
-        res.send(data= {
-            "branches": branches
-        }).end();
-    });
-    child.on('exit', function (exitCode) {
-        console.log("Child exited with code: " + exitCode);
-    });
 
+    // Validate the string
+    if (!validateString(project)) {
+        console.log("Alert: Invalid Project Name. Potential Attack")
+        res.end();
+    } else {
+        var child = child_process.spawn('cd efs/' + project + ' && saga branch', {
+            shell: true
+        });
+        
+        child.stderr.on('data', function (data) {
+            console.error("STDERR:", data.toString());
+        });
+        child.stdout.on('data', function (data) {
+            var branches = data.toString()
+            res.send(data= {
+                "branches": branches
+            }).end();
+        });
+        child.on('exit', function (exitCode) {
+            console.log("Child exited with code: " + exitCode);
+        });
+    }
 })
+
+function validateString (string) {
+    blacklist = [';', '|', "||", "&&", ".."]
+    for (var i = 0; i < blacklist.length; i++) {
+        if (string.indexOf(blacklist[i]) > -1) {
+            return false;
+          }
+    }
+    return true;
+}
+
 
 // Get collaborators to project
 router.get("/projectinfo", async function(req, res) {
@@ -161,8 +178,11 @@ router.post("/projectpath", async function (req, res) {
 
     console.log("path: " + path)
     console.log("branch: " + branch)
-    
-    /* Read the correct branch: 
+
+    /*
+
+        
+    Read the correct branch: 
 
     get the repository: get_repository()
 
@@ -170,25 +190,23 @@ router.post("/projectpath", async function (req, res) {
 
     get the state hash: result of the last command . state_hash()
 
-    */
-
-    var repository
-    var firstChild = child_process.spawn('cd efs/' + path + ';', {
+    var stateHash
+    var stateHashChild = child_process.spawn('saga state_hash ' + branch + ';', {
         shell: true
     });
 
-    firstChild.stderr.on('data', function (data) {
+    stateHashChild.stderr.on('data', function (data) {
         console.error("STDERR:", data.toString());
     });
-    firstChild.stdout.on('data', function (data) {
-        repository = data
-        console.log("standard out")
-        console.log(repository)
+    stateHashChild.stdout.on('data', function (data) {
+        stateHash = data
+        console.log("state hash: " + stateHash)
     });
-    firstChild.on('exit', function (exitCode) {
+    stateHashChild.on('exit', function (exitCode) {
         console.log("Child exited with code: " + exitCode);
     });
-
+    
+    */
 
     // Check if path is a repository
     pathStartingAtEFS = "./efs/" + path;
@@ -196,7 +214,7 @@ router.post("/projectpath", async function (req, res) {
     if (status.isDirectory()) {
     // If path is a directory
         var foundPaths = getPathsInRepository(path)
-        res.send(data = {paths: foundPaths}).end(); 
+        res.send(data = {directory: true, paths: foundPaths, branch: branch}).end(); 
     } else {
     // If Path is a file
         pathStartingAtEFS = "./efs/" + path;
@@ -205,13 +223,12 @@ router.post("/projectpath", async function (req, res) {
         var readStream = fs.createReadStream(pathStartingAtEFS);
 
         readStream.push(path + '\n')
+        readStream.push(branch + '\n')
 
         // Open File as a readable stream
         readStream.on('open', function () {
             // This just pipes the read stream to the response object (which goes to the client)
             readStream.pipe(res);
-            console.log(res)
-
         });
 
         // This catches any errors that happen while creating the readable stream (usually invalid names)

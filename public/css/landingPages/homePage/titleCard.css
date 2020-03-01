@@ -23,3 +23,8 @@
 .lower-title-card {
     margin-top: 20vh;
 }
+
+.warning-font {
+    color: darkred;
+    font-size: 50;
+}

@@ -86,9 +86,11 @@ router.get('/currentuser',
 router.post('/createAccount',
     dbutils.createAccount,
     auth.passport.authenticate('local'),
-    function(req, res) {
+    async function(req, res) {
         // We add the user
-        await dbutils.addCollaborator("Example Project", req.user.username);
+        console.log("CALLING");
+        const added = await dbutils.addCollaborator("Example Project", req.user.username);
+        console.log("ADDED:", added);
         res.status(200).end();
     }
 )
@@ -116,6 +118,7 @@ router.get("/userprojects",
     async function(req, res) {
     var username = req.user.username;
     var user = await Users.findOne({ username: username }).exec();
+    console.log("PROJECTS", user.projects);
     res.send(data={
         "username": username,
         "projects": user.projects

@@ -30,6 +30,8 @@ router.get(
   archive.finalize();
 });
 
+// Turned off pushing for now. Alpha days!
+/*
 router.post(
   "/:project.saga",
   auth.loggedIn,
@@ -56,5 +58,6 @@ router.post(
       res.end()
     });
 });
+*/
 
 module.exports = router;

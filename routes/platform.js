@@ -87,6 +87,8 @@ router.post('/createAccount',
     dbutils.createAccount,
     auth.passport.authenticate('local'),
     function(req, res) {
+        // We add the user
+        await dbutils.addCollaborator("Example Project", req.user.username);
         res.status(200).end();
     }
 )

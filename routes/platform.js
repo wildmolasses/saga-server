@@ -89,7 +89,7 @@ router.post('/createAccount',
     async function(req, res) {
         // We add the user
         console.log("CALLING");
-        const added = await dbutils.addCollaborator("Example Project", req.user.username);
+        const added = await dbutils.addCollaborator("Example", req.user.username);
         console.log("ADDED:", added);
         res.status(200).end();
     }

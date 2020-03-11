@@ -35,6 +35,7 @@ async function addCollaborator(project, collaborator) {
     // We don't add the user to the project if the user or project
     // do not exist
     if (user == null || project == null) {
+        console.log(user, project)
         return false;
     }
 

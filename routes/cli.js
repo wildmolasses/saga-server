@@ -28,6 +28,8 @@ router.get(
   archive.finalize();
 });
 
+// No pushing for now
+/*
 router.post(
   "/:project.saga",
   auth.loggedIn,
@@ -54,6 +56,6 @@ router.post(
       res.end()
     });
 });
-
+*/
 
 module.exports = router;

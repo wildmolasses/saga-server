@@ -33,19 +33,21 @@
       url: "/getBranches",
       data: {projectName: projectName},
       success: function (data) {
+        const branches = data;
+
         // Clear Branch Dropdown
-        const branches = data['branches'];
+        const visitBranchDropdown = document.getElementById("visitBranchID")
+        if (visitBranchDropdown) {
+          visitBranchDropdown.remove()
+        }
         
         // Make branch buttons
-        var branchesDisplay = document.getElementById("branches")
-        var dropdown = document.createElement('div')
+        const branchesDisplay = document.getElementById("branches")
+        const dropdown = document.createElement('div')
         dropdown.id = "visitBranchID"
         dropdown.className = "dropdown"
         for (var i = 0; i < branches.length; i++) {
-          branch = branches[i]
-          branch = branch.trim()
-          // Make sure branch has valid name
-          dropdown.append(createBranchButton(branch))
+          dropdown.append(createBranchButton(branches[i]))
         }
         branchesDisplay.appendChild(dropdown)
       }

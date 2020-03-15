@@ -127,9 +127,7 @@ router.get("/getBranches" , async function (req, res) {
     // TODO make sure this does not allow for injection attacks
     const projectName = req.query.projectName;
     const branches = await fileUtils.getBranches(projectName);
-    res.send(data= {
-        "branches": branches
-    }).end();
+    res.send(branches).end();
 })
 
 

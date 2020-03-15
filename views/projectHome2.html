@@ -1,0 +1,308 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Saga</title>
+  <meta name="description" content="Saga - Version Control for All Your Files">
+  <meta name="author" content="Saga">
+  <link rel='icon' href='/graphics/saga-website-logo.png' type='image/x-icon' />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="/css/userPages/projectHome.css">
+  <link rel="stylesheet" href="/css/userPages/header.css">
+  <link rel="stylesheet" href="/css/font.css">
+  <link rel="stylesheet" href="/css/colors.css">
+  <link rel="stylesheet" href="/css/reset.css">
+
+
+</head>
+
+<script>
+
+  //TODO Figure out a better way to do this
+  const projectName = "<%= projectName %>";
+  const path = "<%= path %>";
+  console.log("PATH:", path);
+  loadData(projectName, "master", path);
+
+  function getBranches() {
+    $.ajax({
+      type: "GET",
+      url: "/getBranches",
+      data: {projectName: projectName},
+      success: function (data) {
+        const branches = data;
+
+        // Clear Branch Dropdown
+        const visitBranchDropdown = document.getElementById("visitBranchID")
+        if (visitBranchDropdown) {
+          visitBranchDropdown.remove()
+        }
+        
+        // Make branch buttons
+        const branchesDisplay = document.getElementById("branches")
+        const dropdown = document.createElement('div')
+        dropdown.id = "visitBranchID"
+        dropdown.className = "dropdown"
+        for (var i = 0; i < branches.length; i++) {
+          dropdown.append(createBranchButton(branches[i]))
+        }
+        branchesDisplay.appendChild(dropdown)
+      }
+    })
+  }
+
+  function createBranchButton(branchName) {
+      console.log("BranchName: " + branchName)
+      var branch = document.createElement('button')
+      branch.id = branchName.trim();
+      branch.innerHTML = branchName
+      branch.onclick = function() {
+        openProject(projectName, branchName, "");
+      }
+      return branch      
+  }
+
+  function settings() {
+    var logout = document.createElement('button')
+    logout.id = "logout"
+    logout.innerHTML = "logout"
+    logout.onclick = function() {
+      $.post("/logout",
+        function(data, status) {
+          window.location = "/";
+        }
+      ).fail(function() { 
+        alert("Failed to logout!");
+      })
+    }
+
+    var dropdown = document.createElement('div')
+    dropdown.className = "dropdown"
+    dropdown.append(logout)
+
+    var settingsIcon = document.getElementById("settings-icon")
+    settingsIcon.appendChild(dropdown);
+    console.log(settingsIcon.children)
+  }
+
+  function loadData(projectName, branch, path) {
+    console.log(projectName, branch, path);
+    $.ajax({
+      type: "GET",
+      url: "/projectpath",
+      data: {
+        projectName: projectName,
+        branch: branch,
+        path: path
+      },
+      success: function (data) {
+        clearProjectDirectory();
+
+        // Set project Title 
+        // Todo if projectName is too long, split into multiple rows
+        var projectTitle = document.getElementById("project-title")
+        projectTitle.innerHTML = projectName
+
+        if (data.directory) {
+          // If ouery returned paths, then display new paths
+          for (var i = 0; i < data.paths.length; i++) {
+            var path = data.paths[i].path
+            var isDirectory = data.paths[i].isDirectory
+            listPathContent(path, isDirectory, data.branch)
+          }
+        } else {
+          // If query returned a file, then display file contents
+
+          // Find each new line in data
+          dataLineDivided = data.split("\n")
+
+          // The First line is the path
+          var title = document.createElement('h1')
+          title.className = "file-title standard-font dark-font"
+          title.innerHTML = "viewing: " + dataLineDivided[0]
+          document.getElementById('project-directory').appendChild(title)
+
+          // The Second Line is the branch
+          var branch = dataLineDivided[1]
+
+          // Create Back Button To Return to Project Library
+          var lastIndex = dataLineDivided[0].lastIndexOf('/');
+          var returnPath = dataLineDivided[0].substr(0, lastIndex)
+          listPathContent(returnPath, true, branch)
+
+          // create display window for file lines
+          var fileContents = document.createElement('div')
+          fileContents.className = 'file-contents standard-font dark-font'
+
+          // create each line and append it to display window
+          for (var i = 2; i < dataLineDivided.length; i++) {
+            lineText = dataLineDivided[i]
+            console.log("Line Text: " + lineText)
+            // If empty line, add line break element else render the line
+            if (lineText == "") {
+              var lineOfFile = document.createElement('br')
+              fileContents.appendChild(lineOfFile)
+            } else { 
+              // break up lines larger than 120 characters
+              for (var j = 0; j < lineText.length; j = j + 120) {
+                var lineOfFile = document.createElement('pre')
+                lineOfFile.className = "file-lines" 
+                lineOfFile.textContent = lineText.substr(j, j + 120)
+                fileContents.appendChild(lineOfFile)
+              }
+            } 
+          }
+
+          // append file contents to the project view
+          document.getElementById('project-directory').appendChild(fileContents)
+        }
+      }
+    });
+  }
+
+  function openProject(projectName, branch, path) {
+    console.log("Projectname", projectName);
+    console.log("Path", path);
+    if (path.startsWith("/")) {
+      path = path.substring(1);
+    }
+
+    console.log("/project/" + projectName + "/" + path)
+    window.location = "/project/" + projectName + "/" + path;
+  }
+
+  // Clear Project Directory
+  function clearProjectDirectory () {
+    var projectDirectory = document.getElementById('project-directory')
+    while (projectDirectory.firstChild) {
+      projectDirectory.removeChild(projectDirectory.firstChild);
+    }
+  }
+
+  function listPathContent(path, isDirectory, branch) {
+    // Get name of file or directory
+    splitPath = path.split('/')
+    name = splitPath[splitPath.length - 1]
+
+    var row = document.createElement('div')
+    var graphic = document.createElement('img')
+    graphic.className = "graphics"
+
+    // Set image for file or directory
+    if (isDirectory) {
+      graphic.src = "/graphics/userPages/folder.png"
+    } else {
+      graphic.src = "/graphics/userPages/file.png"
+    }
+    graphic.width = "20"
+    graphic.height = "20"
+
+    var contentButton = document.createElement('button');
+    contentButton.className = "file-or-folder hoverable standard-font dark-font"
+    contentButton.innerHTML = name
+
+    contentButton.onclick = function () {
+      console.log("clicked content button: " + path)
+      openProject(projectName, branch, path)
+    }
+
+    row.appendChild(graphic)
+    row.appendChild(contentButton)
+
+    document.getElementById('project-directory').appendChild(row)
+  }
+
+  function displayTextFile(file) {
+    var textFile = document.createElement('object')
+    textFile.setAttribute("width") = 300
+    textFile.setAttribute("height") = 300
+    textFile.setAttribute("type") = "text/plain"
+    textFile.data = file
+
+    document.getElementById('project-directory').appendChild(textFile)
+  }
+
+  function projectSettings(file) {
+    window.location = "/projectSettings?projectName=" + projectName;
+  }
+</script>
+
+<body class = "wrapper">
+  <header class = "header">
+    <div class="header standard-font dark-font">
+        <a href="/" class="left-header">
+            <img src="/graphics/saga-website-logo.png" width="100"></img>
+            <p class = logo-text>saga</p>
+        </a>
+        <div class="right-header">
+            <form> 
+              <input class = "searchbar standard-font dark-font" placeholder="search"> </input>
+              <input type="submit" style="display: none" />
+            </form>
+            <img class="graphics" src="/graphics/userPages/header/plus-icon.png" width="40" height="40"></img>
+            <div id="settings-icon">
+              <img class="graphics" src="/graphics/userPages/header/settings-icon.png" width="40" height="40" onclick="settings();"></img>
+            </div>
+        </div> 
+    </div> 
+  </header>
+
+  <div class = "page-content" id = "page-content">
+
+    <div class = "main-card">
+        <div class = "left-nav-bar">
+          <div class = "left-nav-bar-row">
+            <h1 class = "project-title-font bold-font dark-font" id = "project-title"></h1>
+          </div>
+          <div class = "left-nav-bar-row">
+              <img class="graphics" src="/graphics/userPages/overview-logo.png" width="20" height="20"></img>
+              <h1 class = "left-nav-bar-font hoverable standard-font dark-font">overview</h1> 
+          </div>
+
+          <div class = "left-nav-bar-row">
+              <img class="graphics" src="/graphics/userPages/master-logo.png" width="20" height="20"></img>
+              <h1 class = "left-nav-bar-font hoverable standard-font dark-font">master</h1> 
+          </div>
+
+          <div class = "left-nav-bar-row">
+              <img class="graphics" src="/graphics/userPages/branch-logo.png" width="20" height="20"></img>
+              <h1 class = "left-nav-bar-font hoverable standard-font dark-font">branches</h1> 
+          </div>
+
+          <div class = "left-nav-bar-row">
+              <img class="graphics" src="/graphics/userPages/issue-logo.png" width="20" height="20"></img>
+              <h1 class = "left-nav-bar-font hoverable standard-font dark-font">issues</h1> 
+          </div>
+
+          <div class = "left-nav-bar-row" onclick="projectSettings()">
+            <img class="graphics" src="/graphics/userPages/header/settings-icon.png" width="20" height="20"></img>
+            <h1 class = "left-nav-bar-font hoverable standard-font dark-font">settings</h1> 
+          </div>
+        </div>
+        <div class = "right-side">
+            <div class = "inner-navbar">
+                <div class = "left-inner-navbar" id = "branches">
+                    <button class = "inner-nav-button headline-font standard-font" onclick="getBranches();"> visit branch </button>
+                </div>
+                <div class = "right-inner-navbar">
+                    <button class = "inner-nav-button spacer headline-font standard-font"> branch </button>
+                    <button class = "inner-nav-button spacer headline-font standard-font"> contribute </button>
+                </div>
+            </div>
+            <div class = "project-directory" id = "project-directory"></div>
+        </div>
+
+
+
+    </div>
+
+
+    
+  </div>
+
+</body>
+

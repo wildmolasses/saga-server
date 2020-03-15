@@ -75,15 +75,7 @@
     projectButton.innerHTML = name
     projectButton.onclick = function () {
       console.log("clicked project: " + projectButton.id)
-      $.ajax({
-        type: "GET",
-        url: "/load-project",
-        data: {projectName: projectButton.id},
-        success: function (data) {
-          console.log("Redirecting to: " + data)
-          window.location = data.url
-        }
-      });
+      window.location = "/project" + "/" + projectButton.id;
     }
 
     rowDiv.appendChild(projectButton)

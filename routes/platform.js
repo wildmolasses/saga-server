@@ -4,7 +4,8 @@ const fs = require('fs-extra');
 const auth = require('./auth');
 const dbutils = require('../utils/utils');
 const fileUtils = require('../utils/fileUtils');
-const url = require('url');    
+const url = require('url');  
+const join = require('path').join;  
 
 
 // Get required models
@@ -70,7 +71,37 @@ router.get('/load-project',
     }
 ) 
 
-/* Create a new account */
+
+// Deliver some data
+router.get('/project/:projectName*',
+    function(req, res) {
+        const projectName = req.params.projectName;
+        const path = req.params['0'];
+
+        // TODO: check to make sure it's a valid project, otherwise, we render 404
+        
+
+        console.log(req.params)
+
+        console.log("project", projectName);
+        console.log("path", path);
+
+        res.render(
+            'projectHome2.html', 
+            {
+                projectName: projectName,
+                path: path
+            }
+        );
+
+ 
+        //res.end();
+    }
+)
+
+
+
+/* Helper for finding out the current user */
 router.get('/currentuser',
     function(req, res) {
         if (req.user) {
@@ -143,53 +174,21 @@ router.get("/projectinfo", async function(req, res) {
 
 // If path is directory, return folders and files directly inside
 // If path is a file, stream the file
-router.post("/projectpath", async function (req, res) {
-    var path = req.body.path;
-    var branch = req.body.branch;
-
-    console.log("path: " + path)
-    console.log("branch: " + branch)
-
-    /*
-
-        
-    Read the correct branch: 
-
-    get the repository: get_repository()
-
-    get the head commit from branch: repository.head_commit_from_branch(branch)
-
-    get the state hash: result of the last command . state_hash()
-
-    var stateHash
-    var stateHashChild = child_process.spawn('saga state_hash ' + branch + ';', {
-        shell: true
-    });
-
-    stateHashChild.stderr.on('data', function (data) {
-        console.error("STDERR:", data.toString());
-    });
-    stateHashChild.stdout.on('data', function (data) {
-        stateHash = data
-        console.log("state hash: " + stateHash)
-    });
-    stateHashChild.on('exit', function (exitCode) {
-        console.log("Child exited with code: " + exitCode);
-    });
-    
-    */
+router.get("/projectpath", async function (req, res) {
+    const projectName = req.query.projectName;
+    const branch = req.query.branch;
+    const path = req.query.path;
 
     // Check if path is a repository
-    pathStartingAtEFS = "./efs/" + path;
-    var status = fs.lstatSync(pathStartingAtEFS);
+    const projectPath = join(projectName, path);
+    const pathStartingAtEFS = join("./efs", projectPath);
+    const status = fs.lstatSync(pathStartingAtEFS);
     if (status.isDirectory()) {
         // If path is a directory
-        var foundPaths = await fileUtils.getPathsInFolder(path)
+        var foundPaths = await fileUtils.getPathsInEFSFolder(projectName, path)
         res.send(data = {directory: true, paths: foundPaths, branch: branch}).end(); 
     } else {
         // If Path is a file
-        pathStartingAtEFS = "./efs/" + path;
-
          // This line opens the file as a readable stream
         var readStream = fs.createReadStream(pathStartingAtEFS);
 

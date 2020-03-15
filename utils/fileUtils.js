@@ -1,25 +1,27 @@
 const fs = require('fs-extra').promises;
 const child_process = require('child_process');
 const dbutils = require('./utils');
+const join = require('path').join;
 
 // get all paths inside folder
-async function getPathsInFolder(path) {
-    pathStartingAtProject = path
-    pathStartingAtEFS = "./efs/" + path;
-    paths = []
-    var contentsAtPath = await fs.readdir(pathStartingAtEFS);
-    for (var i = 0; i < contentsAtPath.length; i++ ) {
-        var newPath = pathStartingAtProject + "/" + contentsAtPath[i]
-        var newPathStartingAtEFS = "./efs/" + newPath
-        var newPathStatus = await fs.lstat(newPathStartingAtEFS);
-        if (newPathStatus.isDirectory()) {
-            // true if directory
-            paths.push({path: newPath, isDirectory: true})
+// TODO: make sure it can only be called in EFS
+async function getPathsInEFSFolder(projectName, path) {
+    var paths = []
+    const fullPath = join("./efs", projectName, path);
+    const folderContents = await fs.readdir(fullPath);
+
+    for (var i = 0; i < folderContents.length; i++) {
+        const subpath = join(path, folderContents[i]);
+        const efsSubpath = join("./efs", projectName, subpath);
+
+        var subpathStatus = await fs.lstat(efsSubpath);
+        if (subpathStatus.isDirectory()) {
+            paths.push({path: subpath, isDirectory: true})
         } else {
-            // false if file
-            paths.push({path: newPath, isDirectory: false})
+            paths.push({path: subpath, isDirectory: false})
         }
     }
+
     return paths
 }
 
@@ -69,7 +71,7 @@ async function getBranches(projectName) {
 
 
 module.exports = {
-    getPathsInFolder: getPathsInFolder,
+    getPathsInEFSFolder: getPathsInEFSFolder,
     validateString: validateString,
     getBranches: getBranches
 }

@@ -29,6 +29,11 @@ router.get('/comingsoon', (req, res) => {
     res.render('comingsoon.html')
 });
 
+// Render the coming soon page
+router.get('/404', (req, res) => {
+    res.render('404.html')
+});
+
 router.get('/contact', (req, res) => {
     res.render('contact.html')
 })

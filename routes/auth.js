@@ -24,7 +24,6 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(username, done) {
     Users.findOne({ username: username }, function (err, user) {
-        user.path = "/"
         done(err, user);
     });
 });
@@ -33,7 +32,6 @@ function loggedIn(req, res, next) {
     if (req.user) {
         next();
     } else {
-        console.log("REDIRECTING");
         res.redirect(401, "/");
     };
 }

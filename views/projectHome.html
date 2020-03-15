@@ -34,14 +34,7 @@
       data: {projectName: projectName},
       success: function (data) {
         // Clear Branch Dropdown
-        var visitBranchDropdown = document.getElementById("visitBranchID")
-        if (visitBranchDropdown) {
-          visitBranchDropdown.remove()
-        }
-        
-        // Split branches into array
-        var branches = data.branches.replace("*", "").split("\n")
-        console.log(branches)
+        const branches = data['branches'];
         
         // Make branch buttons
         var branchesDisplay = document.getElementById("branches")
@@ -52,9 +45,7 @@
           branch = branches[i]
           branch = branch.trim()
           // Make sure branch has valid name
-          if (!branch == "") {
-            dropdown.append(createBranchButton(branch))
-          }
+          dropdown.append(createBranchButton(branch))
         }
         branchesDisplay.appendChild(dropdown)
       }

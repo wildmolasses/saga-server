@@ -3,7 +3,7 @@ const router = express.Router();
 const fs = require('fs-extra'); 
 const auth = require('./auth');
 const dbutils = require('../utils/utils');
-const child_process = require('child_process');
+const fileUtils = require('../utils/fileUtils');
 const url = require('url');    
 
 
@@ -88,9 +88,7 @@ router.post('/createAccount',
     auth.passport.authenticate('local'),
     async function(req, res) {
         // We add the user
-        console.log("CALLING");
         const added = await dbutils.addCollaborator("Example", req.user.username);
-        console.log("ADDED:", added);
         res.status(200).end();
     }
 )
@@ -118,7 +116,6 @@ router.get("/userprojects",
     async function(req, res) {
     var username = req.user.username;
     var user = await Users.findOne({ username: username }).exec();
-    console.log("PROJECTS", user.projects);
     res.send(data={
         "username": username,
         "projects": user.projects
@@ -128,41 +125,12 @@ router.get("/userprojects",
 // Get all branches of a project
 router.get("/getBranches" , async function (req, res) {
     // TODO make sure this does not allow for injection attacks
-    var project = req.query.projectName;
-
-    // Validate the string
-    if (!validateString(project)) {
-        console.log("Alert: Invalid Project Name. Potential Attack")
-        res.end();
-    } else {
-        var child = child_process.spawn('cd efs/' + project + ' && saga branch', {
-            shell: true
-        });
-        
-        child.stderr.on('data', function (data) {
-            console.error("STDERR:", data.toString());
-        });
-        child.stdout.on('data', function (data) {
-            var branches = data.toString()
-            res.send(data= {
-                "branches": branches
-            }).end();
-        });
-        child.on('exit', function (exitCode) {
-            console.log("Child exited with code: " + exitCode);
-        });
-    }
+    const projectName = req.query.projectName;
+    const branches = await fileUtils.getBranches(projectName);
+    res.send(data= {
+        "branches": branches
+    }).end();
 })
-
-function validateString (string) {
-    blacklist = [';', '|', "||", "&&", ".."]
-    for (var i = 0; i < blacklist.length; i++) {
-        if (string.indexOf(blacklist[i]) > -1) {
-            return false;
-          }
-    }
-    return true;
-}
 
 
 // Get collaborators to project
@@ -217,11 +185,11 @@ router.post("/projectpath", async function (req, res) {
     pathStartingAtEFS = "./efs/" + path;
     var status = fs.lstatSync(pathStartingAtEFS);
     if (status.isDirectory()) {
-    // If path is a directory
-        var foundPaths = getPathsInRepository(path)
+        // If path is a directory
+        var foundPaths = await fileUtils.getPathsInFolder(path)
         res.send(data = {directory: true, paths: foundPaths, branch: branch}).end(); 
     } else {
-    // If Path is a file
+        // If Path is a file
         pathStartingAtEFS = "./efs/" + path;
 
          // This line opens the file as a readable stream
@@ -264,27 +232,5 @@ router.post("/addcollaborator",
         }
     }
 )
-
-// get all paths inside folder
-function getPathsInRepository(path) {
-    pathStartingAtProject = path
-    pathStartingAtEFS = "./efs/" + path;
-    paths = []
-    var contentsAtPath = fs.readdirSync(pathStartingAtEFS);
-    for (var i = 0; i < contentsAtPath.length; i++ ) {
-        var newPath = pathStartingAtProject + "/" + contentsAtPath[i]
-        var newPathStartingAtEFS = "./efs/" + newPath
-        var newPathStatus = fs.lstatSync(newPathStartingAtEFS);
-        if (newPathStatus.isDirectory()) {
-            // true if directory
-            paths.push({path: newPath, isDirectory: true})
-        } else {
-            // false if file
-            paths.push({path: newPath, isDirectory: false})
-        }
-    }
-    console.log(paths)
-    return paths
-}
     
 module.exports = router;
